@@ -6,17 +6,21 @@ using Pathfinding;
 public class ShopBuilder : MonoBehaviour
 {
     [SerializeField] private Grid grid;
-    
+
     private Shape[] shapes;
     private int currentShapeIndex = -1;
     private bool validPosition;
     public GameObject selectedShop; // change to private and Shop type when we start making actual shops
 
+
+    // TODO: SHould probably make this a singleton class
+
     void Start()
     {
         shapes = transform.GetComponentsInChildren<Shape>(true);
 
-        RandomiseShape();
+        // RandomiseShape();
+        SelectShape(1);
 
         grid.SubscribeToPointChanges(OnGridPointChange);
     }
@@ -53,14 +57,15 @@ public class ShopBuilder : MonoBehaviour
     private void Validate()
     {
         validPosition = true;
-        shapes[currentShapeIndex].ForEachTile(tile => {
+        shapes[currentShapeIndex].ForEachTile((tile) => {
+            // Debug.Log(tile.position);
             if (grid.IsSpaceOccupied(tile.position))
             {
                 validPosition = false;
-                tile.gameObject.SetActive(false);
+                tile.transform.gameObject.SetActive(false);
             } else
             {
-                tile.gameObject.SetActive(true);
+                tile.transform.gameObject.SetActive(true);
             }
         });
 
@@ -80,15 +85,25 @@ public class ShopBuilder : MonoBehaviour
      */
     public void RandomiseShape()
     {
+        // Ensure next shape is different
+        var newShape = currentShapeIndex;
+        while (currentShapeIndex == newShape)
+        {
+            newShape = Random.Range(0, shapes.Length);
+        }
+
+        SelectShape(newShape);
+    }
+
+    /*
+     * Using the supplied index, set the new shape as active
+     */
+    public void SelectShape(int newShapeIndex)
+    {
         // Turn off whatever the previous shape was, if we had one
         if (currentShapeIndex != -1) shapes[currentShapeIndex].gameObject.SetActive(false);
 
-        // Ensure next shape is different
-        var previousIndex = currentShapeIndex;
-        while (currentShapeIndex == previousIndex)
-        {
-            currentShapeIndex = Random.Range(0, shapes.Length);
-        }
+        currentShapeIndex = newShapeIndex;
 
         shapes[currentShapeIndex].gameObject.SetActive(true);
         shapes[currentShapeIndex].transform.position = grid.currentPoint;
@@ -110,6 +125,23 @@ public class ShopBuilder : MonoBehaviour
             Bounds bounds = shapes[currentShapeIndex].GetBounds();
             var guo = new GraphUpdateObject(bounds);
             AstarPath.active.UpdateGraphs(guo);
+
+            RandomiseShape();
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        shapes[currentShapeIndex].ForEachTile(tile => {
+            if (grid.IsSpaceOccupied(tile.position))
+            {
+                Gizmos.color = new Color(1, 0, 0);
+            }
+            else
+            {
+                Gizmos.color = new Color(0, 1, 0);
+            }
+            Gizmos.DrawWireCube(tile.position, new Vector3(1, 1, 1));
+        });
     }
 }

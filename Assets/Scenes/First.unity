@@ -397,6 +397,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2113241644}
     m_Modifications:
+    - target: {fileID: 2436533653382864513, guid: 181c72e9f6ed8e9449303f05e8c162d4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4659164804023663682, guid: 181c72e9f6ed8e9449303f05e8c162d4,
         type: 3}
       propertyPath: m_Name
@@ -553,9 +558,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 657658147}
+  - component: {fileID: 657658148}
   - component: {fileID: 657658146}
   - component: {fileID: 657658145}
-  - component: {fileID: 657658148}
   - component: {fileID: 657658149}
   - component: {fileID: 657658150}
   m_Layer: 0
@@ -564,7 +569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &657658145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -657,6 +662,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   route:
+  - {fileID: 1228677084}
+  - {fileID: 1534386738}
   - {fileID: 1228677084}
   - {fileID: 1534386738}
 --- !u!114 &657658149
@@ -1050,7 +1057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAABYIexCzqYZSwIAAPMEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2jAQ/SuMzm3HIqGF3lpDSA8EJrSTiy9CWmMNsuTRR/ga/nslWWCXTE+2d98+vX278hlxaRqgVum55myhGKDvAxTe0adBl3yGA9kqueYnuGLeOLNVAJGIeSWWKx/HocyoGqzm9IfcigDOfNBJXipdz9gWcmWs8eGSCAM+pZUN1dKHzgN0SAXH9DyF5+Di3yhIC7pDje5Qo4hykgpSN8CC2g6McUJjHGHS95EQ2ZdhoKJKCG6SDmSPTewzJ41xvgsPYJz4vqKCof+sgG8rmz5uxcuyNGCTKk2OU669PS0r+qlaz2pidq20dyJcOAdnw8eoq2VdfACM8DDmS63q5+vJOAun2IrT3Ss5UmJsz9Z+eNpJx9GjPRE7shHwVoF8UXOtnGQ+abULpc7AcNqjunWXV0B3Ha4Vexd0zcdB4m6Ql9j/IRe83kTzH9vAWqjo+CTUgPbj+eUFx8UwiclHg4g/Bn6TbX+DUuKJa2N9Kh0og7qNcjpA0Sx6FppxNldagu4zNCCJsMeV57H3U7zL/b/qiYTLkk5PuesduCuJ4Q6fZXepldrfpmUqtV+AqZbOCi6hczokXrxRuZKyXbJ+S9eytdMlob2yrePs3+VCuPxG2QQmdELLbJLRzw9sPAY8fsi+4vFmPB6iuHxc+j6JWLVCkz1+bLIjl37Rrv+QwVyTJi4802Q/56damQ7JZanWVAPIZctwEw7aH+LvJpsx7g1ag7VcxoGjc4GEojtgxY2oiJ3ODlaTomMpUMPflQ2RAuXxz1GgC7r8BVBLAwQUAAAICAAAWCHsUhpCoW0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNVRUEovSizIKAaKGII4pZkpIHa0kmGaeXKKZaplsmVymoGlQbKucYqFRaqhhbGBmaFFkoWFkVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAWCHsQs6mGUsCAADzBAAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAWCHsUhpCoW0AAAB4AAAACQAkAAAAAAAAAAAAAACYAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAFADAAAAAA==
+    dataString: UEsDBBQAAAgIAABYIexN4wcWTAIAAPMEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2yAQ/Ssezm1HOHFr99bKjtODY0/cTi66YFhJjBFoAMVf4/9eQMhSnelJ0u7bx9u3iy6IS1MDtUovNWcrxQB9HyH/jj6N+uQzHEmh5JafocO8cWZLDyIB80osVy6OfZlRFVjN6Q9ZCA9OXLCRPFe6WrACUmWsceGcCAMupZX11dKFLiN0jAWn+Dz75+jq3ihIC7pHTe5Qk4BqJBWkqoF5tT0Y44jGOMCk6yMiki9jT0WVENxEHcie6tDnti5Bg2+UceLaCgLG7rMEXpQ2ftxq13luwEZRmpzmXDt3WlL0U7WWVcTsW2XvRDT+GJyMH4OslnX1ATDB45DPtaqeu5Nx4k+xJaf7V3KixNiBq8PwvJeOg0UHIvZkJ+CtBPmillo1krmk1Y0vbQyM5wOqW3dpCXTf41qxXbBDN/XHQeJ+kNdgwDEVvNoF8x/bwFao4PjM14B24/nlFIfFMJHJRb2KPwZ+k2K4QTHxxLWxLhUPlF7eTjXaQ9EimOa7aWyqtAQ9ZKhBEmFPG8dj78d4l/t/1RPxlyWeHnPdHbgrCeEenyR3qY063MZlSnVYgSnXjRVcQu+/T7w4o1IlZbtlw5a6sm2jc0IHZUXD2b/bhXD+jbIZzOiM5sksoZ8f2HQKePqQfMXT3XQ6RmH7uHR9ErFphUZ73NhkTy7dpnX/kNFSkzpsPNPksOTnSpkeyWWutlQDyHXLcBMO2h3i7iZbMO4M2oK1XIaBo0uGhKJ7YNmNKAudLo5Wk6xnyVDN35X1kQyl4c+RoSu6/gVQSwMEFAAACAgAAFgh7FIaQqFtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTVUVBKL0osyCgGihiCOKWZKSB2tJJhmnlyimWqZbJlcpqBpUGyrnGKhUWqoYWxgZmhRZKFhZFSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAFgh7E3jBxZMAgAA8wQAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAFgh7FIaQqFtAAAAeAAAAAkAJAAAAAAAAAAAAAAAmQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABRAwAAAAA=
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -1063,7 +1070,7 @@ MonoBehaviour:
   manualDebugFloorRoof: 0
   showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
-  logPathResults: 1
+  logPathResults: 0
   maxNearestNodeDistance: 100
   scanOnStartup: 1
   fullGetNearestSearch: 0

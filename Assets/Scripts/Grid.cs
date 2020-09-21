@@ -23,7 +23,7 @@ public class Grid : MonoBehaviour
         occupiedSpaces = new bool[dimensions.x, dimensions.y];
     }
 
-    // TODO: Verify that this is a reasonable way to do this.
+    // TODO: Look up observer pattern. This should be that
     // Do I need to return an 'unsubscribe' function that the other component to call to cancel?
     public void SubscribeToPointChanges(GridPointChanged callback)
     {
@@ -39,7 +39,7 @@ public class Grid : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Floor")))
         {
             var newPoint = GetNearestPoint(hit.point);
-            if (IsOutOfBounds((int)newPoint.x, (int)newPoint.z))
+            if (IsOutOfBounds(newPoint))
             {
                 newPoint = INVALID_POINT;
             }
@@ -74,22 +74,17 @@ public class Grid : MonoBehaviour
         return result;
     }
 
-    public bool IsSpaceOccupied (int x, int z)
-    {
-        if (IsOutOfBounds(x, z)) return true;
-
-        return occupiedSpaces[x, z];
-    }
     public bool IsSpaceOccupied(Vector3 vector)
     {
-        return IsSpaceOccupied((int)vector.x, (int)vector.z);
+        if (IsOutOfBounds(vector)) return true;
+        return occupiedSpaces[(int)vector.x, (int)vector.z];
     }
 
     public void ToggleSpaceOccupied(Vector3 vector)
     {
         occupiedSpaces[(int)vector.x, (int)vector.z] = !occupiedSpaces[(int)vector.x, (int)vector.z];
     }
-    private bool IsOutOfBounds(int x, int z) => x >= dimensions.x || x < 0 || z < 0 || z >= dimensions.y;
+    private bool IsOutOfBounds(Vector3 v) => v.x >= dimensions.x || v.x < 0 || v.z < 0 || v.z >= dimensions.y;
 
 
     private void OnDrawGizmos()

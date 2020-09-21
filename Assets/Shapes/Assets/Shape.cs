@@ -3,73 +3,63 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-struct ShapeTile
+public struct ShapeTile
 {
     public Transform transform;
     public Renderer renderer;
+    public Vector3 originalPosition;
 }
 
 public class Shape : MonoBehaviour
 {
-    [SerializeField] public int rotations  = 0;
-
     private int currentRotation = 0;
-    private BoxCollider outterBoundsCollider;
-
     private ShapeTile[] tiles;
 
-    public delegate void ForEach(Transform tileTransform);
+    [SerializeField] public int rotations = 0;
+    [SerializeField] private BoxCollider outterBoundsCollider;
+    [SerializeField] private GameObject tileWrapper;
+
+    public delegate void ForEach(Transform tile);
 
     void Start()
     {
-        outterBoundsCollider = GetComponent<BoxCollider>();
-        tiles = new ShapeTile[transform.childCount];
-
-        for (int i = 0; i < transform.childCount; i++)
+        tiles = new ShapeTile[tileWrapper.transform.childCount];
+        
+        for (int i = 0; i < tileWrapper.transform.childCount; i++)
         {
-            tiles[i].transform = transform.GetChild(i);
+            tiles[i].transform = tileWrapper.transform.GetChild(i);
+            tiles[i].originalPosition = tiles[i].transform.localPosition;
             tiles[i].renderer = tiles[i].transform.GetComponent<Renderer>();
         }
     }
 
     public Bounds GetBounds() => outterBoundsCollider.bounds;
 
-    public void Rotate()
-    {
-        currentRotation++;
-        if (currentRotation > rotations)
-        {
-            transform.Rotate(Vector3.up, (-90f * currentRotation) + 90f);
-            currentRotation = 0;
-        }
-        else
-        {
-            transform.Rotate(Vector3.up, 90f);
-        }
-    }
-
     public void ForEachTile(ForEach callback)
     {
         foreach (var tile in tiles)
         {
+            // return the transform and the world position of the tile ignoring rotation
             callback(tile.transform);
         }
     }
 
     // Rotate using coords rather than transform rotate
-    /*public void Rotate()
+    public void Rotate()
     {
         if (currentRotation == rotations)
         {
-            currentRotation = 0;
+            outterBoundsCollider.transform.Rotate(Vector3.up, (-90f * currentRotation));
             foreach (var tile in tiles)
             {
                 tile.transform.localPosition = tile.originalPosition;
             }
-        } 
+            currentRotation = 0;
+        }
         else
         {
             currentRotation++;
+            outterBoundsCollider.transform.Rotate(Vector3.up, 90f);
             foreach (var tile in tiles)
             {
                 tile.transform.localPosition = new Vector3(
@@ -79,7 +69,7 @@ public class Shape : MonoBehaviour
                 );
             }
         }
-    }*/
+    }
 
     public Vector3[] GetWorldPositions()
     {
