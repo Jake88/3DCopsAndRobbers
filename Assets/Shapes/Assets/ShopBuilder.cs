@@ -5,7 +5,7 @@ using Pathfinding;
 
 public class ShopBuilder : MonoBehaviour
 {
-    [SerializeField] private Grid grid;
+    [SerializeField] private GridState gridState;
 
     private Shape[] shapes;
     private int currentShapeIndex = -1;
@@ -22,13 +22,13 @@ public class ShopBuilder : MonoBehaviour
         // RandomiseShape();
         SelectShape(1);
 
-        grid.SubscribeToPointChanges(OnGridPointChange);
+        //grid.SubscribeToPointChanges(OnGridPointChange);
     }
 
     // Callback function to run when grid changes. It updates the position of the current shape, and validates it
-    void OnGridPointChange()
+    public void OnGridPointChange(Vector3 currentPoint)
     {
-        shapes[currentShapeIndex].transform.position = grid.currentPoint;
+        shapes[currentShapeIndex].transform.position = currentPoint;
         Validate();
     }
 
@@ -58,8 +58,7 @@ public class ShopBuilder : MonoBehaviour
     {
         validPosition = true;
         shapes[currentShapeIndex].ForEachTile((tile) => {
-            // Debug.Log(tile.position);
-            if (grid.IsSpaceOccupied(tile.position))
+            if (gridState.IsSpaceOccupied(tile.position))
             {
                 validPosition = false;
                 tile.transform.gameObject.SetActive(false);
@@ -100,13 +99,18 @@ public class ShopBuilder : MonoBehaviour
      */
     public void SelectShape(int newShapeIndex)
     {
+        Vector3 currentPosition = new Vector3(0,0,0);
         // Turn off whatever the previous shape was, if we had one
-        if (currentShapeIndex != -1) shapes[currentShapeIndex].gameObject.SetActive(false);
+        if (currentShapeIndex != -1)
+        {
+            currentPosition = shapes[currentShapeIndex].transform.position;
+            shapes[currentShapeIndex].gameObject.SetActive(false);
+        }
 
         currentShapeIndex = newShapeIndex;
 
         shapes[currentShapeIndex].gameObject.SetActive(true);
-        shapes[currentShapeIndex].transform.position = grid.currentPoint;
+        shapes[currentShapeIndex].transform.position = currentPosition; // TODO: This was pointing to public current point from grid. Maybe it should be a scriptable Vector3????
     }
 
     /*
@@ -118,7 +122,7 @@ public class ShopBuilder : MonoBehaviour
         if (validPosition)
         {
             shapes[currentShapeIndex].ForEachTile(tile => {
-                grid.ToggleSpaceOccupied(tile.position);
+                gridState.ToggleSpaceOccupied(tile.position);
                 var go = Instantiate(selectedShop, tile.position, Quaternion.identity);
             });
             // Use the bounds of the shape to only update that area of our grid, for performance;
@@ -133,7 +137,7 @@ public class ShopBuilder : MonoBehaviour
     private void OnDrawGizmos()
     {
         shapes[currentShapeIndex].ForEachTile(tile => {
-            if (grid.IsSpaceOccupied(tile.position))
+            if (gridState.IsSpaceOccupied(tile.position))
             {
                 Gizmos.color = new Color(1, 0, 0);
             }

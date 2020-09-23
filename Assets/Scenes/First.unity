@@ -352,6 +352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 532755312}
   - component: {fileID: 532755311}
+  - component: {fileID: 532755313}
   m_Layer: 9
   m_Name: Level
   m_TagString: Untagged
@@ -371,8 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1530caa7ad98f08478120f1f6e5bedd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileSize: 1
-  dimensions: {x: 11, y: 11}
+  changedGridEvent: {fileID: 11400000, guid: d598059bd8f7c114983164d62f2f1acf, type: 2}
+  dimensions: {fileID: 11400000, guid: fec77b59de75bf4458c4245e735dc468, type: 2}
   mainCamera: {fileID: 963194227}
 --- !u!4 &532755312
 Transform:
@@ -388,8 +389,25 @@ Transform:
   - {fileID: 213132313}
   - {fileID: 1612949055}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &532755313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532755310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 189036750c1fc1f46a716a314dc3d493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  changedGridEvent: {fileID: 0}
+  showGizmos: 0
+  tileSize: 1
+  dimensions: {x: 11, y: 11}
+  mainCamera: {fileID: 963194227}
 --- !u!1001 &578158146
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1438,7 +1456,7 @@ Transform:
   - {fileID: 705507995}
   - {fileID: 963194228}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1612949054
 GameObject:
@@ -1641,6 +1659,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2113241644}
   - component: {fileID: 2113241643}
+  - component: {fileID: 2113241645}
   m_Layer: 0
   m_Name: ShopBuilder
   m_TagString: Untagged
@@ -1660,7 +1679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab22bed8cfde6a4a9aa55ffb90d6655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 532755311}
+  gridState: {fileID: 0}
   selectedShop: {fileID: 2587141185602671216, guid: 3a907e1dd3603054684c73d8cc5f8694,
     type: 3}
 --- !u!4 &2113241644
@@ -1684,6 +1703,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2113241645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113241642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b17be697d6e9b4a9a1bde82ddac778, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: d598059bd8f7c114983164d62f2f1acf, type: 2}
 --- !u!1001 &4682472833536601877
 PrefabInstance:
   m_ObjectHideFlags: 0
