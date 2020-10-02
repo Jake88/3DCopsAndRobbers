@@ -2,44 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class GameEvent<T0> : ScriptableObject
+// This is the abstract class that allows us to have generics
+abstract public class GameEvent<T> : ScriptableObject
 {
-	[SerializeField] private T0 param;
-	private List<GameEventListener<T0>> listeners =
-		new List<GameEventListener<T0>>();
+    private List<GameEventListener<T>> listeners =
+        new List<GameEventListener<T>>();
 
-	public void Raise(T0 param)
-	{
-		for (int i = listeners.Count - 1; i >= 0; i--)
-			listeners[i].OnEventRaised(param);
-	}
+    public void Raise(T param)
+    {
+        for (int i = listeners.Count - 1; i >= 0; i--)
+            listeners[i].OnEventRaised(param);
+    }
 
-	public void RegisterListener(GameEventListener<T0> listener)
-	{ listeners.Add(listener); }
+    public void RegisterListener(GameEventListener<T> listener)
+    { listeners.Add(listener); }
 
-	public void UnregisterListener(GameEventListener<T0> listener)
-	{ listeners.Remove(listener); }
+    public void UnregisterListener(GameEventListener<T> listener)
+    { listeners.Remove(listener); }
 }
 
-
 [CreateAssetMenu(
-	fileName = "XXXGameEvent",
+	fileName = "XXX_GameEvent",
 	menuName = AssetMenuConstants.EVENT + "Game event"
 )]
 public class GameEvent : ScriptableObject
 {
-	private List<GameEventListener> listeners =
-		new List<GameEventListener>();
+    private List<GameEventListener> listeners =
+        new List<GameEventListener>();
 
-	public void Raise()
-	{
-		for (int i = listeners.Count - 1; i >= 0; i--)
-			listeners[i].OnEventRaised();
-	}
+    public void Raise()
+    {
+        for (int i = listeners.Count - 1; i >= 0; i--)
+            listeners[i].OnEventRaised();
+    }
 
-	public void RegisterListener(GameEventListener listener)
-	{ listeners.Add(listener); }
+    public void RegisterListener(GameEventListener listener)
+    { listeners.Add(listener); }
 
-	public void UnregisterListener(GameEventListener listener)
-	{ listeners.Remove(listener); }
+    public void UnregisterListener(GameEventListener listener)
+    { listeners.Remove(listener); }
 }
