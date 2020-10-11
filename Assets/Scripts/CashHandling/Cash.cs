@@ -4,61 +4,62 @@ using UnityEngine;
 
 public class Cash : MonoBehaviour
 {
-    private int amount;
-    private string activeModelKey;
-    private SphereCollider collectCollider;
-    private float timeUntilExpiry;
+    private int _amount;
+    private string _activeModelKey;
+    private float _timeUntilExpiry;
+    private Dictionary<string, GameObject> _cashModels = new Dictionary<string, GameObject>();
 
-    private Dictionary<string, GameObject> cashModels = new Dictionary<string, GameObject>();
+    [SerializeField]
+    private SphereCollider _collectCollider;
 
-    public void Initilise(CashData cashData, int _amount, Vector3 whereToDrop)
+
+    public void Initilise(CashData cashData, int amount, Vector3 whereToDrop)
     {
-        amount = _amount;
-        timeUntilExpiry = cashData.expiryTimer;
+        _amount = amount;
+        _timeUntilExpiry = cashData.expiryTimer;
         transform.position = whereToDrop;
 
-        activeModelKey = cashData.name;
-        if (!cashModels.ContainsKey(activeModelKey))
+        _activeModelKey = cashData.name;
+        if (!_cashModels.ContainsKey(_activeModelKey))
         {
-            cashModels.Add(cashData.name, Instantiate(cashData.model, transform.position, Quaternion.identity, this.transform) as GameObject);
+            _cashModels.Add(cashData.name, Instantiate(cashData.model, transform.position, Quaternion.identity, this.transform) as GameObject);
         }
 
-        MouseRaycast.ClickEvents.RegisterForPointRaycastHit(LayerMask.GetMask("Cash"), DetectClicked);
+        MouseRaycast.ClickEvents.RegisterForRaycastHit(LayerMask.GetMask("Cash"), DetectClicked);
 
-        cashModels[activeModelKey].SetActive(true);
+        _cashModels[_activeModelKey].SetActive(true);
     }
 
     private void Update()
     {
-        timeUntilExpiry -= Time.deltaTime;
-        if (timeUntilExpiry < 0) Expire();
+        _timeUntilExpiry -= Time.deltaTime;
+        if (_timeUntilExpiry < 0) Expire();
     }
 
     public void DetectClicked(RaycastHit hit)
     {
-        if (hit.collider.Equals(GetComponent<SphereCollider>()))
+        if (hit.collider.Equals(_collectCollider))
         {
-            Debug.Log("Collected: " + this.Collect());
+            this.Collect();
         }
     }
 
     public int Collect()
     {
         CleanUp();
-        return amount;
+        return _amount;
     }
 
-    public void Expire()
+    private void Expire()
     {
         CleanUp();
     }
 
     private void CleanUp()
     {
-        Debug.Log("Cleaning up cash instance");
-        MouseRaycast.ClickEvents.DeregisterForPointRaycastHit(LayerMask.GetMask("Cash"), DetectClicked);
-        cashModels[activeModelKey].SetActive(false);
+        MouseRaycast.ClickEvents.DeregisterForRaycastHit(LayerMask.GetMask("Cash"), DetectClicked);
+        _cashModels[_activeModelKey].SetActive(false);
         this.gameObject.SetActive(false);
-        MasterObjectPooler.Instance.Release(gameObject, "Cash");
+        MasterObjectPooler.Instance.Release(gameObject, "CashPool");
     }
 }

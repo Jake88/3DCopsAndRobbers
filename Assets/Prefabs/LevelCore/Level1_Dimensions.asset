@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a7c002d7da7ad4aa49ca1363529d64, type: 3}
-  m_Name: Level1_GridState
+  m_Script: {fileID: 11500000, guid: a86c005864b77024ea54e9295a99dcc1, type: 3}
+  m_Name: Level1_Dimensions
   m_EditorClassIdentifier: 
-  dimensions: {fileID: 11400000, guid: fec77b59de75bf4458c4245e735dc468, type: 2}
+  width: 11
+  depth: 11
+  height: 1
+  tileSize: 1

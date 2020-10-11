@@ -50,7 +50,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8778015817904678206
 Transform:
   m_ObjectHideFlags: 0
@@ -79,9 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d42f47dec888d4b869df92a6694cc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotations: 0
-  outterBoundsCollider: {fileID: 522494341657328467}
-  tileWrapper: {fileID: 5574053677015835784}
+  _rotations: 0
+  _tileWrapper: {fileID: 5574053677015835784}
 --- !u!1001 &1803262429583566454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,12 +168,6 @@ PrefabInstance:
 --- !u!4 &5678834143693831087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6325653331848469977, guid: 280a5ea0a9b23284192ebc7ef6bcb24b,
-    type: 3}
-  m_PrefabInstance: {fileID: 1803262429583566454}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &522494341657328467 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 2181497546868792613, guid: 280a5ea0a9b23284192ebc7ef6bcb24b,
     type: 3}
   m_PrefabInstance: {fileID: 1803262429583566454}
   m_PrefabAsset: {fileID: 0}

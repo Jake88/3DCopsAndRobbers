@@ -7,56 +7,59 @@ using Pathfinding;
 
 public class RobberMovement : MonoBehaviour
 {
-    public RadialNode[] route;
+    [SerializeField] RadialNode[] _route;
 
-    private AIPath ai;
-    private int destinationIndex = 0;
-    private bool returning = false;
+    AIPath _ai;
+    int _destinationIndex = 0;
+    bool _returning = false;
 
+    void Awake()
+    {
+        _ai = GetComponent<AIPath>();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        ai = GetComponent<AIPath>();
         SetDestination(GetNextDestination());
     }
 
     void Update()
     {
-        if (!ai.pathPending && (ai.reachedEndOfPath || !ai.hasPath))
+        if (!_ai.pathPending && (_ai.reachedEndOfPath || !_ai.hasPath))
         {
             if (HasFinishedRoute()) return;
             SetDestination(GetNextDestination());
         }
     }
 
-    private void SetDestination(Vector3 point)
+    void SetDestination(Vector3 point)
     {
-        ai.destination = point;
-        ai.SearchPath();
+        _ai.destination = point;
+        _ai.SearchPath();
     }
 
-    private Vector3 GetNextDestination()
+    Vector3 GetNextDestination()
     {
-        if (returning)
+        if (_returning)
         {
-            destinationIndex--;
+            _destinationIndex--;
         }
         else
         {
-            destinationIndex++;
+            _destinationIndex++;
         }
 
-        if (destinationIndex >= route.Length)
+        if (_destinationIndex >= _route.Length)
         {
-            destinationIndex -= 2;
-            returning = true;
+            _destinationIndex -= 2;
+            _returning = true;
         }
 
-        return route[destinationIndex].GetRandomPoint();
+        return _route[_destinationIndex].RandomPoint;
     }
-    private bool HasFinishedRoute()
+    bool HasFinishedRoute()
     {
-        if (destinationIndex == 0)
+        if (_destinationIndex == 0)
         {
             gameObject.SetActive(false);
             return true;

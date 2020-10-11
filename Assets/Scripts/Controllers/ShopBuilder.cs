@@ -1,28 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using QFSW.MOP2;
 using UnityEngine;
 using Pathfinding;
-using UnityEditorInternal;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class ShopBuilder : MonoBehaviour
 {
-    [SerializeField] private GridState gridState;
+    [SerializeField] GridState _gridState;
 
-    private Shape[] shapes;
-    private int currentShapeIndex = -1;
-    private bool validPosition;
-    private bool isEnabled; // Probably not a thing
-    public GameObject selectedShop; // change to private and Shop type when we start making actual shops
+    Shape[] _shapes;
+    Shape _currentShape;
+    bool _lockShape;
+    BuildingData _currentShop;
+    bool _validPosition;
+    bool _isEnabled; // Probably not a thing
+    Vector3 _currentMousePosition;
 
-    // DUMMY STUFF TO TEST CREATING CASH
-    public CashDropManager cashDropManager;
-
-    // TODO: SHould probably make this a singleton class
+    // DUMMY STUFF TO TEST
+    public BuildingData testBuildingData;
 
     void Awake()
     {
-        shapes = transform.GetComponentsInChildren<Shape>(true);
+        _shapes = transform.GetComponentsInChildren<Shape>(true);
         RandomiseShape();
         ToggleActive(false);
     }
@@ -30,55 +29,58 @@ public class ShopBuilder : MonoBehaviour
     // Callback function to run when grid changes. It updates the position of the current shape, and validates it
     public void OnGridPointChange(Vector3 currentPoint)
     {
-        shapes[currentShapeIndex].transform.position = currentPoint;
+        _currentMousePosition = currentPoint;
 
-        if (isEnabled)
+        if (_isEnabled)
         {
+            _currentShape.transform.position = _currentMousePosition;
             Validate();
         }
     }
 
     void Update()
     {
-        if (isEnabled)
+        if (_isEnabled)
         {
-            if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                Build();
-                Validate();
-            }
             if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                shapes[currentShapeIndex].Rotate();
+                Build();
+            }
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                _currentShape.Rotate();
                 Validate();
             }
             if (Keyboard.current.periodKey.wasPressedThisFrame)
             {
-                RandomiseShape();
-                Validate();
+                ToggleActive(false);
             }
         }
-        else
+        else if (Keyboard.current.periodKey.wasPressedThisFrame)
         {
-            if (Mouse.current.rightButton.wasPressedThisFrame)
-            {
-                var x = new Range(1, 60);
-                cashDropManager.DropCash(shapes[currentShapeIndex].transform.position, x.RandomInt);
-            }
-        }
-
-        if (Keyboard.current.periodKey.wasPressedThisFrame)
-        {
-            ToggleActive(!isEnabled);
+            Activate(testBuildingData);
         }
     }
 
-    private void ToggleActive(bool enable)
+    public void Activate(BuildingData shopData)
     {
-        shapes[currentShapeIndex].ForEachTile((tile) => tile.transform.gameObject.SetActive(enable));
-        isEnabled = enable;
+        _currentShop = shopData;
+        if (shopData.Shape != null)
+        {
+            _currentShape = shopData.Shape;
+            _lockShape = true;
+        }
+        
+        ToggleActive(true);
+    }
+
+    void ToggleActive(bool enable)
+    {
+        _currentShape.gameObject.SetActive(enable);
+        _isEnabled = enable;
         if (enable)
         {
+            _currentShape.transform.position = _currentMousePosition;
             Validate();
         }
     }
@@ -86,29 +88,24 @@ public class ShopBuilder : MonoBehaviour
     /* Check whether the current location of the shop is valid, using grid.IsSpaceOccupied
      * Turns off any invalid shape blocks, and sets valid blocks to red to indicate the placement is unavailable
      */
-    private void Validate()
+    void Validate()
     {
-        validPosition = true;
-        shapes[currentShapeIndex].ForEachTile((tile) => {
-            if (gridState.IsSpaceInvalid(tile.position))
+        _validPosition = true;
+        _currentShape.ForEachTile((tile) => {
+            if (_gridState.IsSpaceInvalid(tile.position))
             {
-                validPosition = false;
-                tile.transform.gameObject.SetActive(false);
-            }
-            else
-            {
-                tile.transform.gameObject.SetActive(true);
+                _validPosition = false;
             }
         });
 
         // Likely just placeholder stuff
-        if (validPosition)
+        if (_validPosition)
         {
-            shapes[currentShapeIndex].SetColor(new Color(0, .5f, .5f, .6f));
+            _currentShape.SetColor(new Color(0, .5f, .5f, .1f));
         }
         else
         {
-            shapes[currentShapeIndex].SetColor(new Color(.8f, 0, 0, .3f));
+            _currentShape.SetColor(new Color(.8f, 0, 0, .01f));
         }
     }
 
@@ -117,11 +114,13 @@ public class ShopBuilder : MonoBehaviour
      */
     public void RandomiseShape()
     {
+        if (_lockShape) return;
+
         // Ensure next shape is different
-        var newShape = currentShapeIndex;
-        while (currentShapeIndex == newShape)
+        Shape newShape = _currentShape;
+        while (_currentShape == newShape)
         {
-            newShape = Random.Range(0, shapes.Length);
+            newShape = _shapes[Random.Range(0, _shapes.Length)];
         }
 
         SelectShape(newShape);
@@ -130,20 +129,14 @@ public class ShopBuilder : MonoBehaviour
     /*
      * Using the supplied index, set the new shape as active
      */
-    public void SelectShape(int newShapeIndex)
+    public void SelectShape(Shape newShape)
     {
-        Vector3 currentPosition = new Vector3(0,0,0);
         // Turn off whatever the previous shape was, if we had one
-        if (currentShapeIndex != -1)
+        if (_currentShape != null)
         {
-            currentPosition = shapes[currentShapeIndex].transform.position;
-            shapes[currentShapeIndex].gameObject.SetActive(false);
+            _currentShape.gameObject.SetActive(false);
         }
-
-        currentShapeIndex = newShapeIndex;
-
-        shapes[currentShapeIndex].gameObject.SetActive(true);
-        shapes[currentShapeIndex].transform.position = currentPosition; // TODO: This was pointing to public current point from grid. Maybe it should be a scriptable Vector3????
+        _currentShape = newShape;
     }
 
     /*
@@ -152,28 +145,42 @@ public class ShopBuilder : MonoBehaviour
      */
     public void Build()
     {
-        if (validPosition)
+        if (_validPosition)
         {
-            shapes[currentShapeIndex].ForEachTile(tile => {
-                gridState.ToggleSpaceOccupied(tile.position);
-                var go = Instantiate(selectedShop, tile.position, Quaternion.identity);
+            _currentShape.ForEachTile(tile =>
+            {
+                _gridState.ToggleSpaceOccupied(tile.position);
             });
-            // Use the bounds of the shape to only update that area of our grid, for performance;
-            Bounds bounds = shapes[currentShapeIndex].GetBounds();
-            var guo = new GraphUpdateObject(bounds);
-            AstarPath.active.UpdateGraphs(guo);
-
-            RandomiseShape();
+            _currentShop.Pool.GetObjectComponent<Shop>().Build(_currentShape);
+            StartCoroutine(UpdatePathCoroutine());
         }
     }
 
-    private void OnDrawGizmos()
+    IEnumerator UpdatePathCoroutine()
     {
-        if (currentShapeIndex > -1)
+        yield return new WaitForSeconds(.1f);
+        // Use the bounds of the shape to only update that area of our grid, for performance;
+        Bounds bounds = _currentShape.Bounds;
+        var guo = new GraphUpdateObject(bounds);
+        AstarPath.active.UpdateGraphs(guo);
+
+        Deactivate();
+        RandomiseShape();
+    }
+
+    void Deactivate()
+    {
+        _lockShape = false;
+        ToggleActive(false);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (_currentShape != null && _isEnabled)
         {
-            shapes[currentShapeIndex].ForEachTile(tile =>
+            _currentShape.ForEachTile(tile =>
             {
-                if (gridState.IsSpaceInvalid(tile.position))
+                if (_gridState.IsSpaceInvalid(tile.position))
                 {
                     Gizmos.color = new Color(1, 0, 0);
                 }
@@ -181,7 +188,7 @@ public class ShopBuilder : MonoBehaviour
                 {
                     Gizmos.color = new Color(0, 1, 0);
                 }
-                Gizmos.DrawWireCube(tile.position, new Vector3(1, 1, 1));
+                Gizmos.DrawWireCube(tile.position + new Vector3(0, 0.5f, 0), new Vector3(1, 1, 1));
             });
         }
     }

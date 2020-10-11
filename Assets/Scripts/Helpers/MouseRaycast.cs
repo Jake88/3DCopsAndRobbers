@@ -6,16 +6,18 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class MouseRaycast : MonoBehaviour
 {
+    // I hate this class. 
     public class EventDictionary
     {
         public Dictionary<int, List<Action<RaycastHit>>> Dict = new Dictionary<int, List<Action<RaycastHit>>>();
 
-        private Queue<Rem> q = new Queue<Rem>();
+        private readonly Queue<Rem> q = new Queue<Rem>();
         private delegate void Rem();
 
-        public void RegisterForPointRaycastHit(int layerMask, Action<RaycastHit> callback)
+        public void RegisterForRaycastHit(int layerMask, Action<RaycastHit> callback)
         {
             if (!Dict.ContainsKey(layerMask))
             {
@@ -24,7 +26,7 @@ public class MouseRaycast : MonoBehaviour
             Dict[layerMask].Add(callback);
         }
 
-        public void DeregisterForPointRaycastHit(int layerMask, Action<RaycastHit> callback)
+        public void DeregisterForRaycastHit(int layerMask, Action<RaycastHit> callback)
         {
             if (Dict[layerMask].Contains(callback))
             {
@@ -45,13 +47,21 @@ public class MouseRaycast : MonoBehaviour
     public static EventDictionary PointEvents { get; } = new EventDictionary();
     public static EventDictionary ClickEvents { get; } = new EventDictionary();
 
+    [SerializeField] private Camera _camera;
+
+
+    private void Awake()
+    {
+        _camera = _camera ?? Camera.main;
+    }
+
     private void Update()
     {
         // Due to race conditions, we store any deregistrations from the previous frame and continue them here.
         PointEvents.ContinueRemovingListeners();
         ClickEvents.ContinueRemovingListeners();
 
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
 
         // Handle all point subscriptions

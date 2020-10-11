@@ -452,20 +452,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2113241644}
     m_Modifications:
-    - target: {fileID: 2436533653382864513, guid: 181c72e9f6ed8e9449303f05e8c162d4,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4659164804023663682, guid: 181c72e9f6ed8e9449303f05e8c162d4,
         type: 3}
       propertyPath: m_Name
       value: ShapeEl
-      objectReference: {fileID: 0}
-    - target: {fileID: 4659164804023663682, guid: 181c72e9f6ed8e9449303f05e8c162d4,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6693120397263647299, guid: 181c72e9f6ed8e9449303f05e8c162d4,
         type: 3}
@@ -535,11 +525,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeStraight
-      objectReference: {fileID: 0}
-    - target: {fileID: 1793660101253604546, guid: 5052c879903e406448d7275eace8e23a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8502075362142044025, guid: 5052c879903e406448d7275eace8e23a,
         type: 3}
@@ -716,7 +701,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e596f0a9686eee7479a44764dc077e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  route:
+  _route:
+  - {fileID: 1534386738}
+  - {fileID: 1228677084}
   - {fileID: 1228677084}
   - {fileID: 1534386738}
   - {fileID: 1228677084}
@@ -862,11 +849,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeSquare
-      objectReference: {fileID: 0}
-    - target: {fileID: 6298204580621280855, guid: 0ca921387667a37438afc819bc4b140a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8778015817904678206, guid: 0ca921387667a37438afc819bc4b140a,
         type: 3}
@@ -1057,7 +1039,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00146b13f3ea74a4daf2e50ad494d7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.75
+  _radius: 0.5
 --- !u!4 &1270668334 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6693120397263647299, guid: 181c72e9f6ed8e9449303f05e8c162d4,
@@ -1112,7 +1094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAABYIexN4wcWTAIAAPMEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2yAQ/Ssezm1HOHFr99bKjtODY0/cTi66YFhJjBFoAMVf4/9eQMhSnelJ0u7bx9u3iy6IS1MDtUovNWcrxQB9HyH/jj6N+uQzHEmh5JafocO8cWZLDyIB80osVy6OfZlRFVjN6Q9ZCA9OXLCRPFe6WrACUmWsceGcCAMupZX11dKFLiN0jAWn+Dz75+jq3ihIC7pHTe5Qk4BqJBWkqoF5tT0Y44jGOMCk6yMiki9jT0WVENxEHcie6tDnti5Bg2+UceLaCgLG7rMEXpQ2ftxq13luwEZRmpzmXDt3WlL0U7WWVcTsW2XvRDT+GJyMH4OslnX1ATDB45DPtaqeu5Nx4k+xJaf7V3KixNiBq8PwvJeOg0UHIvZkJ+CtBPmillo1krmk1Y0vbQyM5wOqW3dpCXTf41qxXbBDN/XHQeJ+kNdgwDEVvNoF8x/bwFao4PjM14B24/nlFIfFMJHJRb2KPwZ+k2K4QTHxxLWxLhUPlF7eTjXaQ9EimOa7aWyqtAQ9ZKhBEmFPG8dj78d4l/t/1RPxlyWeHnPdHbgrCeEenyR3qY063MZlSnVYgSnXjRVcQu+/T7w4o1IlZbtlw5a6sm2jc0IHZUXD2b/bhXD+jbIZzOiM5sksoZ8f2HQKePqQfMXT3XQ6RmH7uHR9ErFphUZ73NhkTy7dpnX/kNFSkzpsPNPksOTnSpkeyWWutlQDyHXLcBMO2h3i7iZbMO4M2oK1XIaBo0uGhKJ7YNmNKAudLo5Wk6xnyVDN35X1kQyl4c+RoSu6/gVQSwMEFAAACAgAAFgh7FIaQqFtAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPSMzTVUVBKL0osyCgGihiCOKWZKSB2tJJhmnlyimWqZbJlcpqBpUGyrnGKhUWqoYWxgZmhRZKFhZFSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAFgh7E3jBxZMAgAA8wQAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAFgh7FIaQqFtAAAAeAAAAAkAJAAAAAAAAAAAAAAAmQIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAABRAwAAAAA=
+    dataString: UEsDBBQAAAgIAABYIeyOUYmvSgIAAPEEAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1z2yAQ/Ssezm1HOHVr99bKjtODY0+cTi66YFhJjBFoAMVf4/9eQMhSnelJYvft7tu3CxfEpamBWqWXmrOVYoB+jJD/R59GvfMJjqRQcsvP0GHeOLOlB5GAeSGWK2fHPsyoCqzm9KcshAcnzthInitdLVgBqTLWOHNOhAHn0sr6aOlMlxE6xoBT/J79d3R1fxSkBd2jJneoSUA1kgpS1cA82x6McURjHGDS9RERyZexT0WVENxEHsie6tDnti5Bg2+UceLaCgTG7lgCL0obD7fYdZ4bsJGUJqc5106dNin6pVrJKmL2LbN3IhpfBifjr4FWm3X1ATDB4+DPtaqeuso48VVsyen+hZwoMXag6tA876njINGBiD3ZCXgrQT6rpVaNZM5pdeNDGwPj+SDVrbu0BLrvcS3Zztihm/rjIHE/yGsQ4JgKXu0iwh23QgW9Z/4M2g3nt+Mb1sJElLN6Dn8MvJJiuD/R8ci1sc4Vy0lPbqca7aFoESTzvTQ2VVqCHmaoQRJhTxuXx94P8c73/6hH4q9KrB593Q24CwnmHp8kd66NOtyGZUp1WIEp140VXEKvvnc8O6FSJWW7Y8OWurBto3NCB2FFw9m/u4Vw/p2yGczojObJLKGfH9h0Cnj6kHzD0910OkZh97h0fRKxaYlGedzYZJ9cuj3rXpDRUpM67DvT5LDk50qZHsllrrZUA8h1m+FGHLQr4m4mWzDuBNqCtVyGgaNLhoSie2DZLVEWOl0crSZZnyVDNX9X1lsylIZ3I0NXdP0LUEsDBBQAAAgIAABYIexSGkKhbQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM01VFQSi9KLMgoBooYgjilmSkgdrSSYZp5coplqmWyZXKagaVBsq5xioVFqqGFsYGZoUWShYWRUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAABYIeyOUYmvSgIAAPEEAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAABYIexSGkKhbQAAAHgAAAAJACQAAAAAAAAAAAAAAJcCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAATwMAAAAA
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -1289,11 +1271,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeTee
-      objectReference: {fileID: 0}
-    - target: {fileID: 7760547999531924668, guid: 004f035ade9e4f54db6ea1df8970924d,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7760547999531924671, guid: 004f035ade9e4f54db6ea1df8970924d,
         type: 3}
@@ -1524,7 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00146b13f3ea74a4daf2e50ad494d7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.75
+  _radius: 0.5
 --- !u!1 &1577546673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1661,9 +1638,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1530caa7ad98f08478120f1f6e5bedd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changedGridEvent: {fileID: 11400000, guid: b706157f65411964cb46a05665696053, type: 2}
-  dimensions: {fileID: 11400000, guid: fec77b59de75bf4458c4245e735dc468, type: 2}
-  mainCamera: {fileID: 963194227}
+  _changedGridEvent: {fileID: 11400000, guid: b706157f65411964cb46a05665696053, type: 2}
+  _dimensions: {fileID: 11400000, guid: fec77b59de75bf4458c4245e735dc468, type: 2}
+  _mainCamera: {fileID: 963194227}
+  WithGizmos: 0
 --- !u!1001 &1862155301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1731,11 +1709,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShapeElReverse
       objectReference: {fileID: 0}
-    - target: {fileID: 9103699416583972170, guid: 35c858144dbcf5b4e909f5f84fa2fa0b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35c858144dbcf5b4e909f5f84fa2fa0b, type: 3}
 --- !u!4 &1862155303 stripped
@@ -1755,11 +1728,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeZ
-      objectReference: {fileID: 0}
-    - target: {fileID: 2381972133071759341, guid: aa844afa08ad44b43b8bad176c599659,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4756245468735144117, guid: aa844afa08ad44b43b8bad176c599659,
         type: 3}
@@ -1834,7 +1802,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1942401018}
   - component: {fileID: 1942401017}
-  - component: {fileID: 1942401016}
   m_Layer: 0
   m_Name: MouseRaycaster
   m_TagString: Untagged
@@ -1842,105 +1809,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1942401016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942401015}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: e1a6dda9a7aa61741b5257e1ac3b1d21,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 34864693-a643-46ba-b48c-2c8e9669cd5b
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 4b97caf3-9393-4ea3-8271-f0b5310fa3f8
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cc789450-4a0e-425a-a356-bb0d5cd53963
-    m_ActionName: Player/Fire[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d7b0667f-72da-4a54-97ba-b0d34e331b29
-    m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 48b1f2c3-5aa9-4dc6-bbe9-8f75263ae145
-    m_ActionName: UI/Submit[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 143a5783-d0db-4696-9b1f-d72728b06b49
-    m_ActionName: UI/Cancel[/Keyboard/escape]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cb457aa3-bfe4-436d-a989-367ad1430332
-    m_ActionName: UI/Point[/Mouse/position]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 52897262-322a-41d4-b534-e4e004cc0a2e
-    m_ActionName: UI/Click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5b1c47c0-014f-4f1e-8788-da6f8ec7cc83
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 22ffb9ca-7adc-4c3d-a2a0-fec9afaa61ed
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: d4738cd6-6915-44d4-a05a-15a6f840e786
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: bfaa949d-ce59-4ff6-89e2-199196ec9447
-    m_ActionName: UI/TrackedDevicePosition
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: b9f0d533-3ad5-439c-a70f-28190cd8319f
-    m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1942401017}
-        m_TargetAssemblyTypeName: InputDelegator, Assembly-CSharp
-        m_MethodName: OnPoint
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: fdd4eb94-aa33-4a7a-ba6b-6957417dd4fa
-    m_ActionName: Player/Point[/Mouse/position]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &1942401017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1953,6 +1821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f64061d2b185ed41a9ea677e16d68d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera: {fileID: 963194227}
 --- !u!4 &1942401018
 Transform:
   m_ObjectHideFlags: 0
@@ -1999,6 +1868,7 @@ MonoBehaviour:
   _singletonMode: 1
   _pools:
   - {fileID: 11400000, guid: 83de204ae05b9874fb2875626a2c1c19, type: 2}
+  - {fileID: 11400000, guid: 95bc7eaacd1f06d439d96407a20e430b, type: 2}
 --- !u!4 &2082775457
 Transform:
   m_ObjectHideFlags: 0
@@ -2043,10 +1913,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab22bed8cfde6a4a9aa55ffb90d6655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridState: {fileID: 11400000, guid: 2ea1cd07acd539c4eb9ffd730aed4555, type: 2}
-  selectedShop: {fileID: 2587141185602671216, guid: 3a907e1dd3603054684c73d8cc5f8694,
-    type: 3}
-  cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
+  _gridState: {fileID: 11400000, guid: 2ea1cd07acd539c4eb9ffd730aed4555, type: 2}
+  testBuildingData: {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
 --- !u!4 &2113241644
 Transform:
   m_ObjectHideFlags: 0
@@ -2107,11 +1975,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeZReverse
-      objectReference: {fileID: 0}
-    - target: {fileID: 3386882476876036187, guid: 8e5b31c48fe154e4e815c902f4e8d662,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8875701365507267950, guid: 8e5b31c48fe154e4e815c902f4e8d662,
         type: 3}

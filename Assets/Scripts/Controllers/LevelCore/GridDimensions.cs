@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -9,31 +7,27 @@ using UnityEngine;
     order = 1
 )]
 [Serializable]
-public class GridDimensions : ScriptableObject, ISerializationCallbackReceiver
+public class GridDimensions : ScriptableObject
 {
-    [SerializeField]
-    private Vector3 dimensions;
-    [NonSerialized]
-    public Vector3 runtimeDimensions;
+    [Range(1, 100)]
+    [SerializeField] private int width = 10;
+    [Range(1, 100)]
+    [SerializeField] private int depth = 10;
+    [Range(1, 3)]
+    [SerializeField] private int height = 1;
+    [Range(.5f, 2)]
+    [SerializeField] private float tileSize = 1;
 
-    [SerializeField]
-    private float tileSize;
-    [NonSerialized]
-    public float runtimeTileSize;
+    public int Width { get => width; }
+    public int Depth { get => depth; }
+    public int Height { get => height; }
+    public float TileSize { get => tileSize; }
 
     public bool IsOutOfBounds(Vector3 v) => (
-           v.x >= runtimeDimensions.x
-        || v.z >= runtimeDimensions.z
+           v.x >= Width
+        || v.z >= Depth
         || v.x < 0
         || v.z < 0
     );
-
-    public void OnAfterDeserialize()
-    {
-        runtimeDimensions = dimensions;
-        runtimeTileSize = tileSize;
-    }
-
-    public void OnBeforeSerialize() { }
 }
 

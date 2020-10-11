@@ -11,9 +11,9 @@ using UnityEngine;
 public class CashDropManager : ScriptableObject
 {
     [SerializeField]
-    private CashData[] cashTypes;
+    private CashData[] _cashTypes;
     [SerializeField]
-    private string poolName = "Cash";
+    private string _poolName = "CashPool";
 
     public void OnEnable()
     {
@@ -27,17 +27,17 @@ public class CashDropManager : ScriptableObject
     public void DropCash(Vector3 entityPosition, int amount)
     {
         // Determine what model we should use for the cash object
-        var determinedType = cashTypes[cashTypes.Length - 1];
-        for (int i = 0; i < cashTypes.Length; i++)
+        var determinedType = _cashTypes[_cashTypes.Length - 1];
+        for (int i = 0; i < _cashTypes.Length; i++)
         {
-            if (amount < cashTypes[i].maxAmountForType)
+            if (amount < _cashTypes[i].maxAmountForType)
             {
-                determinedType = cashTypes[i];
+                determinedType = _cashTypes[i];
                 // Break out our for loop
-                i = cashTypes.Length;
+                i = _cashTypes.Length;
             }
         }
 
-        MasterObjectPooler.Instance.GetObjectComponent<Cash>(poolName).Initilise(determinedType, amount, entityPosition);
+        MasterObjectPooler.Instance.GetObjectComponent<Cash>(_poolName).Initilise(determinedType, amount, entityPosition);
     }
 }

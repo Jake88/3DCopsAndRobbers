@@ -7,4 +7,5 @@ public static class AssetMenuConstants
     public const string LEVEL_SETUP = "Level setup/";
     public const string EVENT = "Events/";
     public const string CASH = "Cash/";
+    public const string SHOP = "Shop/";
 }

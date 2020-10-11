@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ad40add42ecce646952aaa9475056c8, type: 3}
-  m_Name: CashPool
+  m_Name: HairyHarrys_ShopPool
   m_EditorClassIdentifier: 
-  _name: CashPool
-  _template: {fileID: 4966248194104369428, guid: ce85835d3c093dd4db780e7e4a0e61c1,
+  _name: HairyHarrys_ShopPool
+  _template: {fileID: 2670950447679254461, guid: 04be337ea567d224c86373f35ce94a84,
     type: 3}
-  _defaultSize: 10
+  _defaultSize: 1
   _maxSize: -1
-  _incrementalInstanceNames: 1
-  _autoInitialize: 0
+  _incrementalInstanceNames: 0
+  _autoInitialize: 1
   _repopulateOnSceneChange: 0

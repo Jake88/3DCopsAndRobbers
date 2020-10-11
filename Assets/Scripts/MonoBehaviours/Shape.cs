@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.XR;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 public struct ShapeTile
 {
@@ -14,80 +9,77 @@ public struct ShapeTile
 
 public class Shape : MonoBehaviour
 {
-    private int currentRotation = 0;
-    private ShapeTile[] tiles;
+    [SerializeField] [Range(0, 3)] int _rotations = 0;
+    [SerializeField] GameObject _tileWrapper;
 
-    [SerializeField] public int rotations = 0;
-    [SerializeField] private BoxCollider outterBoundsCollider;
-    [SerializeField] private GameObject tileWrapper;
+    int _currentRotation = 0;
+    ShapeTile[] _tiles;
+    BoxCollider _outterBoundsCollider;
+    Transform _outterBoundsColliderTransform;
 
     public delegate void ForEach(Transform tile);
 
+    public Bounds Bounds => _outterBoundsCollider.bounds;
+    bool MaxRotationReached => _currentRotation == _rotations;
+
     void Awake()
     {
-        tiles = new ShapeTile[tileWrapper.transform.childCount];
-        
-        for (int i = 0; i < tileWrapper.transform.childCount; i++)
+        _outterBoundsCollider = GetComponentInChildren<BoxCollider>(true);
+        _outterBoundsColliderTransform = _outterBoundsCollider.transform;
+
+        _tiles = new ShapeTile[_tileWrapper.transform.childCount];
+        for (int i = 0; i < _tileWrapper.transform.childCount; i++)
         {
-            tiles[i].transform = tileWrapper.transform.GetChild(i);
-            tiles[i].originalPosition = tiles[i].transform.localPosition;
-            tiles[i].renderer = tiles[i].transform.GetComponentInChildren<Renderer>();
+            _tiles[i].transform = _tileWrapper.transform.GetChild(i);
+            _tiles[i].originalPosition = _tiles[i].transform.localPosition;
+            _tiles[i].renderer = _tiles[i].transform.GetComponentInChildren<Renderer>();
         }
     }
 
-    public Bounds GetBounds() => outterBoundsCollider.bounds;
-
     public void ForEachTile(ForEach callback)
     {
-        foreach (var tile in tiles)
+        for (int i = 0; i < _tiles.Length; i++)
         {
-            // return the transform and the world position of the tile ignoring rotation
-            callback(tile.transform);
+            callback(_tiles[i].transform);
         }
     }
 
     // Rotate using coords rather than transform rotate
     public void Rotate()
     {
-        if (currentRotation == rotations)
-        {
-            outterBoundsCollider.transform.Rotate(Vector3.up, (-90f * currentRotation));
-            foreach (var tile in tiles)
-            {
-                tile.transform.localPosition = tile.originalPosition;
-            }
-            currentRotation = 0;
-        }
-        else
-        {
-            currentRotation++;
-            outterBoundsCollider.transform.Rotate(Vector3.up, 90f);
-            foreach (var tile in tiles)
-            {
-                tile.transform.localPosition = new Vector3(
-                    tile.transform.localPosition.z,
-                    0,
-                    tile.transform.localPosition.x * -1
-                );
-            }
-        }
+        if (MaxRotationReached) ResetRotation();
+        else ApplyNextRotation();
     }
 
-    public Vector3[] GetWorldPositions()
-    {
-        var v3 = new Vector3[tiles.Length];
-        for (int i = 0; i < tiles.Length; i++)
-        {
-            v3[i] = tiles[i].transform.position;
-        }
 
-        return v3;
+    void ResetRotation()
+    {
+        _outterBoundsColliderTransform.Rotate(Vector3.up, (-90f * _currentRotation));
+        for (int i = 0; i < _tiles.Length; i++)
+        {
+            _tiles[i].transform.localPosition = _tiles[i].originalPosition;
+        }
+        _currentRotation = 0;
+    }
+
+    void ApplyNextRotation()
+    {
+        _currentRotation++;
+        _outterBoundsColliderTransform.Rotate(Vector3.up, 90f);
+        for (int i = 0; i < _tiles.Length; i++)
+        {
+            _tiles[i].transform.localPosition = new Vector3(
+                 _tiles[i].transform.localPosition.z,
+                0,
+                 _tiles[i].transform.localPosition.x * -1
+            );
+        }
     }
 
     // Temporary.
     public void SetColor(Color c)
     {
-        foreach (var tile in tiles)
+        foreach (var tile in _tiles)
         {
             tile.renderer.material.color = c;
         }
