@@ -11,5 +11,4 @@ abstract public class BuildingData : PurchasableData
 
     public Shape Shape { get => _shape; }
     public ObjectPool Pool { get => _pool; }
-
 }

@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
   _pool: {fileID: 11400000, guid: 95bc7eaacd1f06d439d96407a20e430b, type: 2}
+  _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}

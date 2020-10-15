@@ -13,14 +13,18 @@ public class Shop : MonoBehaviour
 {
     [SerializeField] ShopData _data;
     [SerializeField] ObjectPool _pool;
+    [SerializeField] CashDropManager _cashDropManager;
 
     Range _income;
     Range _incomeRate;
+    float _timeUntilNextDrop;
+
     int _cost;
     SHOP_STATUS _status;
     float _rating;
 
     GameObject[] _renderModels;
+    int _cashDropPositionIndex = 0;
     //Ability[] _abilities;
     //ShopMetaData _metaData;
 
@@ -32,20 +36,54 @@ public class Shop : MonoBehaviour
         _renderModels = new GameObject[modelLength];
         for (int i = 0; i < modelLength; i++)
         {
-            print(i);
             _renderModels[i] = Instantiate(_data.RenderModels[i], transform, true);
-
         }
+
+        _income = _data.InitialIncome;
+        _incomeRate = _data.InitialIncomeDropSpeed;
     }
+
     public void Build(Shape shape)
+    {
+        PositionShopTiles(shape);
+        SetNewCashDropTimer();
+        gameObject.SetActive(true);
+    }
+
+    void Update()
+    {
+        if (ShouldDropCash()) DropCash();
+    }
+
+    bool ShouldDropCash()
+    {
+        _timeUntilNextDrop -= Time.deltaTime;
+        return _timeUntilNextDrop <= 0;
+    }
+
+    void DropCash()
+    {
+        SetNewCashDropTimer();
+        _cashDropManager.DropCash(
+            _renderModels[_cashDropPositionIndex].transform.position,
+            _income.RandomInt);
+        _cashDropPositionIndex = ++_cashDropPositionIndex % _renderModels.Length;
+    }
+
+    void SetNewCashDropTimer()
+    {
+        _timeUntilNextDrop = _incomeRate.Random;
+    }
+
+    void PositionShopTiles(Shape shape)
     {
         int i = 0;
         shape.ForEachTile(tile =>
         {
-            _renderModels[i].transform.position = tile.position;            
+            if (i == 0) transform.position = tile.position;
+            _renderModels[i].transform.localPosition = tile.localPosition;
             i++;
         });
-        gameObject.SetActive(true);
     }
 
     public void Sell()

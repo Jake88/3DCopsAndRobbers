@@ -22,6 +22,7 @@ public class CashDropManager : ScriptableObject
     public void DropCashWithRandomRadius(Vector3 entityPosition, int amount, float radius)
     {
         var random = Random.insideUnitSphere * radius;
+        random.y = 0;
         DropCash(entityPosition + random, amount);
     }
     public void DropCash(Vector3 entityPosition, int amount)
