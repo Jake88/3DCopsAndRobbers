@@ -5,13 +5,12 @@ using UnityEngine.PlayerLoop;
 
 public class Cash : MonoBehaviour
 {
-    static Vector3 _DropOffset = (Vector3.up * .2f);
-
     [SerializeField] float _floatHeight = 1f;
     [SerializeField] float _floatSpeed = 1f;
-    [SerializeField] float _floatVariance = 0.4f;
-    [SerializeField] float _rotateSpeed = 5f;
 
+    static Vector3 _DropOffset = new Vector3(0, .2f, 0);
+
+    Floater _floater;
     SphereCollider _collectCollider;
     Vector3 _initialPosition;
     int _amount;
@@ -23,6 +22,7 @@ public class Cash : MonoBehaviour
     private void Awake()
     {
         _collectCollider = GetComponent<SphereCollider>();
+        _floater = GetComponent<Floater>();
     }
 
     public void Initilise(CashData cashData, int amount, Vector3 whereToDrop)
@@ -41,10 +41,8 @@ public class Cash : MonoBehaviour
         // Float
         transform.position = Vector3.Lerp(
             transform.position,
-            _initialPosition + (Vector3.up * (Mathf.Sin(Time.fixedTime) * _floatVariance + _floatHeight)),
+            _initialPosition + (Vector3.up * _floatHeight),
             Time.deltaTime * _floatSpeed);
-
-        transform.Rotate(Vector3.up, Time.deltaTime * (360 / _rotateSpeed));
 
         // Expire
         _timeUntilExpiry -= Time.deltaTime;

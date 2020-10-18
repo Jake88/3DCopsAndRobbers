@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5396052613124918269}
   - component: {fileID: 256793355347414485}
   - component: {fileID: 5141115325849383735}
+  - component: {fileID: -6791535225466968379}
+  - component: {fileID: 7420085352487359143}
   m_Layer: 11
   m_Name: Cash
   m_TagString: Untagged
@@ -46,8 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _floatHeight: 1
   _floatSpeed: 1
-  _floatVariance: 0.4
-  _rotateSpeed: 5
 --- !u!135 &5141115325849383735
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61,3 +61,32 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6791535225466968379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966248194104369428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1625e5d178843274981190782497316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotateSpeed: 0.1
+  _enabledDelayTime: 0
+--- !u!114 &7420085352487359143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966248194104369428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037dfdc60898812418f6c59298157cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floaterData: {fileID: 11400000, guid: db2de11b3e1380641b37d2e51d5504f5, type: 2}
+  _maxHeight: 0
+  _minHeight: 0

@@ -327,6 +327,8 @@ GameObject:
   - component: {fileID: 454178948}
   - component: {fileID: 454178947}
   - component: {fileID: 454178946}
+  - component: {fileID: 454178945}
+  - component: {fileID: 454178949}
   m_Layer: 0
   m_Name: Robber
   m_TagString: Untagged
@@ -349,6 +351,20 @@ Transform:
   m_Father: {fileID: 657658147}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454178945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454178943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1625e5d178843274981190782497316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotateSpeed: 0.3
+  _enabledDelayTime: 0
 --- !u!136 &454178946
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -358,7 +374,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 454178943}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -412,6 +428,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454178943}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &454178949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454178943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037dfdc60898812418f6c59298157cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floaterData: {fileID: 11400000, guid: 17020ef2e0c608a48956ee943b2aad22, type: 2}
 --- !u!1 &532755310
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,6 +632,7 @@ GameObject:
   - component: {fileID: 657658145}
   - component: {fileID: 657658149}
   - component: {fileID: 657658150}
+  - component: {fileID: 657658144}
   m_Layer: 0
   m_Name: aStarRobberWrapper
   m_TagString: Untagged
@@ -610,6 +640,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &657658144
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657658143}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &657658145
 MonoBehaviour:
   m_ObjectHideFlags: 0
