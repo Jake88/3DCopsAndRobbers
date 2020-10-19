@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
+﻿using UnityEngine;
 using Pathfinding;
 
 public class RobberMovement : MonoBehaviour
 {
-    [SerializeField] RadialNode[] _route;
+    [SerializeField] Path _path;
 
     AIPath _ai;
-    int _destinationIndex = 0;
-    bool _returning = false;
+    int _destinationIndex = 1;
 
     void Awake()
     {
@@ -20,50 +15,44 @@ public class RobberMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetDestination(GetNextDestination());
+        Spawn();
+    }
+
+    public void Spawn()
+    {
+        transform.position = _path.Start.RadialPosition;
+        _destinationIndex = 0;
+        SetDestination();
     }
 
     void Update()
     {
         if (!_ai.pathPending && (_ai.reachedEndOfPath || !_ai.hasPath))
         {
-            if (HasFinishedRoute()) return;
-            SetDestination(GetNextDestination());
+            SetDestination();
         }
     }
 
-    void SetDestination(Vector3 point)
+    void SetDestination()
     {
-        _ai.destination = point;
+        _destinationIndex++;
+        RadialNode nextDestination = _path.GetNode(_destinationIndex);
+
+        if (nextDestination == null)
+        {
+            Debug.Log("Robber route finished!");
+            CleanUp();
+            return;
+        }
+
+        Vector3 randomPoint = nextDestination.RadialPosition;
+        transform.LookAt(randomPoint);
+        _ai.destination = randomPoint;
         _ai.SearchPath();
     }
 
-    Vector3 GetNextDestination()
+    void CleanUp()
     {
-        if (_returning)
-        {
-            _destinationIndex--;
-        }
-        else
-        {
-            _destinationIndex++;
-        }
-
-        if (_destinationIndex >= _route.Length)
-        {
-            _destinationIndex -= 2;
-            _returning = true;
-        }
-
-        return _route[_destinationIndex].RandomPoint;
-    }
-    bool HasFinishedRoute()
-    {
-        if (_destinationIndex == 0)
-        {
-            gameObject.SetActive(false);
-            return true;
-        }
-        return false;
+        gameObject.SetActive(false);
     }
 }

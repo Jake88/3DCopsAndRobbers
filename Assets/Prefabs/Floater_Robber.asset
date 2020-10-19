@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6cd371dd3ae474eb3f0db259303c99, type: 3}
   m_Name: Floater_Robber
   m_EditorClassIdentifier: 
-  _floatSpeed: 0.2
-  _floatVariance: 0.2
+  _floatSpeed: 0.8
+  _floatVariance: 0.05
   _enabledDelayTime: 0

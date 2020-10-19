@@ -1,22 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
+﻿using System;
 using UnityEngine;
-public class RadialNode : MonoBehaviour
+
+[Serializable]
+public class RadialNode
 {
     [SerializeField] float _radius = 0.5f;
-    public Vector3 RandomPoint { 
+    [SerializeField] Vector3 _position = Vector3.zero;
+
+    public float Radius => _radius;
+    public Vector3 Position => _position;
+    public Vector3 RadialPosition
+    { 
         get
         {
-            Vector3 point = Random.insideUnitSphere * _radius;
+            Vector3 point = UnityEngine.Random.insideUnitSphere * _radius;
             point.y = 0;
-            return point + transform.position;
+            return point + _position;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(255, 255, 0, 0.8f);
-        Gizmos.DrawWireSphere(transform.position, _radius);
     }
 }
