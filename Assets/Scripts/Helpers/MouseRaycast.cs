@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -69,9 +66,9 @@ public class MouseRaycast : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, maskIndex))
             {
-                foreach (var an in PointEvents.Dict[maskIndex])
+                foreach (var action in PointEvents.Dict[maskIndex])
                 {
-                    an(hit);
+                    action(hit);
                 }
             }
         }
@@ -83,9 +80,9 @@ public class MouseRaycast : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, maskIndex))
                 {
-                    foreach (var an in ClickEvents.Dict[maskIndex])
+                    foreach (var action in ClickEvents.Dict[maskIndex])
                     {
-                        an(hit);
+                        action(hit);
                     }
                 }
             }

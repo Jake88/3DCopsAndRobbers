@@ -19,7 +19,6 @@ public class ShopBuilder : MonoBehaviour
 
     // DUMMY STUFF TO TEST
     public BuildingData testBuildingData;
-    private bool _logging;
 
     void Awake()
     {
@@ -54,8 +53,6 @@ public class ShopBuilder : MonoBehaviour
         {
             Activate(testBuildingData);
         }
-
-        if (_logging) print("inside update loop");
     }
 
     public void Activate(BuildingData shopData)
@@ -108,47 +105,16 @@ public class ShopBuilder : MonoBehaviour
             }
         });
 
-
-        _logging = true;
-        print($"START: Shape parent position: {_currentShape.transform.position}");
-        var s = "1: ";
-        _currentShape.ForEachTile((tile) => {
-            s += $" ,,,{tile.position}";
-        });
-        print(s);
-        yield return new WaitForSeconds(.1f);
-
-        s = "2: ";
-        _currentShape.ForEachTile((tile) => {
-            s += $" ,,,{tile.position}";
-        });
-        print(s);
-
         if (_validPosition)
         {
+            Physics.SyncTransforms();
             var guo = new GraphUpdateObject(_currentShape.Bounds);
             foreach (var path in _paths)
             {
-                print("BEFORE UPDATE GRAPHS");
                 if (!GraphUpdateUtilities.UpdateGraphsNoBlock(guo, path.PathAsAStarNodes, true))
-                {
-                    print("AFTER INVALID");
-
                     _validPosition = false;
-                    print("Path is invalid, returning false");
-                }
-                else
-                {
-                    print("AFTER VALID");
-
-                    print("Path is valid!!!");
-                }
             }
         }
-
-        print($"END: Shape parent position: {_currentShape.transform.position}");
-        _logging = false;
-
 
         // Likely just placeholder stuff
         if (_validPosition)
@@ -210,7 +176,8 @@ public class ShopBuilder : MonoBehaviour
 
     IEnumerator UpdatePathCoroutine()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(.05f);
+        Physics.SyncTransforms();
         // Use the bounds of the shape to only update that area of our grid, for performance;
         var guo = new GraphUpdateObject(_currentShape.Bounds);
         AstarPath.active.UpdateGraphs(guo);
