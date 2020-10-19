@@ -1,12 +1,24 @@
-﻿using UnityEngine;
+﻿using Pathfinding;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Path : MonoBehaviour
 {
     [SerializeField] bool _drawGizmos = true;
     [SerializeField] RadialNode[] _path = new RadialNode[2];
+    public List<GraphNode> PathAsAStarNodes { get; private set; }
 
-    public RadialNode Start => _path[0];
-    public RadialNode End => _path[_path.Length-1];
+    void Start()
+    {
+        PathAsAStarNodes = new List<GraphNode>();
+        foreach (var node in _path)
+        {
+            PathAsAStarNodes.Add(AstarPath.active.GetNearest(node.Position).node);
+        }
+    }
+
+    public RadialNode StartNode => _path[0];
+    public RadialNode EndNode => _path[_path.Length-1];
     public int EndIndex => _path.Length - 1;
     public RadialNode GetNode(int index)
     {

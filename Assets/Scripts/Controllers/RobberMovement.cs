@@ -4,6 +4,7 @@ using Pathfinding;
 public class RobberMovement : MonoBehaviour
 {
     [SerializeField] Path _path;
+    [SerializeField] bool _repeat;
 
     AIPath _ai;
     int _destinationIndex = 1;
@@ -20,7 +21,7 @@ public class RobberMovement : MonoBehaviour
 
     public void Spawn()
     {
-        transform.position = _path.Start.RadialPosition;
+        transform.position = _path.StartNode.RadialPosition;
         _destinationIndex = 0;
         SetDestination();
     }
@@ -40,9 +41,17 @@ public class RobberMovement : MonoBehaviour
 
         if (nextDestination == null)
         {
-            Debug.Log("Robber route finished!");
-            CleanUp();
-            return;
+            if (_repeat)
+            {
+                _destinationIndex = 1;
+                nextDestination = _path.GetNode(_destinationIndex);
+            }
+            else
+            {
+                Debug.Log("Robber route finished!");
+                CleanUp();
+                return;
+            }
         }
 
         Vector3 randomPoint = nextDestination.RadialPosition;

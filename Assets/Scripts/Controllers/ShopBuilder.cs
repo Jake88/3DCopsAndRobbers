@@ -1,5 +1,4 @@
-﻿using QFSW.MOP2;
-using UnityEngine;
+﻿using UnityEngine;
 using Pathfinding;
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -7,6 +6,8 @@ using System.Collections;
 public class ShopBuilder : MonoBehaviour
 {
     [SerializeField] GridState _gridState;
+
+    [SerializeField] Path[] _paths;
 
     Shape[] _shapes;
     Shape _currentShape;
@@ -18,24 +19,17 @@ public class ShopBuilder : MonoBehaviour
 
     // DUMMY STUFF TO TEST
     public BuildingData testBuildingData;
+    private bool _logging;
 
     void Awake()
     {
         _shapes = transform.GetComponentsInChildren<Shape>(true);
-        RandomiseShape();
-        ToggleActive(false);
     }
 
-    // Callback function to run when grid changes. It updates the position of the current shape, and validates it
-    public void OnGridPointChange(Vector3 currentPoint)
+    private void Start()
     {
-        _currentMousePosition = currentPoint;
-
-        if (_isEnabled)
-        {
-            _currentShape.transform.position = _currentMousePosition;
-            Validate();
-        }
+        RandomiseShape();
+        ToggleActive(false);
     }
 
     void Update()
@@ -49,7 +43,7 @@ public class ShopBuilder : MonoBehaviour
             if (Mouse.current.rightButton.wasPressedThisFrame)
             {
                 _currentShape.Rotate();
-                Validate();
+                StartCoroutine(Validate());
             }
             if (Keyboard.current.periodKey.wasPressedThisFrame)
             {
@@ -60,6 +54,8 @@ public class ShopBuilder : MonoBehaviour
         {
             Activate(testBuildingData);
         }
+
+        if (_logging) print("inside update loop");
     }
 
     public void Activate(BuildingData shopData)
@@ -81,22 +77,78 @@ public class ShopBuilder : MonoBehaviour
         if (enable)
         {
             _currentShape.transform.position = _currentMousePosition;
-            Validate();
+            StartCoroutine(Validate());
         }
     }
 
+    // Callback function to run when grid changes. It updates the position of the current shape, and validates it
+    public void OnGridPointChange(Vector3 currentPoint)
+    {
+        _currentMousePosition = currentPoint;
+
+        if (_isEnabled)
+        {
+            _currentShape.transform.position = _currentMousePosition;
+           StartCoroutine(Validate());
+        }
+    }
     /* Check whether the current location of the shop is valid, using grid.IsSpaceOccupied
      * Turns off any invalid shape blocks, and sets valid blocks to red to indicate the placement is unavailable
      */
-    void Validate()
+    IEnumerator Validate()
     {
+        yield return null;
+
         _validPosition = true;
+
         _currentShape.ForEachTile((tile) => {
             if (_gridState.IsSpaceInvalid(tile.position))
             {
                 _validPosition = false;
             }
         });
+
+
+        _logging = true;
+        print($"START: Shape parent position: {_currentShape.transform.position}");
+        var s = "1: ";
+        _currentShape.ForEachTile((tile) => {
+            s += $" ,,,{tile.position}";
+        });
+        print(s);
+        yield return new WaitForSeconds(.1f);
+
+        s = "2: ";
+        _currentShape.ForEachTile((tile) => {
+            s += $" ,,,{tile.position}";
+        });
+        print(s);
+
+        if (_validPosition)
+        {
+            var guo = new GraphUpdateObject(_currentShape.Bounds);
+            foreach (var path in _paths)
+            {
+                print("BEFORE UPDATE GRAPHS");
+                if (!GraphUpdateUtilities.UpdateGraphsNoBlock(guo, path.PathAsAStarNodes, true))
+                {
+                    print("AFTER INVALID");
+
+                    _validPosition = false;
+                    print("Path is invalid, returning false");
+                }
+                else
+                {
+                    print("AFTER VALID");
+
+                    print("Path is valid!!!");
+                }
+            }
+        }
+
+        print($"END: Shape parent position: {_currentShape.transform.position}");
+        _logging = false;
+
 
         // Likely just placeholder stuff
         if (_validPosition)
@@ -160,8 +212,7 @@ public class ShopBuilder : MonoBehaviour
     {
         yield return new WaitForSeconds(.1f);
         // Use the bounds of the shape to only update that area of our grid, for performance;
-        Bounds bounds = _currentShape.Bounds;
-        var guo = new GraphUpdateObject(bounds);
+        var guo = new GraphUpdateObject(_currentShape.Bounds);
         AstarPath.active.UpdateGraphs(guo);
 
         Deactivate();

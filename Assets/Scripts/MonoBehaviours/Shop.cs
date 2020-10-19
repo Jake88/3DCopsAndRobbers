@@ -82,8 +82,8 @@ public class Shop : MonoBehaviour
         {
             if (i == 0)
             {
-                if (tile.localPosition.Equals(Vector3.zero))
-                    Debug.LogError($"Shape {shape.name}: tile[0] is not position 0,0. Fix it in the prefab.");
+                if (!tile.localPosition.Equals(Vector3.zero))
+                    Debug.LogError($"Shape {shape.name}: tile[0] is not at position 0,0. Found {tile.localPosition}. Fix it in the prefab.");
                 transform.position = tile.position;
             }
             _renderModels[i].transform.localPosition = tile.localPosition;
