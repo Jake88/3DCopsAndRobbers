@@ -441,6 +441,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _floaterData: {fileID: 11400000, guid: 17020ef2e0c608a48956ee943b2aad22, type: 2}
+  _maxHeight: 0
+  _minHeight: 0
 --- !u!1 &532755310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1938,6 +1940,7 @@ GameObject:
   - component: {fileID: 2113241644}
   - component: {fileID: 2113241643}
   - component: {fileID: 2113241645}
+  - component: {fileID: 2113241646}
   m_Layer: 0
   m_Name: ShopBuilder
   m_TagString: Untagged
@@ -2008,6 +2011,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2113241646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2113241642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!1001 &4682472833536601877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2019,6 +2050,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShapeZReverse
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386882476876036187, guid: 8e5b31c48fe154e4e815c902f4e8d662,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8875701365507267950, guid: 8e5b31c48fe154e4e815c902f4e8d662,
         type: 3}
