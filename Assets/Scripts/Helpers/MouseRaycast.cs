@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 
 public class MouseRaycast : MonoBehaviour
@@ -58,7 +57,7 @@ public class MouseRaycast : MonoBehaviour
         PointEvents.ContinueRemovingListeners();
         ClickEvents.ContinueRemovingListeners();
 
-        Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         // Handle all point subscriptions
@@ -74,7 +73,7 @@ public class MouseRaycast : MonoBehaviour
         }
 
         // Handle all click subscriptions
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Input.GetButtonDown("Fire1"))
         {
             foreach (var maskIndex in ClickEvents.Dict.Keys)
             {

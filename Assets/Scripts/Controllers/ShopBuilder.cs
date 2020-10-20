@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using Pathfinding;
-using UnityEngine.InputSystem;
 using System.Collections;
 
 public class ShopBuilder : MonoBehaviour
@@ -35,21 +34,21 @@ public class ShopBuilder : MonoBehaviour
     {
         if (_isEnabled)
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (Input.GetButtonDown("Fire1"))
             {
                 Build();
             }
-            if (Mouse.current.rightButton.wasPressedThisFrame)
+            if (Input.GetButtonDown("Fire2"))
             {
                 _currentShape.Rotate();
                 StartCoroutine(Validate());
             }
-            if (Keyboard.current.periodKey.wasPressedThisFrame)
+            if (Input.GetKeyDown(KeyCode.Period))
             {
                 ToggleActive(false);
             }
         }
-        else if (Keyboard.current.periodKey.wasPressedThisFrame)
+        else if (Input.GetKeyDown(KeyCode.Period))
         {
             Activate(testBuildingData);
         }

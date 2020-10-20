@@ -10,11 +10,14 @@ public class Cash : MonoBehaviour
 
     static Vector3 _DropOffset = new Vector3(0, .2f, 0);
 
-    Floater _floater;
+    PlayerMoney _playerMoney;
     SphereCollider _collectCollider;
+
     Vector3 _initialPosition;
-    int _amount;
     float _timeUntilExpiry;
+    // bool _fromRobber;
+
+    int _amount;
 
     string _activeModelKey;
     Dictionary<string, GameObject> _cashModels = new Dictionary<string, GameObject>();
@@ -22,7 +25,11 @@ public class Cash : MonoBehaviour
     private void Awake()
     {
         _collectCollider = GetComponent<SphereCollider>();
-        _floater = GetComponent<Floater>();
+    }
+
+    private void Start()
+    {
+        _playerMoney = FindObjectOfType<PlayerMoney>();
     }
 
     public void Initilise(CashData cashData, int amount, Vector3 whereToDrop)
@@ -75,6 +82,7 @@ public class Cash : MonoBehaviour
     public int Collect()
     {
         print($"amount collected: {_amount}");
+        _playerMoney.EarnMoney(_amount); // TODO: Somehow need to distinguish that this was dropped from a robber
         CleanUp();
         return _amount;
     }

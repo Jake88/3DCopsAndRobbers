@@ -10,6 +10,11 @@ public class Floater : MonoBehaviour
 
     float _timeUntilStart;
 
+    float tempTimer;
+    int frameCounter;
+    string s = "vectorToAlterPositionBy: ";
+    string d = "y Position updates: ";
+
     float _sumOfRadiansPerFrame = 0;
     Vector3 _previousFloaterHeight;
 
@@ -20,8 +25,20 @@ public class Floater : MonoBehaviour
 
     void FixedUpdate()
     {
+
+        if (tempTimer >= 1 && this.gameObject.name == "THING")
+        {
+            print($"Ran code {frameCounter} times");
+            print(s);
+            print(d);
+            this.enabled = false;
+        }
+
         _timeUntilStart -= Time.fixedDeltaTime;
         if (_timeUntilStart > 0) return;
+
+        tempTimer += Time.fixedDeltaTime;
+        frameCounter++;
 
         var radiansToAddThisFrame = RADIANS_IN_FULL_CIRCLE * Time.fixedDeltaTime;
         //var radiansManipulatedForExageratedEffect = (radiansToAddThisFrame * Mathf.Abs(Mathf.Sin(_sumOfRadiansPerFrame + radiansToAddThisFrame)) + 1) / 2;
@@ -30,8 +47,11 @@ public class Floater : MonoBehaviour
         var nextFloaterHeight = Mathf.Sin(_sumOfRadiansPerFrame) * _floaterData.FloatVariance;
 
         var vectorToAlterPositonBy = (Vector3.up * nextFloaterHeight) - _previousFloaterHeight;
+        // s += $"{vectorToAlterPositonBy.y}, ";
         transform.position += vectorToAlterPositonBy;
+        // d += $"{transform.position.y}, ";
         _previousFloaterHeight = Vector3.up * nextFloaterHeight;
+
 
 
         if (transform.position.y > _maxHeight) _maxHeight = transform.position.y;
