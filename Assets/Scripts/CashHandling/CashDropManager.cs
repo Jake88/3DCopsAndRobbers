@@ -10,22 +10,20 @@ using UnityEngine;
 )]
 public class CashDropManager : ScriptableObject
 {
-    [SerializeField]
-    private CashData[] _cashTypes;
-    [SerializeField]
-    private string _poolName = "CashPool";
+    [SerializeField] CashData[] _cashTypes;
+    [SerializeField] string _poolName = "CashPool";
 
     public void OnEnable()
     {
     }
 
-    public void DropCashWithRandomRadius(Vector3 entityPosition, int amount, float radius)
+    public void DropCashWithRandomRadius(Vector3 entityPosition, int amount, CashSource source, float radius)
     {
         var random = Random.insideUnitSphere * radius;
         random.y = 0;
-        DropCash(entityPosition + random, amount);
+        DropCash(entityPosition + random, amount, source);
     }
-    public void DropCash(Vector3 entityPosition, int amount)
+    public void DropCash(Vector3 entityPosition, int amount, CashSource source)
     {
         // Determine what model we should use for the cash object
         var determinedType = _cashTypes[_cashTypes.Length - 1];
@@ -39,6 +37,6 @@ public class CashDropManager : ScriptableObject
             }
         }
 
-        MasterObjectPooler.Instance.GetObjectComponent<Cash>(_poolName).Initilise(determinedType, amount, entityPosition);
+        MasterObjectPooler.Instance.GetObjectComponent<Cash>(_poolName).Initilise(determinedType, amount, entityPosition, source);
     }
 }

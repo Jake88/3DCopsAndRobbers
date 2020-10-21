@@ -1,8 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMoney : MonoBehaviour
 {
+    /*
+     * Maybe I should refactor this. - CURRENTLY I AM USING A REF_MANAGER TO PASS THIS AROUND.
+     * Have a "PlayerMoney" object which is a scene mono behaviour that holds the data local to the scene
+     * Then have a scriptable object which is basically just a delegate class with a bunch of functions
+     * These functions would be all the "LoseMoney" etc
+     * The scriptable object would look something like
+     * 
+     * {
+     *   PlayerMoney _scenePlayerMoney
+     *   void Register(PlayerMoney pm) _scenePlayerMoney = pm;
+     *   
+     *   // all those other functions
+     * }
+     * 
+     * Then the PlayerMoney class (this one) would have
+     * 
+     * {
+     *   [SerializeField] PlayerMoneyController _pmc;
+     *   void Awake() { _pmc.Register(this) }
+     * }
+     * 
+     * Then Cops, Robbers, Cash objects etc can all take a reference to the PlayerMoneyController scriptable object and interact with the playerMoney via that.
+     */
+
+
     private class EarningsRecord
     {
         public int moneyEarned;
@@ -12,9 +38,13 @@ public class PlayerMoney : MonoBehaviour
         public int moneyRecovered;
     }
 
+    [Header("Required game managers")]
+    [SerializeField] GameTime _gameTime;
+
+    [Header("Analysis helpers")]
     [SerializeField] int _daysToUseForDataAnalysis = 3;
+
     int _playerMoney = 0;
-    GameTime _gameTime;
     GameEvent<int> _moneyChangedEvent;
 
     // MetaData
@@ -49,10 +79,6 @@ public class PlayerMoney : MonoBehaviour
     private void Awake()
     {
         _moneyChangedEvent = GetComponent<GameEventListener_Int>().Event;
-    }
-    void Start()
-    {
-        _gameTime = FindObjectOfType<GameTime>(); // TODO: Is this a performance problem? Should I just drag a reference into the editor instead?
     }
 
     public void OnNewDayEvent()

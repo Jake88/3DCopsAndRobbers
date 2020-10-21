@@ -66,7 +66,8 @@ public class Shop : MonoBehaviour
         SetNewCashDropTimer();
         _cashDropManager.DropCash(
             _renderModels[_cashDropPositionIndex].transform.position,
-            _income.RandomInt);
+            _income.RandomInt,
+            CashSource.Shop);
         _cashDropPositionIndex = ++_cashDropPositionIndex % _renderModels.Length;
     }
 

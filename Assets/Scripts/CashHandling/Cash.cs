@@ -5,14 +5,18 @@ using UnityEngine.PlayerLoop;
 
 public class Cash : MonoBehaviour
 {
+    [Header("Required game managers")]
+    PlayerMoney _playerMoney;
+
+    [Header("Animation configuration")]
     [SerializeField] float _floatHeight = 1f;
     [SerializeField] float _floatSpeed = 1f;
 
     static Vector3 _DropOffset = new Vector3(0, .2f, 0);
 
-    PlayerMoney _playerMoney;
     SphereCollider _collectCollider;
 
+    CashSource _source;
     Vector3 _initialPosition;
     float _timeUntilExpiry;
     // bool _fromRobber;
@@ -22,18 +26,15 @@ public class Cash : MonoBehaviour
     string _activeModelKey;
     Dictionary<string, GameObject> _cashModels = new Dictionary<string, GameObject>();
 
-    private void Awake()
+    void Awake()
     {
         _collectCollider = GetComponent<SphereCollider>();
+        _playerMoney = RefManager.PlayerMoney;
     }
 
-    private void Start()
+    public void Initilise(CashData cashData, int amount, Vector3 whereToDrop, CashSource source)
     {
-        _playerMoney = FindObjectOfType<PlayerMoney>();
-    }
-
-    public void Initilise(CashData cashData, int amount, Vector3 whereToDrop)
-    {
+        _source = source;
         _amount = amount;
         _timeUntilExpiry = cashData.expiryTimer;
         transform.position = whereToDrop + _DropOffset;
@@ -81,8 +82,15 @@ public class Cash : MonoBehaviour
 
     public int Collect()
     {
-        print($"amount collected: {_amount}");
-        _playerMoney.EarnMoney(_amount); // TODO: Somehow need to distinguish that this was dropped from a robber
+        switch (_source)
+        {
+            case CashSource.Robber:
+                _playerMoney.RecoverMoney(_amount);
+                break;
+            case CashSource.Shop:
+                _playerMoney.EarnMoney(_amount);
+                break;
+        }
         CleanUp();
         return _amount;
     }

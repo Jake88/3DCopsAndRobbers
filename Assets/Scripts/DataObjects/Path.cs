@@ -32,6 +32,8 @@ public class Path : MonoBehaviour
         return _path[index];
     }
 
+    public bool HasArrivedAtBank(int index) => index == _path.Length-1;
+
     private void OnDrawGizmos()
     {
         if (!_drawGizmos) return;

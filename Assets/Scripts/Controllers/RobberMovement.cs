@@ -3,25 +3,24 @@ using Pathfinding;
 
 public class RobberMovement : MonoBehaviour
 {
-    [SerializeField] Path _path;
-    [SerializeField] bool _repeat;
-
+    Robber _robber;
+    Path _path;
     AIPath _ai;
     int _destinationIndex = 1;
+
+    public bool Repeat;
 
     void Awake()
     {
         _ai = GetComponent<AIPath>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        Spawn();
+        _robber = GetComponent<Robber>();
     }
 
-    public void Spawn()
+    public void Spawn(float speed, Path path)
     {
+        _path = path;
         transform.position = _path.StartNode.RadialPosition;
+        _ai.maxSpeed = speed;
         _destinationIndex = 0;
         SetDestination();
     }
@@ -30,18 +29,25 @@ public class RobberMovement : MonoBehaviour
     {
         if (!_ai.pathPending && (_ai.reachedEndOfPath || !_ai.hasPath))
         {
+            CheckForBank();
             SetDestination();
         }
     }
 
+    void CheckForBank()
+    {
+        if (_path.HasArrivedAtBank(_destinationIndex)) _robber.Steal();
+    }
+
     void SetDestination()
     {
+        // Maybe turn this into a coroutine so we can pause at the start if we're at a bank or distraction
         _destinationIndex++;
         RadialNode nextDestination = _path.GetNode(_destinationIndex);
 
         if (nextDestination == null)
         {
-            if (_repeat)
+            if (Repeat)
             {
                 _destinationIndex = 1;
                 nextDestination = _path.GetNode(_destinationIndex);
@@ -55,7 +61,7 @@ public class RobberMovement : MonoBehaviour
         }
 
         Vector3 randomPoint = nextDestination.RadialPosition;
-        transform.LookAt(randomPoint);
+        // transform.LookAt(randomPoint);
         _ai.destination = randomPoint;
         _ai.SearchPath();
     }

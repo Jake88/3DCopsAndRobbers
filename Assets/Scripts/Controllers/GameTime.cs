@@ -25,11 +25,16 @@ public class GameTime : MonoBehaviour
     public float TimeUntilPayday => _timeUntilPayday;
     public float TimeUntilMidnight => _timeUntilMidnight;
 
-    private void Awake()
+    void Awake()
     {
         _newDayEvent = GetComponent<GameEventListener>().Event;
         _timeUntilPayday = (TimeInAGameDay * _levelGracePeriod) + Payday;
         _timeUntilMidnight = (TimeInAGameDay * _levelGracePeriod) + Midnight;
+    }
+
+    void Start()
+    {
+        _newDayEvent.Raise();
     }
 
     // Update is called once per frame
