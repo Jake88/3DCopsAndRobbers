@@ -5,10 +5,11 @@ using System.Collections;
 public class ShopBuilder : MonoBehaviour
 {
     [SerializeField] GridState _gridState;
-
     [SerializeField] Path[] _paths;
+    [SerializeField] Transform[] _ghostTiles;
 
     Shape[] _shapes;
+
     Shape _currentShape;
     bool _lockShape;
     BuildingData _currentShop;
@@ -22,10 +23,32 @@ public class ShopBuilder : MonoBehaviour
     void Awake()
     {
         _shapes = transform.GetComponentsInChildren<Shape>(true);
+        for (int i = 0; i < _ghostTiles.Length; i++)
+        {
+            _ghostTiles[i] = Instantiate(_ghostTiles[i]);
+        }
+    }
+
+    void RandomiseArrayOrder()
+    {
+        Transform[] newArr = new Transform[_ghostTiles.Length];
+
+        var random = Mathf.RoundToInt(Random.Range(0, _ghostTiles.Length-1));
+        for (int i = 0; i < _ghostTiles.Length; i++)
+        {
+            newArr[i] = _ghostTiles[(i + random) % _ghostTiles.Length];
+            var randomRotation = Mathf.RoundToInt(Random.Range(1, 4)) * 90;
+            newArr[i].Rotate(Vector3.up, 90 * randomRotation);
+        }
+        _ghostTiles = newArr;
     }
 
     private void Start()
     {
+        foreach (var shape in _shapes)
+        {
+            shape.gameObject.SetActive(false);
+        }
         RandomiseShape();
         ToggleActive(false);
     }
@@ -70,6 +93,14 @@ public class ShopBuilder : MonoBehaviour
     {
         _currentShape.gameObject.SetActive(enable);
         _isEnabled = enable;
+
+        var i = 0;
+        _currentShape.ForEachTile((tile) =>
+        {
+            _ghostTiles[i].gameObject.SetActive(enable);
+            i++;
+        });
+
         if (enable)
         {
             _currentShape.transform.position = _currentMousePosition;
@@ -85,7 +116,7 @@ public class ShopBuilder : MonoBehaviour
         if (_isEnabled)
         {
             _currentShape.transform.position = _currentMousePosition;
-           StartCoroutine(Validate());
+            StartCoroutine(Validate());
         }
     }
     /* Check whether the current location of the shop is valid, using grid.IsSpaceOccupied
@@ -97,11 +128,15 @@ public class ShopBuilder : MonoBehaviour
 
         _validPosition = true;
 
+        int i = 0;
         _currentShape.ForEachTile((tile) => {
+            _ghostTiles[i].position = tile.position;
+
             if (_gridState.IsSpaceInvalid(tile.position))
             {
                 _validPosition = false;
             }
+            i++;
         });
 
         if (_validPosition)
@@ -118,11 +153,9 @@ public class ShopBuilder : MonoBehaviour
         // Likely just placeholder stuff
         if (_validPosition)
         {
-            _currentShape.SetColor(new Color(0, .5f, .5f, .1f));
         }
         else
         {
-            _currentShape.SetColor(new Color(.8f, 0, 0, .01f));
         }
     }
 
@@ -137,10 +170,11 @@ public class ShopBuilder : MonoBehaviour
         Shape newShape = _currentShape;
         while (_currentShape == newShape)
         {
-            newShape = _shapes[Random.Range(0, _shapes.Length)];
+            newShape = _shapes[UnityEngine.Random.Range(0, _shapes.Length)];
         }
 
         SelectShape(newShape);
+        RandomiseArrayOrder();
     }
 
     /*
@@ -169,20 +203,10 @@ public class ShopBuilder : MonoBehaviour
                 _gridState.ToggleSpaceOccupied(tile.position);
             });
             _currentShop.Pool.GetObjectComponent<Shop>().Build(_currentShape);
-            StartCoroutine(UpdatePathCoroutine());
+
+            Deactivate();
+            RandomiseShape();
         }
-    }
-
-    IEnumerator UpdatePathCoroutine()
-    {
-        yield return new WaitForSeconds(.05f);
-        Physics.SyncTransforms();
-        // Use the bounds of the shape to only update that area of our grid, for performance;
-        var guo = new GraphUpdateObject(_currentShape.Bounds);
-        AstarPath.active.UpdateGraphs(guo);
-
-        Deactivate();
-        RandomiseShape();
     }
 
     void Deactivate()

@@ -34,7 +34,13 @@ public class Floater : MonoBehaviour
         }
         else
         {
-            if (_currentSpeed < _floaterData.FloatSpeed) _currentSpeed += Time.fixedDeltaTime;
+            if (_currentSpeed != _floaterData.FloatSpeed)
+            {
+                var sign = Mathf.Sign(_floaterData.FloatSpeed - _currentSpeed);
+                _currentSpeed += Time.fixedDeltaTime * sign;
+                if (Mathf.Sign(_floaterData.FloatSpeed - _currentSpeed) != sign)
+                    _currentSpeed = _floaterData.FloatSpeed;
+            }
         }
 
         var radiansToAddThisFrame = RADIANS_IN_FULL_CIRCLE * Time.fixedDeltaTime;

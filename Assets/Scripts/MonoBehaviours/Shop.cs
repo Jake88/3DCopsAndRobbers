@@ -48,6 +48,16 @@ public class Shop : MonoBehaviour
         PositionShopTiles(shape);
         SetNewCashDropTimer();
         gameObject.SetActive(true);
+
+        // Use the bounds of the shape to only update that area of our grid, for performance;
+        SyncNavMesh(shape);
+    }
+
+    static void SyncNavMesh(Shape shape)
+    {
+        Physics.SyncTransforms();
+        var guo = new GraphUpdateObject(shape.Bounds);
+        AstarPath.active.UpdateGraphs(guo);
     }
 
     void Update()

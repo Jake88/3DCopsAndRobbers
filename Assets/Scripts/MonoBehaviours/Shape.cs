@@ -3,7 +3,6 @@
 public struct ShapeTile
 {
     public Transform transform;
-    public Renderer renderer;
     public Vector3 originalPosition;
 }
 
@@ -32,12 +31,12 @@ public class Shape : MonoBehaviour
         {
             _tiles[i].transform = _tileWrapper.transform.GetChild(i);
             _tiles[i].originalPosition = _tiles[i].transform.localPosition;
-            _tiles[i].renderer = _tiles[i].transform.GetComponentInChildren<Renderer>();
         }
     }
 
     public void ForEachTile(ForEach callback)
     {
+        print("tileSWrapper" + _tileWrapper + _tiles);
         for (int i = 0; i < _tiles.Length; i++)
         {
             callback(_tiles[i].transform);
@@ -75,14 +74,4 @@ public class Shape : MonoBehaviour
             );
         }
     }
-
-    // Temporary.
-    public void SetColor(Color c)
-    {
-        foreach (var tile in _tiles)
-        {
-            tile.renderer.material.color = c;
-        }
-    }
-
 }
