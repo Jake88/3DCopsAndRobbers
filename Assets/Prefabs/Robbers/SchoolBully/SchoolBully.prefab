@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3449723615552002142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2713312688882030084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 037dfdc60898812418f6c59298157cd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _floaterData: {fileID: 11400000, guid: 17020ef2e0c608a48956ee943b2aad22, type: 2}
 --- !u!1 &4922290205863191426
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,8 +23,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4922290205863191486}
   - component: {fileID: 1285616232307261317}
-  - component: {fileID: 4922290205863191481}
-  - component: {fileID: 8217276297348517799}
   - component: {fileID: 4922290205863191487}
   - component: {fileID: 4922290205863191484}
   - component: {fileID: 4922290205863191480}
@@ -51,37 +62,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70cbb737e618e2144a1e31a3eda10dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerMoney: {fileID: 0}
   _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
   _data: {fileID: 11400000, guid: d87fe599562434844a8a77a6d107cf6a, type: 2}
---- !u!114 &4922290205863191481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4922290205863191426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e596f0a9686eee7479a44764dc077e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Repeat: 0
---- !u!114 &8217276297348517799
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4922290205863191426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 037dfdc60898812418f6c59298157cd0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _floaterData: {fileID: 11400000, guid: 17020ef2e0c608a48956ee943b2aad22, type: 2}
-  _maxHeight: 0
-  _minHeight: 0
+  RepeatOffender: 0
 --- !u!114 &4922290205863191487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +254,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc89cff11dc72544faaaa69b501fd596, type: 3}
+--- !u!1 &2713312688882030084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1965410809269166, guid: bc89cff11dc72544faaaa69b501fd596,
+    type: 3}
+  m_PrefabInstance: {fileID: 2711558419336158634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2715918814068436394 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4932140778729472, guid: bc89cff11dc72544faaaa69b501fd596,
