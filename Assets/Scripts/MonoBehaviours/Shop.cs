@@ -45,19 +45,19 @@ public class Shop : MonoBehaviour
 
     public void Build(Shape shape)
     {
-        PositionShopTiles(shape);
+       /* PositionShopTiles(shape);
         SetNewCashDropTimer();
         gameObject.SetActive(true);
 
         // Use the bounds of the shape to only update that area of our grid, for performance;
-        SyncNavMesh(shape);
+        SyncNavMesh(shape);*/
     }
 
     static void SyncNavMesh(Shape shape)
     {
-        Physics.SyncTransforms();
+        /*Physics.SyncTransforms();
         var guo = new GraphUpdateObject(shape.Bounds);
-        AstarPath.active.UpdateGraphs(guo);
+        AstarPath.active.UpdateGraphs(guo);*/
     }
 
     void Update()
@@ -88,7 +88,7 @@ public class Shop : MonoBehaviour
 
     void PositionShopTiles(Shape shape)
     {
-        int i = 0;
+       /* int i = 0;
         shape.ForEachTile(tile =>
         {
             if (i == 0)
@@ -99,7 +99,7 @@ public class Shop : MonoBehaviour
             }
             _renderModels[i].transform.localPosition = tile.localPosition;
             i++;
-        });
+        });*/
     }
 
     public void Sell()

@@ -1,7 +1,6 @@
 ﻿using QFSW.MOP2;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class Cash : MonoBehaviour
 {

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Pathfinding;
-using UnityEditorInternal;
+﻿using UnityEngine;
 
 [System.Serializable]
 public struct Range 
