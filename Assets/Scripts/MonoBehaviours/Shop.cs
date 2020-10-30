@@ -99,9 +99,10 @@ public class Shop : MonoBehaviour
             _gridState.ToggleSpaceOccupied(fragment.transform.position);
 
             if (fragment.Type == TileType.Building)
+            {
                 _renderModels[fragmentsPlaced].transform.localPosition = fragment.transform.localPosition;
-
-            fragmentsPlaced++;
+                fragmentsPlaced++;
+            }
         }
     }
 

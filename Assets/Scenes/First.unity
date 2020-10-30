@@ -549,31 +549,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2113241644}
     m_Modifications:
-    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4911680333487681166, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: _paths.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4911680333487681166, guid: b26e9a0e15e14a34eba6d24b57540a30,
         type: 3}
       propertyPath: _paths.Array.data[0]
@@ -638,16 +613,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConstructionShop
-      objectReference: {fileID: 0}
-    - target: {fileID: 4911680333487681265, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4911680333487681265, guid: b26e9a0e15e14a34eba6d24b57540a30,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b26e9a0e15e14a34eba6d24b57540a30, type: 3}
@@ -1882,7 +1847,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b200b9461387aa74799ad27597622b6e, type: 2}
   - {fileID: 11400000, guid: 461030863366a0a4f866e82fcc1c4c3f, type: 2}
   - {fileID: 11400000, guid: 6028251e687211045ad31a89f0b431ef, type: 2}
-  testBuildingData: {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
+  testBuildingData:
+  - {fileID: 11400000, guid: 8672059371e41a648aaa1403307444fb, type: 2}
+  - {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
 --- !u!4 &2113241644
 Transform:
   m_ObjectHideFlags: 0

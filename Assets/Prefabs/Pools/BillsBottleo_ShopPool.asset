@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ad40add42ecce646952aaa9475056c8, type: 3}
-  m_Name: HairyHarrys_ShopPool
+  m_Name: BillsBottleo_ShopPool
   m_EditorClassIdentifier: 
-  _name: HairyHarrys_ShopPool
-  _template: {fileID: 2670950447679254461, guid: 04be337ea567d224c86373f35ce94a84,
+  _name: BillsBottleo_ShopPool
+  _template: {fileID: 2670950447679254461, guid: a6b3cff6bc507ff4f8cf220f1a626996,
     type: 3}
   _defaultSize: 5
   _maxSize: -1

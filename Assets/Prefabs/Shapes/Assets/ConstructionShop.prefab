@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4911680333487681166}
   - component: {fileID: 321087825889277989}
   - component: {fileID: -5514079580487360956}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ConstructionShop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   _constructionTilePool: {fileID: 11400000, guid: 765a290e289ab75418c0bf8af3e1e48f,
     type: 2}
   _gridState: {fileID: 11400000, guid: 2ea1cd07acd539c4eb9ffd730aed4555, type: 2}
+  _paths:
+  - {fileID: 0}
 --- !u!114 &321087825889277989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,7 +87,7 @@ BoxCollider:
   m_GameObject: {fileID: 4911680333487681265}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0, y: 0, z: 0}
   m_Center: {x: 0, y: 0, z: 0}

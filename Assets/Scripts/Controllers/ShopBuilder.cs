@@ -13,7 +13,7 @@ public class ShopBuilder : MonoBehaviour
     Vector3 _currentMousePosition;
 
     // DUMMY STUFF TO TEST
-    public BuildingData testBuildingData;
+    public BuildingData[] testBuildingData;
 
     Shape CurrentShape => _currentShop && _currentShop.Shape ? _currentShop.Shape : _baseShapes[_currentBaseShapeIndex];
 
@@ -44,7 +44,7 @@ public class ShopBuilder : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Period))
         {
-            Activate(testBuildingData);
+            Activate(testBuildingData[Random.Range(0, testBuildingData.Length)]);
         }
     }
 
