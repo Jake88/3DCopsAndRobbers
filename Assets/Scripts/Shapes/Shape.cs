@@ -7,7 +7,7 @@
 public class Shape : ScriptableObject
 {
     [SerializeField] Rotation _rotation;
-    [SerializeField] ShapeFragment[] _shape;
+    [SerializeField] ShapeFragment[] _shape = new ShapeFragment[4];
 
     public Rotation Rotation => _rotation;
 

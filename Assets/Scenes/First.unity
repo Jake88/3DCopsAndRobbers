@@ -549,6 +549,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2113241644}
     m_Modifications:
+    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5514079580487360956, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911680333487681166, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: _paths.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911680333487681166, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: _paths.Array.data[0]
+      value: 
+      objectReference: {fileID: 213132314}
     - target: {fileID: 4911680333487681167, guid: b26e9a0e15e14a34eba6d24b57540a30,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -613,6 +643,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911680333487681265, guid: b26e9a0e15e14a34eba6d24b57540a30,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b26e9a0e15e14a34eba6d24b57540a30, type: 3}
@@ -1839,10 +1874,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gridState: {fileID: 11400000, guid: 2ea1cd07acd539c4eb9ffd730aed4555, type: 2}
-  _paths:
-  - {fileID: 213132314}
   _baseShapes:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: a94af59aab54bd240b7d4fd5be11068b, type: 2}
+  - {fileID: 11400000, guid: 3b6b738e8d86db946b6a59bc902afcb8, type: 2}
+  - {fileID: 11400000, guid: 42ab330d609c33f4797e27cc9f4753d9, type: 2}
+  - {fileID: 11400000, guid: 9999f6f9e2ef99446baab40f9f077f2c, type: 2}
+  - {fileID: 11400000, guid: b200b9461387aa74799ad27597622b6e, type: 2}
+  - {fileID: 11400000, guid: 461030863366a0a4f866e82fcc1c4c3f, type: 2}
+  - {fileID: 11400000, guid: 6028251e687211045ad31a89f0b431ef, type: 2}
   testBuildingData: {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
 --- !u!4 &2113241644
 Transform:

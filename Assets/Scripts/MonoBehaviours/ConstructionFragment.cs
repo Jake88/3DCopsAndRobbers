@@ -18,6 +18,9 @@ public class ConstructionFragment : MonoBehaviour
     bool _isValid;
     Vector3 _oiriginalPosition;
 
+    TileType _type;
+    public TileType Type => _type;
+
     MeshRenderer[] _renderers;
 
 
@@ -36,6 +39,7 @@ public class ConstructionFragment : MonoBehaviour
 
     public void Initilise(Vector3 newLocalPosition, TileType type)
     {
+        _type = type;
         _oiriginalPosition = newLocalPosition;
         transform.localPosition = newLocalPosition;
         ToggleCorrectModel(type);
@@ -56,6 +60,11 @@ public class ConstructionFragment : MonoBehaviour
             }
             _ghostTiles = newArr;
         }*/
+    }
+
+    public void SetInvalid()
+    {
+        SetMaterial(_invalidMaterial);
     }
 
     public void Rotate()
@@ -85,15 +94,20 @@ public class ConstructionFragment : MonoBehaviour
             _isValid = false;
         }
 
+        SetMaterial(_isValid ? _validMaterial : _invalidMaterial);
+
+        return _isValid;
+    }
+
+    private void SetMaterial(Material material)
+    {
         if (_renderers != null && _renderers.Length > 0)
         {
             foreach (MeshRenderer mr in _renderers)
             {
-                mr.material = _isValid ? _validMaterial : _invalidMaterial;
+                mr.material = material;
             }
         }
-
-        return _isValid;
     }
 
     void ToggleCorrectModel(TileType type)

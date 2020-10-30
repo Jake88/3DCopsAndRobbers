@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2660424124157906500}
   - component: {fileID: 1551777238749850214}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HairyHarrys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,3 +46,4 @@ MonoBehaviour:
   _data: {fileID: 11400000, guid: 4393be6e0b3df514eb8ad42a0a95d188, type: 2}
   _pool: {fileID: 11400000, guid: 95bc7eaacd1f06d439d96407a20e430b, type: 2}
   _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
+  _gridState: {fileID: 11400000, guid: 2ea1cd07acd539c4eb9ffd730aed4555, type: 2}

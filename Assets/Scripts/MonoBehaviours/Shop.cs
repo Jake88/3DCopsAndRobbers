@@ -14,6 +14,7 @@ public class Shop : MonoBehaviour
     [SerializeField] ShopData _data;
     [SerializeField] ObjectPool _pool;
     [SerializeField] CashDropManager _cashDropManager;
+    [SerializeField] GridState _gridState;
 
     Range _income;
     Range _incomeRate;
@@ -43,21 +44,25 @@ public class Shop : MonoBehaviour
         _incomeRate = _data.InitialIncomeDropSpeed;
     }
 
-    public void Build(Shape shape)
+    public void Build(ConstructionShop constructionShop)
     {
-       /* PositionShopTiles(shape);
-        SetNewCashDropTimer();
-        gameObject.SetActive(true);
+        transform.position = constructionShop.transform.position;
 
+        PositionShopTiles(constructionShop);
+        gameObject.SetActive(true);
         // Use the bounds of the shape to only update that area of our grid, for performance;
-        SyncNavMesh(shape);*/
+        SyncNavMesh(constructionShop);
+
+        SetNewCashDropTimer();
+
+        
     }
 
-    static void SyncNavMesh(Shape shape)
+    static void SyncNavMesh(ConstructionShop constructionShop)
     {
-        /*Physics.SyncTransforms();
-        var guo = new GraphUpdateObject(shape.Bounds);
-        AstarPath.active.UpdateGraphs(guo);*/
+        Physics.SyncTransforms();
+        var guo = new GraphUpdateObject(constructionShop.Bounds);
+        AstarPath.active.UpdateGraphs(guo);
     }
 
     void Update()
@@ -86,20 +91,18 @@ public class Shop : MonoBehaviour
         _timeUntilNextDrop = _incomeRate.Random;
     }
 
-    void PositionShopTiles(Shape shape)
+    void PositionShopTiles(ConstructionShop constructionShop)
     {
-       /* int i = 0;
-        shape.ForEachTile(tile =>
+        int fragmentsPlaced = 0;
+        foreach (var fragment in constructionShop.Fragments)
         {
-            if (i == 0)
-            {
-                if (!tile.localPosition.Equals(Vector3.zero))
-                    Debug.LogError($"Shape {shape.name}: tile[0] is not at position 0,0. Found {tile.localPosition}. Fix it in the prefab.");
-                transform.position = tile.position;
-            }
-            _renderModels[i].transform.localPosition = tile.localPosition;
-            i++;
-        });*/
+            _gridState.ToggleSpaceOccupied(fragment.transform.position);
+
+            if (fragment.Type == TileType.Building)
+                _renderModels[fragmentsPlaced].transform.localPosition = fragment.transform.localPosition;
+
+            fragmentsPlaced++;
+        }
     }
 
     public void Sell()

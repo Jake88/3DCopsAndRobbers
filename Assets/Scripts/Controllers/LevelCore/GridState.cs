@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -20,7 +18,10 @@ public class GridState : ScriptableObject
     public bool IsSpaceInvalid(Vector3 vector) => _dimensions.IsOutOfBounds(vector) || IsSpaceOccupied(vector);
     public bool IsSpaceOccupied(Vector3 vector) => _occupiedSpaces[(int)vector.x, (int)vector.z];
     public void ToggleSpaceOccupied(Vector3 vector)
-    { 
-        _occupiedSpaces[(int)vector.x, (int)vector.z] = !_occupiedSpaces[(int)vector.x, (int)vector.z];
+    {
+        var x = Mathf.RoundToInt(vector.x);
+        var z = Mathf.RoundToInt(vector.z);
+
+        _occupiedSpaces[x, z] = !_occupiedSpaces[x, z];
     }
 }
