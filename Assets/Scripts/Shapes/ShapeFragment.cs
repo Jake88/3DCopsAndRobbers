@@ -17,7 +17,7 @@ public enum TileType
 {
     Empty,
     Unprotected,
-    Impassable,
+    Unbuildable,
     Building
 }
 

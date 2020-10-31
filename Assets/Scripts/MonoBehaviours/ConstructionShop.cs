@@ -38,7 +38,7 @@ public class ConstructionShop : MonoBehaviour
         {
             var tile = _constructionTilePool.GetObjectComponent<ConstructionFragment>();
             
-            tile.Initilise(shapeFragment.Position, shapeFragment.Type);
+            tile.Initilise(shapeFragment);
             _constructionTiles.Add(tile);
         }
 

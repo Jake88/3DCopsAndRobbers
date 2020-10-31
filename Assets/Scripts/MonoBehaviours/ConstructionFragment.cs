@@ -1,49 +1,32 @@
-﻿using QFSW.MOP2;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ConstructionFragment : MonoBehaviour
 {
     static int _buildingModelIndex = 0;     // Purely used to loop through the models and make sure we have a variety of the models used.
     [SerializeField] GameObject[] _buildingModels;
-    GameObject _buildingRenderer;
+    [SerializeField] GameObject _unbuildableModel;
+    [SerializeField] GameObject _invalidModel;
 
-    [SerializeField] GameObject _impassableModel;
-    GameObject _impassableRenderer;
-
-    Material _validMaterial;
-    [SerializeField] Material _invalidMaterial;
-    
     [SerializeField] GridState _gridState;
 
+    GameObject _buildingModel;
     bool _isValid;
-    Vector3 _oiriginalPosition;
 
-    TileType _type;
-    public TileType Type => _type;
+    ShapeFragment _fragmentData;
 
-    MeshRenderer[] _renderers;
-
+    public TileType Type => _fragmentData.Type;
 
     void Awake()
     {
-        _impassableRenderer = Instantiate(_impassableModel, transform);
-        _buildingRenderer = Instantiate(_buildingModels[_buildingModelIndex], transform);
+        _buildingModel = Instantiate(_buildingModels[_buildingModelIndex], transform);
         _buildingModelIndex = (_buildingModelIndex + 1) % _buildingModels.Length;
     }
 
-    void Start()
+    public void Initilise(ShapeFragment fragmentData)
     {
-        _renderers = GetComponentsInChildren<MeshRenderer>();
-        _validMaterial = _renderers[0].material;
-    }
-
-    public void Initilise(Vector3 newLocalPosition, TileType type)
-    {
-        _type = type;
-        _oiriginalPosition = newLocalPosition;
-        transform.localPosition = newLocalPosition;
-        ToggleCorrectModel(type);
-
+        _fragmentData = fragmentData;
+        transform.localPosition = fragmentData.Position;
+        ValidatePosition();
 
         // Should we rotate the model this by a random amount,
         // And should we randomise the order of the models (in ConstructionSHop)
@@ -64,7 +47,9 @@ public class ConstructionFragment : MonoBehaviour
 
     public void SetInvalid()
     {
-        SetMaterial(_invalidMaterial);
+        TurnOffModels();
+        _invalidModel.SetActive(true);
+        _isValid = false;
     }
 
     public void Rotate()
@@ -77,47 +62,36 @@ public class ConstructionFragment : MonoBehaviour
 
     public void ResetPosition()
     {
-        transform.localPosition = _oiriginalPosition;
+        transform.localPosition = _fragmentData.Position;
+    }
+
+    void TurnOffModels()
+    {
+        _buildingModel.SetActive(false);
+        _unbuildableModel.SetActive(false);
+        _invalidModel.SetActive(false);
+    }
+
+    void TurnOnModel()
+    {
+        if (!_isValid)
+            _invalidModel.SetActive(true);
+        if (_fragmentData.Type == TileType.Unbuildable)
+            _unbuildableModel.SetActive(true);
+        if (_fragmentData.Type == TileType.Building)
+            _buildingModel.SetActive(true);
     }
 
     public bool ValidatePosition()
     {
+        TurnOffModels();
         _isValid = true;
-        if (_gridState.IsSpaceInvalid(transform.position))
-        {
-            // Out of bounds, or similar. Hide the render model?
-            // _renderModel.SetActive(false)
-            _isValid = false;
-        }
-        else if (_gridState.IsSpaceOccupied(transform.position))
-        {
-            _isValid = false;
-        }
 
-        SetMaterial(_isValid ? _validMaterial : _invalidMaterial);
+        if (_gridState.IsSpaceInvalid(transform.position) || _gridState.IsSpaceOccupied(transform.position))
+            _isValid = false;
+
+        TurnOnModel();
 
         return _isValid;
-    }
-
-    private void SetMaterial(Material material)
-    {
-        if (_renderers != null && _renderers.Length > 0)
-        {
-            foreach (MeshRenderer mr in _renderers)
-            {
-                mr.material = material;
-            }
-        }
-    }
-
-    void ToggleCorrectModel(TileType type)
-    {
-        _buildingRenderer.SetActive(false);
-        _impassableRenderer.SetActive(false);
-
-        if (type == TileType.Impassable)
-            _impassableRenderer.SetActive(true);
-        if (type == TileType.Building)
-            _buildingRenderer.SetActive(true);
     }
 }
