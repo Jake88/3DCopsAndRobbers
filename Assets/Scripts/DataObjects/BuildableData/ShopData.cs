@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(
     fileName = "XXX_ShopData",
-    menuName = AssetMenuConstants.SHOP + "Shop data"
+    menuName = AssetMenuConstants.BUILDABLE + "Shop"
 )]
 public class ShopData : BuildingData
 {

@@ -9,7 +9,7 @@ public enum SHOP_STATUS
     DAMAGED
 }
 
-public class Shop : MonoBehaviour
+public class Shop : MonoBehaviour, IBuildable
 {
     [SerializeField] ShopData _data;
     [SerializeField] ObjectPool _pool;
@@ -54,8 +54,6 @@ public class Shop : MonoBehaviour
         SyncNavMesh(constructionShop);
 
         SetNewCashDropTimer();
-
-        
     }
 
     static void SyncNavMesh(ConstructionShop constructionShop)

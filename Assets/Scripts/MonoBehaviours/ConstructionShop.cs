@@ -16,6 +16,7 @@ public class ConstructionShop : MonoBehaviour
     BoxCollider _collider;
     bool _isValid;
 
+    public int CurrentRotation => _currentRotation * 90;
     public Bounds Bounds => _collider.bounds;
     public bool IsValid => _isValid;
 
@@ -91,13 +92,14 @@ public class ConstructionShop : MonoBehaviour
 
     void RotateAndValidate()
     {
+        _currentRotation++;
+
         _isValid = true;
 
         _constructionTiles.ForEach(tile => {
             tile.Rotate();
             if (!tile.ValidatePosition()) _isValid = false;
         });
-
         StartCoroutine(PositionBlocksPath());
     }
 

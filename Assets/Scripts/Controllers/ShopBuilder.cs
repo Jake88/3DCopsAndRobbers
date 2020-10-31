@@ -14,6 +14,7 @@ public class ShopBuilder : MonoBehaviour
 
     // DUMMY STUFF TO TEST
     public BuildingData[] testBuildingData;
+    public BuildingData cop;
 
     Shape CurrentShape => _currentShop && _currentShop.Shape ? _currentShop.Shape : _baseShapes[_currentBaseShapeIndex];
 
@@ -45,6 +46,10 @@ public class ShopBuilder : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Period))
         {
             Activate(testBuildingData[Random.Range(0, testBuildingData.Length)]);
+        }
+        else if (Input.GetKeyDown(KeyCode.Comma))
+        {
+            Activate(cop);
         }
     }
 
@@ -95,7 +100,7 @@ public class ShopBuilder : MonoBehaviour
     {
         if (_constructionShop.IsValid)
         {
-            _currentShop.Pool.GetObjectComponent<Shop>().Build(_constructionShop);
+            _currentShop.Pool.GetObjectComponent<IBuildable>().Build(_constructionShop);
 
             if (!_currentShop.Shape)
             {

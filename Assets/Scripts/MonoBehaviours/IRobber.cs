@@ -1,5 +1,5 @@
 ﻿interface IRobber
 {
-    void TakeDamage(int damage);
+    bool TakeDamage(int damage);
     void Spawn(Path path);
 }
