@@ -38,6 +38,13 @@ public class PlayerMoney : MonoBehaviour
         public int moneyRecovered;
     }
 
+    [Header("Lavel setup")]
+    [SerializeField] int _startingMoney;
+
+    [Header("Money events")]
+    [SerializeField] GameEvent<int> _moneyChangedEvent;
+    [SerializeField] GameEvent _insufficientFundsEvent;
+
     [Header("Required game managers")]
     [SerializeField] GameTime _gameTime;
 
@@ -45,7 +52,6 @@ public class PlayerMoney : MonoBehaviour
     [SerializeField] int _daysToUseForDataAnalysis = 3;
 
     int _playerMoney = 0;
-    GameEvent<int> _moneyChangedEvent;
 
     // MetaData
     float _timeStarted;
@@ -57,6 +63,11 @@ public class PlayerMoney : MonoBehaviour
     float TotalAverageIncomePerSecond => _totalEarnings.moneyEarned / _timeStarted;
     float ShortenedAverageIncomePerSecond => CalculateEarnings(_daysToUseForDataAnalysis).moneyEarned / _daysToUseForDataAnalysis;// / _gameTime.SecondsToGameSeconds;
     int ForecastAtPayday => _playerMoney + Mathf.RoundToInt(ShortenedAverageIncomePerSecond * _gameTime.TimeUntilPayday);
+
+    void Start()
+    {
+        AlterMoneyWithoutTrace(_startingMoney);
+    }
 
     EarningsRecord CalculateEarnings(int days)
     {
@@ -76,11 +87,6 @@ public class PlayerMoney : MonoBehaviour
         return calculatedEarnings;
     }
 
-    private void Awake()
-    {
-        _moneyChangedEvent = GetComponent<GameEventListener_Int>().Event;
-    }
-
     public void OnNewDayEvent()
     {
          // TODO: Set up event
@@ -92,6 +98,16 @@ public class PlayerMoney : MonoBehaviour
         _timeStarted += Time.fixedDeltaTime;
     }
 
+    public bool CanAfford (int cost) {
+        var canAfford = true;
+        if (_playerMoney < cost)
+        {
+            canAfford = false;
+            _insufficientFundsEvent.Raise();
+        }
+        return canAfford;
+    }
+    
     public void AlterMoneyWithoutTrace(int amount)
     {
         _playerMoney += amount;

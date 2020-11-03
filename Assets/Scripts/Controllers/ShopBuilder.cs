@@ -45,7 +45,11 @@ public class ShopBuilder : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Period))
         {
-            Activate(testBuildingData[Random.Range(0, testBuildingData.Length)]);
+            Activate(testBuildingData[0]);
+        }
+        else if (Input.GetKeyDown(KeyCode.M))
+        {
+            Activate(testBuildingData[1]);
         }
         else if (Input.GetKeyDown(KeyCode.Comma))
         {
@@ -98,8 +102,9 @@ public class ShopBuilder : MonoBehaviour
 
     public void Build()
     {
-        if (_constructionShop.IsValid)
+        if (_constructionShop.IsValid && RefManager.PlayerMoney.CanAfford(_currentShop.InitialCost))
         {
+            RefManager.PlayerMoney.SpendMoney(_currentShop.InitialCost);
             _currentShop.Pool.GetObjectComponent<IBuildable>().Build(_constructionShop);
 
             if (!_currentShop.Shape)
