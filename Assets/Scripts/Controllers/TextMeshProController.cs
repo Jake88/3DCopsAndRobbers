@@ -23,11 +23,6 @@ public class TextMeshProController : MonoBehaviour
         _tmp.text = numberToConvert.ToString();
     }
 
-    public void UpdateText(string s)
-    {
-        _tmp.text = s;
-    }
-
     // Pass flash color in here via event.
     public void FlashColour()
     {

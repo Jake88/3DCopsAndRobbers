@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class GameTime : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class GameTime : MonoBehaviour
     [SerializeField] float _gameSpeed = 1;
     [SerializeField] int _levelGracePeriod = 1;
 
-    GameEvent _newDayEvent;
+    [SerializeField] GameEvent _newDayEvent;
+    [SerializeField] GameEvent<string> _timeChangedEvent;
 
     int _daysPast;
     float _currentTime;
@@ -27,7 +29,6 @@ public class GameTime : MonoBehaviour
 
     void Awake()
     {
-        _newDayEvent = GetComponent<GameEventListener>().Event;
         _timeUntilPayday = (TimeInAGameDay * _levelGracePeriod) + Payday;
         _timeUntilMidnight = (TimeInAGameDay * _levelGracePeriod) + Midnight;
     }
@@ -35,6 +36,7 @@ public class GameTime : MonoBehaviour
     void Start()
     {
         _newDayEvent.Raise();
+        StartCoroutine(TriggerNewMinute());
     }
 
     // Update is called once per frame
@@ -51,6 +53,25 @@ public class GameTime : MonoBehaviour
     {
         _daysPast++;
         _currentTime %= TimeInAGameDay;
+        _newDayEvent.Raise();
+    }
+
+    int Minute => Mathf.FloorToInt(_currentTime) % 60;
+    int SecondMinute => Minute % 10;
+    int FirstMinute => Mathf.FloorToInt(Minute / 10);
+
+    int Hour => Mathf.FloorToInt(_currentTime) / 60;
+    int SecondHour => Hour % 10;
+    int FirstHour => Mathf.FloorToInt(Hour / 10);
+
+    IEnumerator TriggerNewMinute()
+    {
+        while (true)
+        {
+            var time = $"{FirstHour}{SecondHour}:{FirstMinute}{SecondMinute}";
+            _timeChangedEvent.Raise(time);
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     void CheckMidnight()
@@ -59,8 +80,6 @@ public class GameTime : MonoBehaviour
         if (_timeUntilMidnight < 0)
         {
             _timeUntilMidnight += TimeInAGameDay;
-            StartNewDay();
-            _newDayEvent.Raise();
             // fire midnight event
         }
     }
