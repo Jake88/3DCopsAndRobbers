@@ -138,7 +138,7 @@ public class PlayerMoney : MonoBehaviour
     }
     public void RecoverMoney(int amount)
     {
-        AlterMoneyWithoutTrace(-amount);
+        AlterMoneyWithoutTrace(amount);
         _totalEarnings.moneyRecovered += amount;
         _totalEarnings.moneyForeverLost -= amount;
         _dailyEarnings[_dailyEarnings.Count - 1].moneyRecovered += amount;

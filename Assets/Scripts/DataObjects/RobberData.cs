@@ -13,11 +13,15 @@ public class RobberData : ScriptableObject
     [SerializeField] int _initialStealAmount;
     [SerializeField] float _initialMoveSpeed;
     [SerializeField] float _initialHP;
+    [SerializeField] float _initialSpawnWeight;
     [SerializeField] float _initialDifficultyWeight;
+    [SerializeField] float _ratingUnlockedAt;
 
     public ObjectPool Pool => _pool;
     public int InitialStealAmount => _initialStealAmount;
     public float InitialMoveSpeed => _initialMoveSpeed;
     public float InitialHP => _initialHP;
+    public float InitialSpawnWeight => _initialSpawnWeight;
     public float InitialDifficultyWeight => _initialDifficultyWeight;
+    public float RatingUnlockedAt => _ratingUnlockedAt;
 }

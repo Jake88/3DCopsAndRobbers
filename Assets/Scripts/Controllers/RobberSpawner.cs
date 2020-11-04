@@ -1,10 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class RobberSpawner : MonoBehaviour
 {
     [SerializeField] Path[] _levelPaths;
     [SerializeField] RobberData[] _robbers;
+    WeightedGroup<RobberData> _weightedRobbers;
+    float _lowestUnlockedDifficultyWeight = 1000f;
 
+    [SerializeField] Range _spawnDifficultyRange; // TODO: Should this be a thing, or should there be a button to "Open mall"
+    
     [SerializeField] float _levelStartSpawnDelay; // TODO: Should this be a thing, or should there be a button to "Open mall"
     float _timeRemainingUntilSpawnsBegin;
 
@@ -15,17 +21,42 @@ public class RobberSpawner : MonoBehaviour
 
     float _timeUntilSpawn;
 
-    void DetermineSpawnDifficulty()
+    float DetermineSpawnDifficulty()
     {
         // Based on difficulty selected, mall rating and whatever other factors exist,
         // return a float that represents the difficulty this spawn.
+
+        return 10f * _spawnDifficultyRange.Random;
     }
 
-    Robber[] DetermineWhatToSpawn()
+    RobberData[] DetermineWhatToSpawn()
     {
-        // float spawnDifficulty = DetermineSpawnDifficulty()
+        List<RobberData> groupToSpawn = new List<RobberData>(); // TODO: Eventually we want to alter this from just being robber data to something more like spawn data. Spawn data should have an array of things to spawn, and a weight (difficulty and spawn weight). Spawn data allows predefined 'groups' of robbers to spawn.
+
+        float spawnDifficulty = DetermineSpawnDifficulty();
+        //Debug.Log($"Initial spawnDifficulty: {spawnDifficulty}");
 
         // Randomly create a group of robbers to spawn that add up to the spawn difficulty.
+
+        // TODO: Eventually we will have built up "unlocked" robbers based on mall rating change events
+        // For now just using all robbers array.
+
+        // Todo: we should be able to cache this infomation and then just add to it when a a new tier of robbers / groups unlocks.
+        while (spawnDifficulty > _lowestUnlockedDifficultyWeight)
+        {
+            // TODO: Could actually spread out the performance cost of this loop by doing it in a co-routine. There's no reason why I need to determine the entire robber group first and then
+            // start spawning. I could determine what robber to spawn, spawn it, check if spawnDifficulty > _lowestUnlockedDifficultyWeight, and if so yield return a random spawn interval.
+            // This would mean rather than having to do this loop 4-5 times in a single frame, it is instead spread across multiple.
+            // This combined with possible caching could make this solution actually viable..
+
+            //var robberToAdd = _weightedRobbers.GetRandom();
+            var robberToAdd = _weightedRobbers.GetRandomWithinDifficultyValue(spawnDifficulty);
+            spawnDifficulty -= robberToAdd.InitialDifficultyWeight;
+            groupToSpawn.Add(robberToAdd);
+            //Debug.Log($"Added robber ({robberToAdd.name}) of difficulty ({robberToAdd.InitialDifficultyWeight}). spawnDifficulty remaining: {spawnDifficulty}");
+            // Debug.Log($"spawnDifficulty ({spawnDifficulty}) / _lowestUnlockedDifficultyWeight ({_lowestUnlockedDifficultyWeight})");
+
+        }
 
         // How?
         /*
@@ -45,19 +76,27 @@ public class RobberSpawner : MonoBehaviour
          * */
 
         // Return the array of robbers to spawn.
-        return new Robber[0];
+        return groupToSpawn.ToArray();
     }
 
     void Awake()
     {
+        _weightedRobbers = new WeightedGroup<RobberData>();
         _timeRemainingUntilSpawnsBegin = _levelStartSpawnDelay;
         _spawnIntervalRange = _initialSpawnIntervalRange;
+
+        foreach (var robber  in _robbers)
+        {
+            _weightedRobbers.AddItem(robber, robber.InitialSpawnWeight);
+            if (robber.InitialDifficultyWeight < _lowestUnlockedDifficultyWeight) _lowestUnlockedDifficultyWeight = robber.InitialDifficultyWeight;
+        }
     }
 
     void SetNewSpawnTimer() => _timeUntilSpawn = _spawnIntervalRange.Random;
 
     void FixedUpdate()
     {
+        //TODO: This whole function should really be an infinite looping coroutine that kicks off on start.
         if (_timeRemainingUntilSpawnsBegin > 0)
         {
             _timeRemainingUntilSpawnsBegin -= Time.fixedDeltaTime;
@@ -65,7 +104,14 @@ public class RobberSpawner : MonoBehaviour
         }
 
         _timeUntilSpawn -= Time.fixedDeltaTime;
-        if (_timeUntilSpawn < 0) Spawn();
+        if (_timeUntilSpawn < 0) StartSpawnSequence();
+    }
+
+    void StartSpawnSequence()
+    {
+        SetNewSpawnTimer();
+        var group = DetermineWhatToSpawn();
+        StartCoroutine(SpawnGroup(group));
     }
 
     public void AdjustSpawnRange(Range range)
@@ -85,19 +131,23 @@ public class RobberSpawner : MonoBehaviour
         _timeUntilSpawn += amount;
     }
 
-    public void Spawn()
+    IEnumerator SpawnGroup(RobberData[] robbersToSpawn)
     {
-        // Determine what to spawn based on weight
-        RobberData[] robbersToSpawn = _robbers;
-
+        for (int i = 0; i < robbersToSpawn.Length; i++)
+        {
+            var r = robbersToSpawn[i].Pool.GetObjectComponent<Robber>();
+            r.Spawn(_levelPaths[Random.Range(0, _levelPaths.Length - 1)]);
+            yield return new WaitForSeconds(_groupSpawnInterval.Random);
+        }
         // Spawn it/them
-        foreach (var robber in robbersToSpawn)
+        /*foreach (var robber in robbersToSpawn)
         {
             var r = robber.Pool.GetObjectComponent<Robber>();
-            r.Spawn(_levelPaths[Random.Range(0, _levelPaths.Length-1)]);
-        }
+            r.Spawn(_levelPaths[Random.Range(0, _levelPaths.Length - 1)]);
+            yield return new WaitForSeconds(_groupSpawnInterval.Random);
+        }*/
 
-        // Set a new timer
+        print("starting new spawn");
         SetNewSpawnTimer();
     }
 }
