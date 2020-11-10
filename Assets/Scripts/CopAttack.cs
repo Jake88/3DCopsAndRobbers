@@ -1,24 +1,26 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CopAttack : MonoBehaviour
 {
+    const string ShootTriggerName = "Shoot";
+    
     [SerializeField] CopData _initialData;
     [SerializeField] Transform _renderModel;
 
     Quaternion _originalRotation;
 
-    Robber _target;
+    Targeter _targeter;
 
     int _damage;
     float _attackSpeed;
     Animator _animator;
 
-    public Robber Target { set { _target = value; } }
-
     void Awake()
     {
         _animator = GetComponent<Animator>();
+        _targeter = GetComponentInChildren<Targeter>();
         _damage = _initialData.InitialDamage;
         _attackSpeed = _initialData.InitialAttackSpeed;
         _originalRotation = _renderModel.localRotation;
@@ -26,13 +28,24 @@ public class CopAttack : MonoBehaviour
 
     void Start()
     {
+        GetComponentInChildren<Targeter>().onNewTargets += ChangeTarget;
+
         StartCoroutine(Attack());
+    }
+
+
+    void ChangeTarget(List<Robber> newTargets)
+    {
+        foreach (var target in newTargets)
+        {
+            print($"new targets found {target.name}");
+        }
     }
 
     void FixedUpdate()
     {
-        if (_target)
-            _renderModel.LookAt(_target.transform.position);
+        if (_targeter.CurrentTargets.Count > 0)
+            _renderModel.LookAt(_targeter.CurrentTargets[0].transform.position);
         else
             _renderModel.localRotation = _originalRotation;
     }
@@ -41,28 +54,21 @@ public class CopAttack : MonoBehaviour
     {
         while (gameObject.activeSelf)
         {
-            while (!_target) yield return new WaitForSeconds(.1f);
+            while (_targeter.CurrentTargets.Count == 0) yield return new WaitForSeconds(.1f);
 
-            if (_target.TakeDamage(_damage)) _target = null;
+            foreach (var _target in _targeter.CurrentTargets)
+            {
+                if (_target.ChangeHealth(-_damage))
+                {
+                    // Robber killed. Add some meta stats and stuff to this cop.
+                }
+            }
 
-            _animator.SetTrigger("Shoot");
+            _animator.SetTrigger(ShootTriggerName);
 
             yield return new WaitForSeconds(_attackSpeed);
         }
     }
-
-    // TODO: This multiple / add stuff could be moved into a scriptable object or plain class that handles modifying a single value
-    // This would be super helpful as there's lots of "buffs" we'd want to apply to values in the game.
-    /*EG
-     * 
-     * (int || float || Range) _value
-     * (int || float || Range) Value => _value
-     * 
-     * void Multiply(multiplyer)
-     * void Add(modifer)
-     * void MultiplyWithExpiry(multiplyer, time) // Not sure how to implmeent these are Coroutine is a monobehaviour thing.
-     * void AddWithExpiry(modifer, time) // ditoo
-     */
 
     public void MultiplyDamage(int multiplyModifer)
     {

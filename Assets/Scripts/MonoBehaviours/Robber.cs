@@ -1,10 +1,13 @@
-﻿using Pathfinding;
+﻿using My.ModifiableStats;
 using System.Collections;
 using UnityEngine;
 
-public class Robber : MonoBehaviour, IRobber
+public class Robber : MonoBehaviour
 {
     const float SecondsSpentCollectingMoney = 3f;
+
+    // Ability flags. Probably not required???
+    public bool RepeatOffender;
 
     [Header("Required game managers")]
     [SerializeField] CashDropManager _cashDropManager;
@@ -12,61 +15,52 @@ public class Robber : MonoBehaviour, IRobber
 
     [Header("Unique robber fields")]
     [SerializeField] RobberData _data;
-    public bool RepeatOffender;
 
-    int _amountToSteal;
+    ModifiableStat _difficultyWeight;
+
+    ModifiableStat _amountToSteal;
     int _amountStolen;
 
-    float _moveSpeed;
-    float _maxHp;
-    float _hp;
-    float _difficultyWeight;
-
-    int _destinationIndex = 1;
-    Path _path;
-
-    // Other components
-    AIPath _ai;
+    // Sibling components
     Floater _floater;
+    RobberMovement _movement;
+    Health _health;
 
     void Awake()
     {
-        _playerMoney = RefManager.PlayerMoney;
-        _ai = GetComponent<AIPath>();
         _floater = GetComponentInChildren<Floater>();
-    }
 
-    void Update()
-    {
-        if (!_ai.pathPending && (_ai.reachedEndOfPath || !_ai.hasPath))
-        {
-            CheckForBank();
-            SetDestination();
-        }
+        _movement = GetComponent<RobberMovement>();
+        _movement.Initilise(_data.InitialMoveSpeed);
+        _movement.OnBankReached += Steal;
+        _movement.OnExitReached += Escape;
+
+        _health = GetComponent<Health>();
+        _health.Initilise(_data.InitialHP);
+        _health.OnDeath += Die;
+
+        _playerMoney = RefManager.PlayerMoney;
+        _difficultyWeight = new ModifiableStat(_data.InitialDifficultyWeight);
+        _amountToSteal = new ModifiableStat(_data.InitialStealAmount);
     }
 
     public void Spawn(Path path)
     {
-        _difficultyWeight = _data.InitialDifficultyWeight;
-        _amountToSteal = _data.InitialStealAmount;
-        _moveSpeed = _data.InitialMoveSpeed; // Is _moveSpeed requiured, or can we always just use _ai.maxSpeed? I assume they will be the same
-        _ai.maxSpeed = _moveSpeed;
-        _maxHp = _data.InitialHP;
-        _hp = _maxHp;
-
-        // Setup pathing
-        _path = path;
-        transform.position = _path.StartNode.RadialPosition;
-        _destinationIndex = 0;
-        SetDestination();
+        _movement.Reset(path);
+        _difficultyWeight.Reset();
+        _amountToSteal.Reset();
+        _health.Reset();
     }
+
+    // Purely a proxy fn to make less GetComponent calls from cop attacks.
+    public bool ChangeHealth(int amount) => _health.ChangeHealth(amount);
 
     void Steal()
     {
-        _playerMoney.LoseMoney(_amountToSteal);
-        _amountStolen = _amountToSteal;
+        _playerMoney.LoseMoney(_amountToSteal.IntValue);
+        _amountStolen = _amountToSteal.IntValue;
         _floater.Pause();
-        _ai.maxSpeed = 0;
+        _movement.Pause();
 
         StartCoroutine(Resume());
     }
@@ -76,49 +70,7 @@ public class Robber : MonoBehaviour, IRobber
         yield return new WaitForSeconds(SecondsSpentCollectingMoney);
 
         _floater.Resume();
-        _ai.maxSpeed = _moveSpeed;
-    }
-
-    void CheckForBank()
-    {
-        if (_path.HasArrivedAtBank(_destinationIndex)) Steal();
-    }
-
-
-    void SetDestination()
-    {
-        // Maybe turn this into a coroutine so we can pause at the start if we're at a bank or distraction
-        _destinationIndex++;
-        RadialNode nextDestination = _path.GetNode(_destinationIndex);
-
-        if (nextDestination == null)
-        {
-            if (RepeatOffender)
-            {
-                _destinationIndex = 1;
-                nextDestination = _path.GetNode(_destinationIndex);
-            }
-            else
-            {
-                Escape();
-                return;
-            }
-        }
-
-        Vector3 randomPoint = nextDestination.RadialPosition;
-        _ai.destination = randomPoint;
-        _ai.SearchPath();
-    }
-
-    public bool TakeDamage(int damage)
-    {
-        _hp -= damage;
-        if (_hp < 0)
-        {
-            Die();
-            return true;
-        }
-        return false;
+        _movement.Resume();
     }
 
     void Die()
@@ -132,15 +84,15 @@ public class Robber : MonoBehaviour, IRobber
 
     void Escape()
     {
-        CleanUp();
+        if (RepeatOffender)
+            _movement.Restart();
+        else
+            CleanUp();
     }
 
     void CleanUp()
     {
         _amountStolen = 0;
         _data.Pool.Release(gameObject);
-        // required if Release doesn't do it
-        // gameObject.SetActive(false);
-
     }
 }

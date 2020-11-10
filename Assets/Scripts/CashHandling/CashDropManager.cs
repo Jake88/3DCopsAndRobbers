@@ -1,7 +1,4 @@
 ﻿using QFSW.MOP2;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -12,10 +9,6 @@ public class CashDropManager : ScriptableObject
 {
     [SerializeField] CashData[] _cashTypes;
     [SerializeField] string _poolName = "CashPool";
-
-    public void OnEnable()
-    {
-    }
 
     public void DropCashWithRandomRadius(Vector3 entityPosition, int amount, CashSource source, float radius)
     {

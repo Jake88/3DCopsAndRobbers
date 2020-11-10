@@ -133,21 +133,14 @@ public class RobberSpawner : MonoBehaviour
 
     IEnumerator SpawnGroup(RobberData[] robbersToSpawn)
     {
-        for (int i = 0; i < robbersToSpawn.Length; i++)
-        {
-            var r = robbersToSpawn[i].Pool.GetObjectComponent<Robber>();
-            r.Spawn(_levelPaths[Random.Range(0, _levelPaths.Length - 1)]);
-            yield return new WaitForSeconds(_groupSpawnInterval.Random);
-        }
         // Spawn it/them
-        /*foreach (var robber in robbersToSpawn)
+        foreach (var robber in robbersToSpawn)
         {
             var r = robber.Pool.GetObjectComponent<Robber>();
             r.Spawn(_levelPaths[Random.Range(0, _levelPaths.Length - 1)]);
             yield return new WaitForSeconds(_groupSpawnInterval.Random);
-        }*/
+        }
 
-        print("starting new spawn");
         SetNewSpawnTimer();
     }
 }

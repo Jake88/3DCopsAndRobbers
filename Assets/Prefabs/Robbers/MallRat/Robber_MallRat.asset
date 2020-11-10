@@ -16,5 +16,6 @@ MonoBehaviour:
   _initialStealAmount: 100
   _initialMoveSpeed: 1.2
   _initialHP: 80
+  _initialSpawnWeight: 2
   _initialDifficultyWeight: 2
   _ratingUnlockedAt: 0

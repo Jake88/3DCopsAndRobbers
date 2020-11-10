@@ -25,7 +25,6 @@ public class WeightedGroup<T>
             if (randomNumber < item.Value)
             {
                 selectedItem = item.Key;
-                Debug.Log($"Getting random: Random weight number({randomNumber}). Returning {(selectedItem as ScriptableObject).name}");
 
                 break;
             }
@@ -90,8 +89,6 @@ public class WeightedGroup<T>
         // But would also have to track the indices of the entries so it's simple enough to remove them (or add new ones. Not sure how that would work)
         _availableItems.Add(item, weight); // This isn't working as expected. Hashset is not uniqur to item, it's unique to "new WeightedItem" which will always be a new instance
         _sumOfWeights += weight;
-
-        Debug.Log($"Adding item {(item as ScriptableObject).name} with weight of {weight}, making total weight equal {_sumOfWeights}");
 
         // Possibly I could extend the package I downloaded. Create a middleware in between that holds and array of all the available items
         // , sums their weights and converts it into the percentage for that package manager.

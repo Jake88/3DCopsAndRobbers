@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 2773672805667298016}
   - component: {fileID: 8984006035624268383}
   - component: {fileID: 2227495158870419012}
-  - component: {fileID: 6720281811589758087}
   - component: {fileID: 247271964}
   - component: {fileID: -1327958361503008237}
   m_Layer: 12
@@ -76,33 +75,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialData: {fileID: 11400000, guid: 457af2e84777fa147bec39b2dd4a1db4, type: 2}
   _renderModel: {fileID: 2769849268618331158}
---- !u!114 &6720281811589758087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2773672805667298017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9e55482c07de8641ad21b952d166501, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _onNewTargets:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2227495158870419012}
-        m_TargetAssemblyTypeName: CopAttack, Assembly-CSharp
-        m_MethodName: set_Target
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!95 &247271964
 Animator:
   serializedVersion: 3
@@ -144,9 +116,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2342806087611391668}
-  - component: {fileID: 629912395160895019}
-  - component: {fileID: 5988279174678271559}
-  - component: {fileID: 704124917}
+  - component: {fileID: 2378922615442859026}
+  - component: {fileID: 4448984710004475277}
   m_Layer: 12
   m_Name: Targeter
   m_TagString: Untagged
@@ -161,27 +132,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6287379521091234024}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 1.15}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2773672805667298016}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &629912395160895019
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6287379521091234024}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5988279174678271559
+--- !u!114 &2378922615442859026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,40 +148,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 6287379521091234024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9e55482c07de8641ad21b952d166501, type: 3}
+  m_Script: {fileID: 11500000, guid: b03066aa69ade49448cb2a0927e02bf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onNewTargets:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2227495158870419012}
-        m_TargetAssemblyTypeName: CopAttack, Assembly-CSharp
-        m_MethodName: set_Target
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!54 &704124917
-Rigidbody:
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _targetBehaviour: {fileID: 4448984710004475277}
+  _maxTargets:
+    _maximumValue: -Infinity
+    _baseValue: 1
+  _viewRadius:
+    _maximumValue: 0
+    _baseValue: 2
+  _viewAngle:
+    _maximumValue: 360
+    _baseValue: 90
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &4448984710004475277
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6287379521091234024}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 975e6e0c67d3f6a4bafc50dbc56b2a26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2678188960096330801
 PrefabInstance:
   m_ObjectHideFlags: 0
