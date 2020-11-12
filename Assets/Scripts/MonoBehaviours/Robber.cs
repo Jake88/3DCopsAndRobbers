@@ -26,6 +26,13 @@ public class Robber : MonoBehaviour
     RobberMovement _movement;
     Health _health;
 
+
+    #region Health proxy functions
+    // Purely a proxy fn to make less GetComponent calls from cop attacks.
+    public bool ChangeHealth(int amount) => _health.ChangeHealth(amount);
+    public int CurrentHealth => _health.CurrentHealth;
+    #endregion
+
     void Awake()
     {
         _floater = GetComponentInChildren<Floater>();
@@ -51,9 +58,6 @@ public class Robber : MonoBehaviour
         _amountToSteal.Reset();
         _health.Reset();
     }
-
-    // Purely a proxy fn to make less GetComponent calls from cop attacks.
-    public bool ChangeHealth(int amount) => _health.ChangeHealth(amount);
 
     void Steal()
     {

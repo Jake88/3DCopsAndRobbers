@@ -18,6 +18,8 @@ namespace My.ModifiableStats
         float _value;
 
         public float BaseValue => _baseValue;
+
+        // TODO: Not doiung anything right now!!! Adding CheckMaxValue might have been stopping the value from being set
         public float MaxValue => _maximumValue;
         public float Value
         {

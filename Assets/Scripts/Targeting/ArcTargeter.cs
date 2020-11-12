@@ -1,47 +1,7 @@
 ﻿using My.ModifiableStats;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Targeter : MonoBehaviour
-{
-    [SerializeField] protected LayerMask _targetMask;
-    [SerializeField] protected TargetBehaviour _targetBehaviour;
-    [SerializeField] protected ModifiableStat _maxTargets = new ModifiableStat(1);
-
-    protected List<Robber> _currentTargets = new List<Robber>();
-    protected List<Robber> _potentialTargets = new List<Robber>();
-    protected int _previouslyCountedPotentialTargets;
-
-    public Action<List<Robber>> onNewTargets;
-    public List<Robber> CurrentTargets => _currentTargets;
-
-    protected abstract void FindTargets();
-
-
-    protected virtual void Start()
-    {
-        StartCoroutine(FindTargetsWithinView(.3f));
-    }
-
-    protected virtual IEnumerator FindTargetsWithinView(float delay)
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(delay);
-            FindTargets();
-        }
-    }
-
-    protected virtual void TargetChanged()
-    {
-        onNewTargets?.Invoke(_currentTargets);
-    }
-
-}
-
-public class FieldOfView : Targeter
+public class ArcTargeter : Targeter
 {
     #if UNITY_EDITOR
         float _viewRadiusForGizmos;
@@ -60,10 +20,6 @@ public class FieldOfView : Targeter
 
     void Update()
     {
-        foreach (var target in _currentTargets)
-        {
-            Debug.DrawLine(transform.position, target.transform.position);
-        }
     }
 
     protected override void FindTargets()
@@ -75,12 +31,17 @@ public class FieldOfView : Targeter
             var targetTransform = target.GetComponent<Robber>();
 
             Vector3 dirToTarget = (targetTransform.transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle.Value /2 )
+            if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle.Value / 2 )
             {
-                float distanceToTarget = Vector3.Distance(transform.position, targetTransform.transform.position);
-
-                if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, _obstacleMask))
+                if (_obstacleMask.Equals(LayerMask.GetMask(NO_MASK)))
                     _potentialTargets.Add(targetTransform);
+                else
+                {
+                    float distanceToTarget = Vector3.Distance(transform.position, targetTransform.transform.position);
+
+                    if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, _obstacleMask))
+                        _potentialTargets.Add(targetTransform);
+                }
             }
         }
 
@@ -102,8 +63,10 @@ public class FieldOfView : Targeter
         return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
+        base.OnDrawGizmosSelected();
+
         Gizmos.color = new Color(0, 0, 255, .3f);
         Gizmos.DrawWireSphere(transform.position, _viewRadiusForGizmos);
 

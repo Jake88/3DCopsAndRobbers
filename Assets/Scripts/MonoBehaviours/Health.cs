@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
     float _currentHP;
 
     public Action OnDeath;
+    public int CurrentHealth => Mathf.RoundToInt(_currentHP);
 
     public void Initilise(float initialHP)
     {

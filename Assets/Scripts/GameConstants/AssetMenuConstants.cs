@@ -6,4 +6,5 @@
     public const string BUILDABLE = "Buildable/";
     public const string GENERAL = "General/";
     public const string ROBBER = "Robbers/";
+    public const string TARGETING_BEHAVIOUR = "Targeting behaviour/";
 }
