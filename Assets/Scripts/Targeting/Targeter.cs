@@ -8,6 +8,10 @@ public abstract class Targeter : MonoBehaviour
 {
     protected readonly static string NO_MASK = "Nothing";
 
+    [Tooltip("If set, the overlapping sphere will be based off original position instead of current")]
+    [SerializeField] protected bool _static = true;
+    protected Vector3 _originalPosition;
+
     [SerializeField] protected LayerMask _targetMask;
     [SerializeField] protected TargetBehaviour _targetBehaviour;
     [SerializeField] protected ModifiableStat _maxTargets = new ModifiableStat(1);
@@ -24,6 +28,8 @@ public abstract class Targeter : MonoBehaviour
 
     protected virtual void Start()
     {
+        _targetBehaviour.Initilise(transform);
+        _originalPosition = transform.position;
         StartCoroutine(FindTargetsWithinView(.25f));
     }
 

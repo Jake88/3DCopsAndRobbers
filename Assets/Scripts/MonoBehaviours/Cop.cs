@@ -3,6 +3,23 @@ using UnityEngine;
 
 public class Cop : MonoBehaviour, IBuildable
 {
+    [SerializeField] CopData _initialData;
+
+    CopAttack _copAttack;
+
+    void Awake()
+    {
+        _copAttack = GetComponent<CopAttack>();
+    }
+
+    void Start()
+    {
+        _copAttack.Initialise(
+            _initialData.InitialDamage,
+            _initialData.InitialAttackSpeed,
+            _initialData.InitialMovementSpeed);
+    }
+
     public void Build(ConstructionShop constructionShop)
     {
         transform.position = constructionShop.transform.position;

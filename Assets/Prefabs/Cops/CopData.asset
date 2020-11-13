@@ -21,7 +21,7 @@ MonoBehaviour:
   _uiSprite: {fileID: 0}
   _shape: {fileID: 11400000, guid: f628e4db0bdcfde4bb3accc38450e9f8, type: 2}
   _pool: {fileID: 11400000, guid: 431358333abd07f4babf4bc95e52c6eb, type: 2}
-  _initialMovementSpeed: 0
+  _initialMovementSpeed: 2
   _initialAttackSpeed: 1
   _initialDamage: 80
   _baseSalary:

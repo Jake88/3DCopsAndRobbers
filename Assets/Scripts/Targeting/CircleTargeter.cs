@@ -17,8 +17,10 @@ public class CircleTargeter : Targeter
 
     protected override void FindTargets()
     {
+        var targetingPosition = _static ? _originalPosition : transform.position;
+
         _potentialTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius.Value, _targetMask);
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(targetingPosition, _viewRadius.Value, _targetMask);
         foreach (Collider target in targetsInViewRadius)
         {
             var targetTransform = target.GetComponent<Robber>();
@@ -27,10 +29,10 @@ public class CircleTargeter : Targeter
                 _potentialTargets.Add(targetTransform);
             else
             {
-                Vector3 dirToTarget = (targetTransform.transform.position - transform.position).normalized;
-                float distanceToTarget = Vector3.Distance(transform.position, targetTransform.transform.position);
+                Vector3 dirToTarget = (targetTransform.transform.position - targetingPosition).normalized;
+                float distanceToTarget = Vector3.Distance(targetingPosition, targetTransform.transform.position);
 
-                if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, _obstacleMask))
+                if (!Physics.Raycast(targetingPosition, dirToTarget, distanceToTarget, _obstacleMask))
                     _potentialTargets.Add(targetTransform);
             }
         }
@@ -45,7 +47,7 @@ public class CircleTargeter : Targeter
         }
     }
 
-    private void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
         base.OnDrawGizmosSelected();
 

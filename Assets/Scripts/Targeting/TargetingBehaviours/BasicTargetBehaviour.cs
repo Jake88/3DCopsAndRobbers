@@ -10,8 +10,11 @@ public class BasicTargetBehaviour : TargetBehaviour
 {
     // Basic targeting system.
     // If current target is still targetable, keep attacking it.
+    // If not, retarget based on distance
     protected override bool TargetUniquely(List<Robber> currentTargets, List<Robber> potentialTargets, int maxTargets = 1)
     {
+        potentialTargets.Sort(SortByDistance);
+
         foreach (var currentTarget in currentTargets)
         {
             if (potentialTargets.Contains(currentTarget))
@@ -36,5 +39,18 @@ public class BasicTargetBehaviour : TargetBehaviour
         }
 
         return true;
+    }
+
+    int SortByDistance(Robber a, Robber b)
+    {
+        var aDistance = Vector3.Distance(_transform.position, a.transform.position);
+        var bDistance = Vector3.Distance(_transform.position, b.transform.position);
+
+        if (aDistance < bDistance)
+            return -1;
+        else if (aDistance > bDistance)
+            return 1;
+
+        return 0;
     }
 }
