@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd3526c0d9a21d489987977372f3f90, type: 3}
+  m_Name: Tier1_StealAmount(PA)
+  m_EditorClassIdentifier: 
+  _name: Veteran thief
+  _description: Increase amount stolen by 10%
+  _probabilityWeight: 0
+  _requirements:
+    _prerequisite: 04000000
+  _statModifer:
+    _type: 400
+    _value: 0.1
+    _order: 0

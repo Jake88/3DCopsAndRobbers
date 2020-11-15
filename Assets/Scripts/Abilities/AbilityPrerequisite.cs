@@ -3,5 +3,6 @@
     Melee,
     Ranged,
     Damageable,
-    Mobile
+    Mobile,
+    Stealer
 }

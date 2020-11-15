@@ -6,23 +6,23 @@ using UnityEngine;
 public class AbilityRequirements
 {
     [SerializeField] AbilityPrerequisite[] _prerequisite;
-    Dictionary<AbilityPrerequisite, bool> cachedPrerequisites;
+    HashSet<AbilityPrerequisite> cachedPrerequisites;
 
     void Initilise()
     {
-        cachedPrerequisites = new Dictionary<AbilityPrerequisite, bool>();
+        cachedPrerequisites = new HashSet<AbilityPrerequisite>();
         foreach (var prereq in _prerequisite)
-            cachedPrerequisites.Add(prereq, true);
+            cachedPrerequisites.Add(prereq);
     }
 
-    public bool HasRequirements(AbilityPrerequisite[] prerequisites)
+    public bool HasRequirements(AbilityPrerequisite[] requirements)
     {
         bool requirementsMet = true;
 
         if (cachedPrerequisites == null) Initilise();
-        foreach (var prerequisite in prerequisites)
+        foreach (var requirement in requirements)
         {
-            if (!cachedPrerequisites[prerequisite]) requirementsMet = false;
+            if (!cachedPrerequisites.Contains(requirement)) requirementsMet = false;
             break;
         }
 

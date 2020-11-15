@@ -3,7 +3,7 @@ using Pathfinding;
 using System;
 using UnityEngine;
 
-public class RobberMovement : MonoBehaviour
+public class RobberMovement : MonoBehaviour, IMove
 {
     ModifiableStat _moveSpeed;
     int _destinationIndex = 1;
@@ -74,6 +74,18 @@ public class RobberMovement : MonoBehaviour
 
     public void Resume()
     {
+        _ai.maxSpeed = _moveSpeed.Value;
+    }
+
+    public void ApplyMoveSpeedModifer(StatModifier modifer)
+    {
+        _moveSpeed.AddModifier(modifer);
+        _ai.maxSpeed = _moveSpeed.Value;
+    }
+
+    public void RemoveMoveSpeedModifer(StatModifier modifer)
+    {
+        _moveSpeed.AddModifier(modifer);
         _ai.maxSpeed = _moveSpeed.Value;
     }
 }

@@ -7,24 +7,22 @@ public class Robber : MonoBehaviour
     const float SecondsSpentCollectingMoney = 3f;
 
     // Ability flags. Probably not required???
-    public bool RepeatOffender;
-
-    [Header("Required game managers")]
-    [SerializeField] CashDropManager _cashDropManager;
-    PlayerMoney _playerMoney;
+    public bool RepeatOffender; // Move to a unique ability soon
 
     [Header("Unique robber fields")]
     [SerializeField] RobberData _data;
+    [SerializeField] AbilityPrerequisite[] _abilityPrerequisites;
 
     ModifiableStat _difficultyWeight;
 
-    ModifiableStat _amountToSteal;
-    int _amountStolen;
+    Ability[] _abilities;
+
 
     // Sibling components
     Floater _floater;
     RobberMovement _movement;
     Health _health;
+    Stealer _stealer;
 
 
     #region Health proxy functions
@@ -46,23 +44,29 @@ public class Robber : MonoBehaviour
         _health.Initilise(_data.InitialHP);
         _health.OnDeath += Die;
 
-        _playerMoney = RefManager.PlayerMoney;
+        _stealer = GetComponent<Stealer>();
+        _stealer.Initilise(_data.InitialStealAmount);
+
         _difficultyWeight = new ModifiableStat(_data.InitialDifficultyWeight);
-        _amountToSteal = new ModifiableStat(_data.InitialStealAmount);
     }
 
     public void Spawn(Path path)
     {
         _movement.Reset(path);
         _difficultyWeight.Reset();
-        _amountToSteal.Reset();
+        _stealer.Reset();
         _health.Reset();
+
+        var numberOfMods = UnityEngine.Random.Range(0, 3);
+        _abilities = RefManager.AbilityFactory.GetAbilities(_abilityPrerequisites, numberOfMods);
+
+        foreach (var ability in _abilities)
+            ability.OnLoad(gameObject);
     }
 
     void Steal()
     {
-        _playerMoney.LoseMoney(_amountToSteal.IntValue);
-        _amountStolen = _amountToSteal.IntValue;
+        _stealer.Steal();
         _floater.Pause();
         _movement.Pause();
 
@@ -79,9 +83,7 @@ public class Robber : MonoBehaviour
 
     void Die()
     {
-        if (_amountStolen > 0)
-            _cashDropManager.DropCash(transform.position, _amountStolen, CashSource.Robber);
-
+        _stealer.DropCash();
         CleanUp();
     }
 
@@ -96,7 +98,9 @@ public class Robber : MonoBehaviour
 
     void CleanUp()
     {
-        _amountStolen = 0;
+        foreach (var ability in _abilities)
+            ability.OnUnload(gameObject);
+
         _data.Pool.Release(gameObject);
     }
 }

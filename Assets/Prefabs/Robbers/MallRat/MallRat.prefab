@@ -23,6 +23,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4922290205863191486}
   - component: {fileID: 1285616232307261317}
+  - component: {fileID: -2411325031440297132}
   - component: {fileID: -171720894890148249}
   - component: {fileID: 4260361122088028730}
   - component: {fileID: 4922290205863191487}
@@ -65,8 +66,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RepeatOffender: 0
-  _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
   _data: {fileID: 11400000, guid: 72a8c23f413c5ea44a7d5722f8479920, type: 2}
+  _abilityPrerequisites: 040000000200000003000000
+--- !u!114 &-2411325031440297132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4922290205863191426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab1c535b7b86a434e8702b70889afef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
 --- !u!114 &-171720894890148249
 MonoBehaviour:
   m_ObjectHideFlags: 0
