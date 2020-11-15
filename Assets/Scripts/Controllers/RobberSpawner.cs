@@ -26,7 +26,7 @@ public class RobberSpawner : MonoBehaviour
         // Based on difficulty selected, mall rating and whatever other factors exist,
         // return a float that represents the difficulty this spawn.
 
-        return 10f * _spawnDifficultyRange.Random;
+        return 4f * _spawnDifficultyRange.Random;
     }
 
     RobberData[] DetermineWhatToSpawn()

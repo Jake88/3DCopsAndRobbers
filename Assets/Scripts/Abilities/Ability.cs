@@ -18,6 +18,11 @@ public abstract class SimpleStatModiferAbility<AttachType, ApplyType> : Ability<
 }*/
 
 
+public struct AbilityCallbackData
+{
+    public bool PreventEscape;
+}
+
 public abstract class Ability : ScriptableObject
 {
     [SerializeField] protected string _name;
@@ -36,7 +41,7 @@ public abstract class Ability : ScriptableObject
     public virtual void ReachBank(GameObject go, GameObject bank) { }
     public virtual void OnExitBank(GameObject go, GameObject bank) { }
     public virtual void OnDie(GameObject go, GameObject killer) { }
-    public virtual void OnEscape(GameObject go, GameObject exit) { }
+    public virtual AbilityCallbackData OnEscape(GameObject go, GameObject exit) => new AbilityCallbackData();
 }
 
 

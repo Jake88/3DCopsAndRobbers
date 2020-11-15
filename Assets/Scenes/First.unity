@@ -1417,7 +1417,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1001 &1033346649
+--- !u!1001 &1041277596
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1427,17 +1427,17 @@ PrefabInstance:
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.83
+      value: 4.8337407
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00000011920929
+      value: 0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.15
+      value: 3.5102267
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
@@ -1447,7 +1447,7 @@ PrefabInstance:
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
@@ -1457,7 +1457,7 @@ PrefabInstance:
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
@@ -1472,7 +1472,7 @@ PrefabInstance:
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2773672805667298016, guid: 86020948d8f0d1641937ac5e40464950,
         type: 3}
@@ -1888,6 +1888,7 @@ MonoBehaviour:
   availableAbilities:
   - {fileID: 11400000, guid: ddd4bb1ec266aaf4bbacd812998fd6de, type: 2}
   - {fileID: 11400000, guid: 055c550a1e20ddd4d889e1262e68b1db, type: 2}
+  - {fileID: 11400000, guid: 6761f8e15027d664cad9dd89ada17acc, type: 2}
 --- !u!4 &1539343661 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4911680333487681167, guid: b26e9a0e15e14a34eba6d24b57540a30,

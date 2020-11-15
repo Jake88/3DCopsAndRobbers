@@ -27,6 +27,11 @@ public class Stealer : MonoBehaviour, ISteal
         _amountStolen = _amountToSteal.IntValue;
     }
 
+    public void ClearAmountStolen()
+    {
+        _amountStolen = 0;
+    }
+
     public bool DropCash()
     {
         var hasCash = _amountStolen > 0;
