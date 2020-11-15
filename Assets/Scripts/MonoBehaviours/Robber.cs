@@ -90,9 +90,15 @@ public class Robber : MonoBehaviour
 
     void Escape()
     {
-        if (RepeatOffender)
-            _movement.Restart();
-        else
+        bool preventEscape = false;
+        
+        foreach (var ability in _abilities)
+        {
+            var abilityData = ability.OnEscape(gameObject, null);
+            if (abilityData.PreventEscape) preventEscape = true;
+        }
+
+        if (!preventEscape)
             CleanUp();
     }
 
