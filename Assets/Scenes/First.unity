@@ -753,6 +753,7 @@ MonoBehaviour:
   _robbers:
   - {fileID: 11400000, guid: d87fe599562434844a8a77a6d107cf6a, type: 2}
   - {fileID: 11400000, guid: 72a8c23f413c5ea44a7d5722f8479920, type: 2}
+  - {fileID: 11400000, guid: 5a91cf3e735ae144e93efc71299485eb, type: 2}
   _spawnDifficultyRange:
     Min: 0.8
     Max: 1.2
@@ -1193,7 +1194,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 11.356369
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1218,7 +1219,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.27984816, y: -0.3647052, z: 0.1159169, w: 0.8804763}
+  m_LocalRotation: {x: 0.27597886, y: -0.36521077, z: 0.114314176, w: 0.8816967}
   m_LocalPosition: {x: 20, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2903,7 +2904,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2086951809}
-  m_LocalRotation: {x: 0.27984816, y: -0.3647052, z: 0.1159169, w: 0.8804763}
+  m_LocalRotation: {x: 0.27597886, y: -0.36521077, z: 0.114314176, w: 0.8816967}
   m_LocalPosition: {x: 20, y: 15, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

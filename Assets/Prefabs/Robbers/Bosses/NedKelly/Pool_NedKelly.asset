@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad40add42ecce646952aaa9475056c8, type: 3}
+  m_Name: Pool_NedKelly
+  m_EditorClassIdentifier: 
+  _name: Robber_NedKelly
+  _template: {fileID: 4922290205863191426, guid: 4a4cc049b653c4c4c9944acd91717668,
+    type: 3}
+  _defaultSize: 3
+  _maxSize: -1
+  _incrementalInstanceNames: 0
+  _autoInitialize: 1
+  _repopulateOnSceneChange: 0

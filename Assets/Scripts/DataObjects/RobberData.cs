@@ -1,4 +1,5 @@
-﻿using QFSW.MOP2;
+﻿using My.Abilities;
+using QFSW.MOP2;
 using UnityEngine;
 
 [CreateAssetMenu(
@@ -8,7 +9,7 @@ using UnityEngine;
 public class RobberData : ScriptableObject
 {
     //[SerializeField] AI _intialAI;
-    //[SerializeField] Ability[] _initialAbilities;
+    [SerializeField] Ability[] _initialAbilities;
     [SerializeField] ObjectPool _pool;
     [SerializeField] int _initialStealAmount;
     [SerializeField] float _initialMoveSpeed;
@@ -17,6 +18,7 @@ public class RobberData : ScriptableObject
     [SerializeField] float _initialDifficultyWeight;
     [SerializeField] float _ratingUnlockedAt;
 
+    public Ability[] InitialAbilities => _initialAbilities;
     public ObjectPool Pool => _pool;
     public int InitialStealAmount => _initialStealAmount;
     public float InitialMoveSpeed => _initialMoveSpeed;

@@ -7,6 +7,7 @@
         Damageable,
         Mobile,
         Stealer,
-        Targeter
+        Targeter,
+        Boss
     }
 }

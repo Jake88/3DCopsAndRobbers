@@ -51,6 +51,8 @@ public class Robber : MonoBehaviour
         _stealer = GetComponent<Stealer>();
         _stealer.Initilise(_data.InitialStealAmount);
 
+        _abilities = _data.InitialAbilities;
+
         _difficultyWeight = new ModifiableStat(_data.InitialDifficultyWeight);
     }
 
@@ -61,8 +63,13 @@ public class Robber : MonoBehaviour
         _stealer.Reset();
         _health.Reset();
 
-        var numberOfMods = UnityEngine.Random.Range(0, 3);
-        _abilities = RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods);
+
+        // Hack. Currently don't overwrite initial abilities. This will want to change when I determine how to combine and handle abilities on different robbers.
+        if (_data.InitialAbilities.Length == 0)
+        {
+            var numberOfMods = UnityEngine.Random.Range(0, 3);
+            _abilities = RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods);
+        }
 
         foreach (var ability in _abilities)
             ability.OnLoad(gameObject);
