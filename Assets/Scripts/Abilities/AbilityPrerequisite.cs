@@ -1,8 +1,12 @@
-﻿public enum AbilityPrerequisite
+﻿namespace My.Abilities
 {
-    Melee,
-    Ranged,
-    Damageable,
-    Mobile,
-    Stealer
+    public enum AbilityPrerequisite
+    {
+        Melee,
+        Ranged,
+        Damageable,
+        Mobile,
+        Stealer,
+        Targeter
+    }
 }

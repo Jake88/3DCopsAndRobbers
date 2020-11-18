@@ -3,16 +3,16 @@ using System.Linq;
 
 namespace My.TargetSystem
 {
-    public class LowestCurrentHpTargetBehaviour : TargetBehaviour
+    public class HighestCurrentHpTargetBehaviour : TargetBehaviour
     {
-        // Lowest HP targeting system.
-        // Switch to whichever potential target has the lowest current HP.
+        // Highest HP targeting system.
+        // Switch to whichever potential target has the highest current HP.
 
         int SortByLowestHP(Robber a, Robber b)
         {
-            if (a.CurrentHealth < b.CurrentHealth)
+            if (a.CurrentHealth > b.CurrentHealth)
                 return -1;
-            else if (a.CurrentHealth > b.CurrentHealth)
+            else if (a.CurrentHealth < b.CurrentHealth)
                 return 1;
 
             return 0;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using My.Buildables;
+using UnityEngine;
 
 public class ConstructionFragment : MonoBehaviour
 {

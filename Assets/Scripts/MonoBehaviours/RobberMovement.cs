@@ -7,7 +7,7 @@ public class RobberMovement : MonoBehaviour, IMove
 {
     ModifiableStat _moveSpeed;
     int _destinationIndex = 1;
-    Path _path;
+    My.Movement.Path _path;
     AIPath _ai;
 
     public Action OnBankReached;
@@ -19,7 +19,7 @@ public class RobberMovement : MonoBehaviour, IMove
         _moveSpeed = new ModifiableStat(initialMovementSpeed);
     }
 
-    public void Reset(Path path)
+    public void Reset(My.Movement.Path path)
     {
         _moveSpeed.Reset();
         _ai.maxSpeed = _moveSpeed.Value;

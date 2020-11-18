@@ -1,4 +1,6 @@
 ﻿using My.ModifiableStats;
+using My.MoneySystem;
+using My.Singletons;
 using UnityEngine;
 
 public class Stealer : MonoBehaviour, ISteal

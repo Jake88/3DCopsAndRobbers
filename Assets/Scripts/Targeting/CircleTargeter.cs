@@ -1,57 +1,58 @@
 ﻿using My.ModifiableStats;
 using UnityEngine;
 
-public class CircleTargeter : Targeter
+namespace My.TargetSystem
 {
+    public class CircleTargeter : Targeter
+    {
 #if UNITY_EDITOR
-    float _viewRadiusForGizmos;
+        float _viewRadiusForGizmos;
 #endif
 
-    [SerializeField] ModifiableStat _viewRadius = new ModifiableStat(1);
-    [SerializeField] LayerMask _obstacleMask;
+        [SerializeField] ModifiableStat _viewRadius = new ModifiableStat(1);
+        [SerializeField] LayerMask _obstacleMask;
 
-    void OnValidate()
-    {
-        _viewRadiusForGizmos = _viewRadius.BaseValue;
-    }
-
-    protected override void FindTargets()
-    {
-        var targetingPosition = _static ? _originalPosition : transform.position;
-
-        _potentialTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(targetingPosition, _viewRadius.Value, _targetMask);
-        foreach (Collider target in targetsInViewRadius)
+        void OnValidate()
         {
-            var targetTransform = target.GetComponent<Robber>();
+            _viewRadiusForGizmos = _viewRadius.BaseValue;
+        }
 
-            if (_obstacleMask.Equals(LayerMask.GetMask(NO_MASK)))
-                _potentialTargets.Add(targetTransform);
-            else
+        protected override void FindTargets()
+        {
+            var targetingPosition = _static ? _originalPosition : transform.position;
+
+            _potentialTargets.Clear();
+            Collider[] targetsInViewRadius = Physics.OverlapSphere(targetingPosition, _viewRadius.Value, _targetMask);
+            foreach (Collider target in targetsInViewRadius)
             {
-                Vector3 dirToTarget = (targetTransform.transform.position - targetingPosition).normalized;
-                float distanceToTarget = Vector3.Distance(targetingPosition, targetTransform.transform.position);
+                var targetTransform = target.GetComponent<Robber>();
 
-                if (!Physics.Raycast(targetingPosition, dirToTarget, distanceToTarget, _obstacleMask))
+                if (_obstacleMask.Equals(LayerMask.GetMask(NO_MASK)))
                     _potentialTargets.Add(targetTransform);
+                else
+                {
+                    Vector3 dirToTarget = (targetTransform.transform.position - targetingPosition).normalized;
+                    float distanceToTarget = Vector3.Distance(targetingPosition, targetTransform.transform.position);
+
+                    if (!Physics.Raycast(targetingPosition, dirToTarget, distanceToTarget, _obstacleMask))
+                        _potentialTargets.Add(targetTransform);
+                }
             }
-        }
 
-        if (_previouslyCountedPotentialTargets == _potentialTargets.Count) return;
-
-        // Perform targeting behaviour
-        if (_targetBehaviour.DetermineNewTargets(_currentTargets, _potentialTargets, _maxTargets.IntValue))
-        {
+            if (_previouslyCountedPotentialTargets == _potentialTargets.Count) return;
             _previouslyCountedPotentialTargets = _potentialTargets.Count;
-            TargetChanged();
+
+            // Perform targeting behaviour
+            if (_targetBehaviour.DetermineNewTargets(_currentTargets, _potentialTargets, _maxTargets.IntValue))
+                TargetChanged();
         }
-    }
 
-    void OnDrawGizmosSelected()
-    {
-        base.OnDrawGizmosSelected();
+        void OnDrawGizmosSelected()
+        {
+            base.OnDrawGizmosSelected();
 
-        Gizmos.color = new Color(0, 0, 255, .3f);
-        Gizmos.DrawWireSphere(transform.position, _viewRadiusForGizmos);
+            Gizmos.color = new Color(0, 0, 255, .3f);
+            Gizmos.DrawWireSphere(transform.position, _viewRadiusForGizmos);
+        }
     }
 }

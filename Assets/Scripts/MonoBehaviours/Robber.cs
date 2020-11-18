@@ -1,4 +1,8 @@
-﻿using My.ModifiableStats;
+﻿using My.Abilities;
+using My.ModifiableStats;
+using My.Movement;
+using My.ScriptableAnimation;
+using My.Singletons;
 using System.Collections;
 using UnityEngine;
 
@@ -58,7 +62,7 @@ public class Robber : MonoBehaviour
         _health.Reset();
 
         var numberOfMods = UnityEngine.Random.Range(0, 3);
-        _abilities = RefManager.AbilityFactory.GetAbilities(_abilityPrerequisites, numberOfMods);
+        _abilities = RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods);
 
         foreach (var ability in _abilities)
             ability.OnLoad(gameObject);

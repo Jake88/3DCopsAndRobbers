@@ -3,12 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class BuildingData : PurchasableData
+namespace My.Buildables
 {
-    // public ShopAbility[] abilities;
-    [SerializeField] Shape _shape;
-    [SerializeField] ObjectPool _pool;
+    abstract public class BuildingData : PurchasableData
+    {
+        // public ShopAbility[] abilities;
+        [SerializeField] Shape _shape;
+        [SerializeField] ObjectPool _pool;
 
-    public Shape Shape { get => _shape; }
-    public ObjectPool Pool { get => _pool; }
+        public Shape Shape { get => _shape; }
+        public ObjectPool Pool { get => _pool; }
+    }
 }

@@ -1,119 +1,124 @@
-﻿using UnityEngine;
+﻿using My.Buildables;
+using My.Singletons;
+using UnityEngine;
 
-public class ShopBuilder : MonoBehaviour
+namespace My.Buildables
 {
-    [SerializeField] GridState _gridState;
-
-    [SerializeField] Shape[] _baseShapes;
-    int _currentBaseShapeIndex;
-
-    ConstructionShop _constructionShop;
-    BuildingData _currentShop;
-    bool _isEnabled; // Probably not a thing
-    Vector3 _currentMousePosition;
-
-    // DUMMY STUFF TO TEST
-    public BuildingData[] testBuildingData;
-    public BuildingData cop;
-
-    Shape CurrentShape => _currentShop && _currentShop.Shape ? _currentShop.Shape : _baseShapes[_currentBaseShapeIndex];
-
-    void Awake()
+    public class ShopBuilder : MonoBehaviour
     {
-        _constructionShop = GetComponentInChildren<ConstructionShop>();
-    }
+        [SerializeField] GridState _gridState;
 
-    void Start()
-    {
-        RandomiseShape();
-        _constructionShop.gameObject.SetActive(false);
-        ToggleActive(false);
-    }
+        [SerializeField] Shape[] _baseShapes;
+        int _currentBaseShapeIndex;
 
-    void Update()
-    {
-        if (_isEnabled)
+        ConstructionShop _constructionShop;
+        BuildingData _currentShop;
+        bool _isEnabled; // Probably not a thing
+        Vector3 _currentMousePosition;
+
+        // DUMMY STUFF TO TEST
+        public BuildingData[] testBuildingData;
+        public BuildingData cop;
+
+        Shape CurrentShape => _currentShop && _currentShop.Shape ? _currentShop.Shape : _baseShapes[_currentBaseShapeIndex];
+
+        void Awake()
         {
-            if (Input.GetButtonDown("Fire1"))
+            _constructionShop = GetComponentInChildren<ConstructionShop>();
+        }
+
+        void Start()
+        {
+            RandomiseShape();
+            _constructionShop.gameObject.SetActive(false);
+            ToggleActive(false);
+        }
+
+        void Update()
+        {
+            if (_isEnabled)
             {
-                Build();
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    Build();
+                }
+                if (Input.GetKeyDown(KeyCode.Period))
+                {
+                    ToggleActive(false);
+                }
             }
-            if (Input.GetKeyDown(KeyCode.Period))
+            else if (Input.GetKeyDown(KeyCode.Period))
             {
+                Activate(testBuildingData[0]);
+            }
+            else if (Input.GetKeyDown(KeyCode.M))
+            {
+                Activate(testBuildingData[1]);
+            }
+            else if (Input.GetKeyDown(KeyCode.Comma))
+            {
+                Activate(cop);
+            }
+        }
+
+        // Callback function to run when grid changes.
+        // Handling this here because when _constructionShop is turned off it no longer listens to these updates itself.
+        // Could avoid this by having "currentPoint" be a static variable of GridDimensions.
+        public void OnGridPointChange(Vector3 currentPoint)
+        {
+            _constructionShop.transform.position = currentPoint;
+        }
+
+        public void Activate(BuildingData shopData)
+        {
+            _currentShop = shopData;
+
+            _constructionShop.SetShape(CurrentShape);
+
+            ToggleActive(true);
+        }
+
+        void ToggleActive(bool enable)
+        {
+            _isEnabled = enable;
+            _constructionShop.gameObject.SetActive(enable);
+        }
+
+        public void BuyNewBlueprint()
+        {
+            // if we only have 1 baseShape / blueprint to switch between, return;
+
+            // spend the money on buying the new blueprint
+            // RandomiseShape();
+        }
+
+        public void RandomiseShape()
+        {
+            if (_currentShop && _currentShop.Shape || _baseShapes.Length == 1) return;
+
+            var oldShapeIndex = _currentBaseShapeIndex;
+
+            while (oldShapeIndex == _currentBaseShapeIndex)
+                _currentBaseShapeIndex = UnityEngine.Random.Range(0, _baseShapes.Length);
+
+            _constructionShop.SetShape(CurrentShape);
+        }
+
+        public void Build()
+        {
+            if (_constructionShop.IsValid && RefManager.PlayerMoney.CanAfford(_currentShop.InitialCost))
+            {
+                RefManager.PlayerMoney.SpendMoney(_currentShop.InitialCost);
+                _currentShop.Pool.GetObjectComponent<IBuildable>().Build(_constructionShop);
+
+                if (!_currentShop.Shape)
+                {
+                    RandomiseShape();
+                }
+
+                _currentShop = null;
                 ToggleActive(false);
             }
-        }
-        else if (Input.GetKeyDown(KeyCode.Period))
-        {
-            Activate(testBuildingData[0]);
-        }
-        else if (Input.GetKeyDown(KeyCode.M))
-        {
-            Activate(testBuildingData[1]);
-        }
-        else if (Input.GetKeyDown(KeyCode.Comma))
-        {
-            Activate(cop);
-        }
-    }
-
-    // Callback function to run when grid changes.
-    // Handling this here because when _constructionShop is turned off it no longer listens to these updates itself.
-    // Could avoid this by having "currentPoint" be a static variable of GridDimensions.
-    public void OnGridPointChange(Vector3 currentPoint)
-    {
-        _constructionShop.transform.position = currentPoint;
-    }
-
-    public void Activate(BuildingData shopData)
-    {
-        _currentShop = shopData;
-
-        _constructionShop.SetShape(CurrentShape);
-
-        ToggleActive(true);
-    }
-
-    void ToggleActive(bool enable)
-    {
-        _isEnabled = enable;
-        _constructionShop.gameObject.SetActive(enable);
-    }
-
-    public void BuyNewBlueprint()
-    {
-        // if we only have 1 baseShape / blueprint to switch between, return;
-
-        // spend the money on buying the new blueprint
-        // RandomiseShape();
-    }
-
-    public void RandomiseShape()
-    {
-        if (_currentShop && _currentShop.Shape || _baseShapes.Length == 1) return;
-
-        var oldShapeIndex = _currentBaseShapeIndex;
-
-        while (oldShapeIndex == _currentBaseShapeIndex)
-            _currentBaseShapeIndex = UnityEngine.Random.Range(0, _baseShapes.Length);
-
-        _constructionShop.SetShape(CurrentShape);
-    }
-
-    public void Build()
-    {
-        if (_constructionShop.IsValid && RefManager.PlayerMoney.CanAfford(_currentShop.InitialCost))
-        {
-            RefManager.PlayerMoney.SpendMoney(_currentShop.InitialCost);
-            _currentShop.Pool.GetObjectComponent<IBuildable>().Build(_constructionShop);
-
-            if (!_currentShop.Shape)
-            {
-                RandomiseShape();
-            }
-
-            _currentShop = null;
-            ToggleActive(false);
         }
     }
 }

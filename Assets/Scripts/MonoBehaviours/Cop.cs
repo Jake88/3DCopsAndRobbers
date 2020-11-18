@@ -1,9 +1,14 @@
-﻿using Pathfinding;
+﻿using My.Abilities;
+using My.Buildables;
+using My.Singletons;
+using Pathfinding;
 using UnityEngine;
 
 public class Cop : MonoBehaviour, IBuildable
 {
     [SerializeField] CopData _initialData;
+    [SerializeField] AbilityPrerequisite[] _abilityPrerequisites;
+    Ability[] _abilities;
 
     CopAttack _copAttack;
 
@@ -18,6 +23,13 @@ public class Cop : MonoBehaviour, IBuildable
             _initialData.InitialDamage,
             _initialData.InitialAttackSpeed,
             _initialData.InitialMovementSpeed);
+
+
+        // Move to Build
+        var numberOfMods = 1;
+        _abilities = RefManager.AbilityFactory.GetCopAbilities(_abilityPrerequisites, numberOfMods);
+        foreach (var ability in _abilities)
+            ability.OnLoad(gameObject);
     }
 
     public void Build(ConstructionShop constructionShop)

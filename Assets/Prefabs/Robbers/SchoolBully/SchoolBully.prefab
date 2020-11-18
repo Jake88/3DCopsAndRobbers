@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RepeatOffender: 0
   _data: {fileID: 11400000, guid: d87fe599562434844a8a77a6d107cf6a, type: 2}
-  _abilityPrerequisites: 020000000300000004000000
+  _abilityPrerequisites: 040000000200000003000000
 --- !u!114 &6742778914596841132
 MonoBehaviour:
   m_ObjectHideFlags: 0

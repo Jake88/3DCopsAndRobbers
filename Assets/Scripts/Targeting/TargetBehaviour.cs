@@ -1,32 +1,76 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class TargetBehaviour : ScriptableObject
+namespace My.TargetSystem
 {
-    protected List<Robber> _newTargets = new List<Robber>();
-    protected int _targetCount;
-    protected Transform _transform;
-
-    // TODO: Add a Persistant serializefield boolean.
-    // If true, the target will not switch from the current target while it is still a potential target
-    // If it is no longer a potential target, target the next based on TargetUniquely.
-    // This basically lets us remove the "BasicTB" completetly, as it becomes something that
-    // all other TBs can opt into.
-    // This should be something the user can toggle on or off on the cop
-    // This also allows the ability to have cops with abilities that allow or prevent the toggling of this ability.
-
-    public void Initilise(Transform thisTransform)
+    [RequireComponent(typeof(Targeter))]
+    public abstract class TargetBehaviour : MonoBehaviour
     {
-        _transform = thisTransform;
-    }
+        [Tooltip("Won't switch targets until current has left the overlap")]
+        [SerializeField] public bool _persistantTargeting;
 
-    public bool DetermineNewTargets(List<Robber> currentTargets, List<Robber> potentialTargets, int maxTargets = 1)
-    {
-        _newTargets.Clear();
-        _targetCount = 0;
+        protected List<Robber> _newTargets = new List<Robber>();
+        protected int _targetCount;
+        public bool PersistantTargeting { set { _persistantTargeting = value; } }
 
-        // Handle no targets.
-        if (potentialTargets.Count == 0)
+        public bool DetermineNewTargets(List<Robber> currentTargets, List<Robber> potentialTargets, int maxTargets = 1)
+        {
+            _newTargets.Clear();
+            _targetCount = 0;
+
+            // Handle no targets.
+            if (potentialTargets.Count == 0)
+                return HandleNoTargets(currentTargets);
+
+            bool newTargetsFound;
+
+            // Handle less options than max targets.
+            if (potentialTargets.Count <= maxTargets)
+                newTargetsFound = HandleNoChoiceTarget(currentTargets, potentialTargets);
+            else if (_persistantTargeting && currentTargets.Count > 0)
+            {
+                foreach (var currentTarget in currentTargets)
+                {
+                    if (potentialTargets.Contains(currentTarget))
+                    {
+                        _newTargets.Add(currentTarget);
+                        potentialTargets.Remove(currentTarget);
+                    }
+                }
+                if (_newTargets.Count >= maxTargets) return false;
+                newTargetsFound = TargetUniquely(currentTargets, potentialTargets, maxTargets);
+            }
+            // Delegate to actual targeting system.
+            else
+                newTargetsFound = TargetUniquely(currentTargets, potentialTargets, maxTargets);
+
+            if (!newTargetsFound) return false;
+
+            ApplyNewTargets(currentTargets);
+
+            return true;
+        }
+
+        private bool HandleNoChoiceTarget(List<Robber> currentTargets, List<Robber> potentialTargets)
+        {
+            bool newTargetFound = false;
+            foreach (var target in potentialTargets)
+            {
+                _newTargets.Add(target);
+                if (!currentTargets.Contains(target))
+                    newTargetFound = true;
+            }
+            return newTargetFound;
+        }
+
+        void ApplyNewTargets(List<Robber> currentTargets)
+        {
+            currentTargets.Clear();
+            foreach (var newTarget in _newTargets)
+                currentTargets.Add(newTarget);
+        }
+
+        bool HandleNoTargets(List<Robber> currentTargets)
         {
             if (currentTargets.Count == 0)
                 return false;
@@ -37,29 +81,6 @@ public abstract class TargetBehaviour : ScriptableObject
             }
         }
 
-        bool newTargetsFound = false;
-
-        // Handle less options than max targets.
-        if (potentialTargets.Count <= maxTargets)
-        {
-            foreach (var target in potentialTargets)
-            {
-                _newTargets.Add(target);
-                if (!currentTargets.Contains(target)) newTargetsFound = true;
-            }
-        }
-        // Delegate to actual targeting system.
-        else
-            newTargetsFound = TargetUniquely(currentTargets, potentialTargets, maxTargets);
-
-        if (!newTargetsFound) return false;
-
-        currentTargets.Clear();
-        foreach (var newTarget in _newTargets)
-            currentTargets.Add(newTarget);
-
-        return true;
+        protected abstract bool TargetUniquely(List<Robber> currentTargets, List<Robber> potentialTargets, int maxTargets = 1);
     }
-
-    protected abstract bool TargetUniquely(List<Robber> currentTargets, List<Robber> potentialTargets, int maxTargets = 1);
 }

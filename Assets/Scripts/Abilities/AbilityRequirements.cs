@@ -1,31 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-
-[Serializable]
-public class AbilityRequirements
+namespace My.Abilities
 {
-    [SerializeField] AbilityPrerequisite[] _prerequisite;
-    HashSet<AbilityPrerequisite> cachedPrerequisites;
-
-    void Initilise()
+    [Serializable]
+    public class AbilityRequirements
     {
-        cachedPrerequisites = new HashSet<AbilityPrerequisite>();
-        foreach (var prereq in _prerequisite)
-            cachedPrerequisites.Add(prereq);
-    }
+        [SerializeField] AbilityPrerequisite[] _prerequisite;
 
-    public bool HasRequirements(AbilityPrerequisite[] requirements)
-    {
-        bool requirementsMet = true;
-
-        if (cachedPrerequisites == null) Initilise();
-        foreach (var requirement in requirements)
+        public bool HasRequirements(AbilityPrerequisite[] entityFeatures)
         {
-            if (!cachedPrerequisites.Contains(requirement)) requirementsMet = false;
-            break;
-        }
+            foreach (var prerequisite in _prerequisite)
+            {
+                bool requirementsMet = false;
+                for (int i = 0; i < entityFeatures.Length; i++)
+                {
+                    if (prerequisite == entityFeatures[i])
+                    {
+                        requirementsMet = true;
+                        break;
+                    }
+                }
+                if (!requirementsMet) return false;
+            }
 
-        return requirementsMet;
+            return true;
+        }
     }
 }

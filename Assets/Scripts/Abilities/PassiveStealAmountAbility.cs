@@ -1,23 +1,26 @@
 ﻿using My.ModifiableStats;
 using UnityEngine;
 
-[CreateAssetMenu(
+namespace My.Abilities
+{
+    [CreateAssetMenu(
     fileName = "_StealAmount(PA)",
     menuName = AssetMenuConstants.PASSIVE_ABILITY + "Steal amount"
     )]
-public class PassiveStealAmountAbility : Ability
-{
-    [SerializeField] StatModifier _statModifer;
-
-    public override void OnLoad(GameObject go)
+    public class PassiveStealAmountAbility : Ability
     {
-        var stealer = go.GetComponent<ISteal>();
-        stealer.AmountToSteal.AddModifier(_statModifer);
-    }
+        [SerializeField] StatModifier _statModifer;
 
-    public override void OnUnload(GameObject go)
-    {
-        var stealer = go.GetComponent<ISteal>();
-        stealer.AmountToSteal.RemoveModifier(_statModifer);
+        public override void OnLoad(GameObject go)
+        {
+            var stealer = go.GetComponent<ISteal>();
+            stealer.AmountToSteal.AddModifier(_statModifer);
+        }
+
+        public override void OnUnload(GameObject go)
+        {
+            var stealer = go.GetComponent<ISteal>();
+            stealer.AmountToSteal.RemoveModifier(_statModifer);
+        }
     }
 }

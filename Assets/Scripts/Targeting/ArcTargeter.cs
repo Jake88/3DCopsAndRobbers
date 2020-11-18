@@ -1,81 +1,80 @@
 ﻿using My.ModifiableStats;
 using UnityEngine;
 
-public class ArcTargeter : Targeter
+namespace My.TargetSystem
 {
-    #if UNITY_EDITOR
+    public class ArcTargeter : Targeter
+    {
+#if UNITY_EDITOR
         float _viewRadiusForGizmos;
         float _viewAngleForGizmos;
-    #endif
+#endif
 
-    [SerializeField] ModifiableStat _viewRadius = new ModifiableStat(1);
-    [SerializeField] ModifiableStat _viewAngle = new ModifiableStat(45, 360);
-    [SerializeField] LayerMask _obstacleMask;
+        [SerializeField] ModifiableStat _viewRadius = new ModifiableStat(1);
+        [SerializeField] ModifiableStat _viewAngle = new ModifiableStat(45, 360);
+        [SerializeField] LayerMask _obstacleMask;
 
-    void OnValidate()
-    {
-        _viewRadiusForGizmos = _viewRadius.BaseValue;
-        _viewAngleForGizmos = _viewAngle.BaseValue;
-    }
-
-    void Update()
-    {
-    }
-
-    protected override void FindTargets()
-    {
-        _potentialTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius.Value, _targetMask);
-        foreach (Collider target in targetsInViewRadius)
+        void OnValidate()
         {
-            var targetTransform = target.GetComponent<Robber>();
+            _viewRadiusForGizmos = _viewRadius.BaseValue;
+            _viewAngleForGizmos = _viewAngle.BaseValue;
+        }
 
-            Vector3 dirToTarget = (targetTransform.transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle.Value / 2 )
+        protected override void FindTargets()
+        {
+            _potentialTargets.Clear();
+            Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius.Value, _targetMask);
+            foreach (Collider target in targetsInViewRadius)
             {
-                if (_obstacleMask.Equals(LayerMask.GetMask(NO_MASK)))
-                    _potentialTargets.Add(targetTransform);
-                else
-                {
-                    float distanceToTarget = Vector3.Distance(transform.position, targetTransform.transform.position);
+                var targetTransform = target.GetComponent<Robber>();
 
-                    if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, _obstacleMask))
+                Vector3 dirToTarget = (targetTransform.transform.position - transform.position).normalized;
+                if (Vector3.Angle(transform.forward, dirToTarget) < _viewAngle.Value / 2)
+                {
+                    if (_obstacleMask.Equals(LayerMask.GetMask(NO_MASK)))
                         _potentialTargets.Add(targetTransform);
+                    else
+                    {
+                        float distanceToTarget = Vector3.Distance(transform.position, targetTransform.transform.position);
+
+                        if (!Physics.Raycast(transform.position, dirToTarget, distanceToTarget, _obstacleMask))
+                            _potentialTargets.Add(targetTransform);
+                    }
                 }
+            }
+
+            if (_previouslyCountedPotentialTargets == _potentialTargets.Count) return;
+            _previouslyCountedPotentialTargets = _potentialTargets.Count;
+
+            // Perform targeting behaviour
+            if (_targetBehaviour.DetermineNewTargets(_currentTargets, _potentialTargets, _maxTargets.IntValue))
+            {
+                TargetChanged();
             }
         }
 
-        if (_previouslyCountedPotentialTargets == _potentialTargets.Count) return;
-
-        // Perform targeting behaviour
-        if (_targetBehaviour.DetermineNewTargets(_currentTargets, _potentialTargets, _maxTargets.IntValue))
+        public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
         {
-            _previouslyCountedPotentialTargets = _potentialTargets.Count;
-            TargetChanged();
+            if (!angleIsGlobal)
+                angleInDegrees += transform.eulerAngles.y;
+
+            return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
         }
-    }
 
-    public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
-    {
-        if (!angleIsGlobal)
-            angleInDegrees += transform.eulerAngles.y;
+        private void OnDrawGizmosSelected()
+        {
+            base.OnDrawGizmosSelected();
 
-        return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
-    }
+            Gizmos.color = new Color(0, 0, 255, .3f);
+            Gizmos.DrawWireSphere(transform.position, _viewRadiusForGizmos);
 
-    private void OnDrawGizmosSelected()
-    {
-        base.OnDrawGizmosSelected();
+            Vector3 viewAngleA = DirFromAngle(-_viewAngleForGizmos / 2, false);
+            Vector3 viewAngleB = DirFromAngle(_viewAngleForGizmos / 2, false);
 
-        Gizmos.color = new Color(0, 0, 255, .3f);
-        Gizmos.DrawWireSphere(transform.position, _viewRadiusForGizmos);
-
-        Vector3 viewAngleA = DirFromAngle(-_viewAngleForGizmos / 2, false);
-        Vector3 viewAngleB = DirFromAngle(_viewAngleForGizmos / 2, false);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + Vector3.forward * _viewRadiusForGizmos / 4);
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleA * _viewRadiusForGizmos);
-        Gizmos.DrawLine(transform.position, transform.position + viewAngleB * _viewRadiusForGizmos);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + Vector3.forward * _viewRadiusForGizmos / 4);
+            Gizmos.DrawLine(transform.position, transform.position + viewAngleA * _viewRadiusForGizmos);
+            Gizmos.DrawLine(transform.position, transform.position + viewAngleB * _viewRadiusForGizmos);
+        }
     }
 }
