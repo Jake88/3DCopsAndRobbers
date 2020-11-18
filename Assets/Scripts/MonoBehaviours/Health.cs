@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
     ModifiableStat _maxHP;
     float _currentHP;
 
-    public Action OnDeath;
+    public Action<GameObject> OnDeath;
     public int CurrentHealth => Mathf.RoundToInt(_currentHP);
 
     public void Initilise(float initialHP)
@@ -21,17 +21,26 @@ public class Health : MonoBehaviour
         _currentHP = _maxHP.Value;
     }
 
-    public bool ChangeHealth(int amount)
+    public bool TakeDamage(int amount, GameObject attacker = null)
     {
         _currentHP += amount;
         if (_currentHP < 0)
         {
-            OnDeath?.Invoke();
+            OnDeath?.Invoke(attacker);
             return true;
         }
-        else if (_currentHP > _maxHP.Value)
-            _currentHP = _maxHP.Value;
 
         return false;
+    }
+
+    public bool Heal(int amount, GameObject healer = null)
+    {
+        if (_currentHP == _maxHP.Value) return false;
+
+        _currentHP += amount;
+        if (_currentHP > _maxHP.Value)
+            _currentHP = _maxHP.Value;
+        
+        return true;
     }
 }

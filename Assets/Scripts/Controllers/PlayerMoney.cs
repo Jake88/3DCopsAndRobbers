@@ -87,6 +87,40 @@ public class PlayerMoney : MonoBehaviour
         return calculatedEarnings;
     }
 
+    public void HandleGainingMoney(int amount, CashSource source)
+    {
+        switch (source)
+        {
+            case CashSource.Robber:
+                RecoverMoney(amount);
+                break;
+            case CashSource.Shop:
+                EarnMoney(amount);
+                break;
+            case CashSource.Bounty:
+                // Probably want to add some data to player meta data about total Bounty earnt.
+                EarnMoney(amount);
+                break;
+        }
+    }
+
+    public void HandleLosingMoney(int amount, CashSource source)
+    {
+        switch (source)
+        {
+            case CashSource.Robber:
+                LoseMoney(amount);
+                break;
+            case CashSource.Cop:
+                // pay salaries etc.
+                SpendMoney(amount); // ?? Is this a "Spend" or a "Lose" money?? Or something else? :\
+                break;
+            case CashSource.Shop:
+            case CashSource.Bounty:
+                break;
+        }
+    }
+
     public void OnNewDayEvent()
     {
          // TODO: Set up event

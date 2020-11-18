@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c9e437a3fd21442b8b62b92e3e8385, type: 3}
+  m_Name: Small_Bounty(TA)
+  m_EditorClassIdentifier: 
+  _name: Small Bounty
+  _description: This guy is wanted!
+  _probabilityWeight: 2
+  _requirements:
+    _prerequisite: 
+  _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
+  _bounty: 500

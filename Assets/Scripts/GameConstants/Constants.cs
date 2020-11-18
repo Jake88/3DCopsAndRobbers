@@ -8,5 +8,7 @@ public static class Constants
 public enum CashSource
 {
     Robber,
-    Shop
+    Shop,
+    Bounty,
+    Cop
 }

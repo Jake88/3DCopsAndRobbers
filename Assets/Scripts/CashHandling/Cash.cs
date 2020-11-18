@@ -85,15 +85,7 @@ namespace My.MoneySystem
 
         public int Collect()
         {
-            switch (_source)
-            {
-                case CashSource.Robber:
-                    _playerMoney.RecoverMoney(_amount);
-                    break;
-                case CashSource.Shop:
-                    _playerMoney.EarnMoney(_amount);
-                    break;
-            }
+            _playerMoney.HandleGainingMoney(_amount, _source);
             CleanUp();
             return _amount;
         }

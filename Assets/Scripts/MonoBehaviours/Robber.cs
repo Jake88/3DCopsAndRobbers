@@ -31,7 +31,7 @@ public class Robber : MonoBehaviour
 
     #region Health proxy functions
     // Purely a proxy fn to make less GetComponent calls from cop attacks.
-    public bool ChangeHealth(int amount) => _health.ChangeHealth(amount);
+    public bool ChangeHealth(int amount) => _health.TakeDamage(amount);
     public int CurrentHealth => _health.CurrentHealth;
     #endregion
 
@@ -92,9 +92,14 @@ public class Robber : MonoBehaviour
         _movement.Resume();
     }
 
-    void Die()
+    void Die(GameObject attacker)
     {
         _stealer.DropCash();
+        foreach (var ability in _abilities)
+            ability.OnDie(gameObject, attacker);
+
+        // add some meta data to the attacker for killing this game object
+
         CleanUp();
     }
 
