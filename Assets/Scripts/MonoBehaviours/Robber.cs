@@ -34,8 +34,10 @@ public class Robber : MonoBehaviour
     // Purely a proxy fn to make less GetComponent calls from cop attacks.
     public bool ChangeHealth(int amount) => _health.TakeDamage(amount);
     public int CurrentHealth => _health.CurrentHealth;
-    public float SpawnCost => _data.InitialDifficultyWeight; // TODO: this can be extended to factor in any abilities on the robber.
     #endregion
+
+    public float SpawnCost => _data.InitialDifficultyWeight; // TODO: this can be extended to factor in any abilities on the robber.
+    public AbilityPrerequisite[] AbilityPrerequisites => _abilityPrerequisites;
 
     void Awake()
     {

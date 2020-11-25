@@ -1,54 +1,82 @@
-﻿using UnityEngine;
+﻿using My.Singletons;
+using System.Collections.Generic;
+using UnityEngine;
 
-[RequireComponent(typeof(RobberSpawner))]
+[RequireComponent(typeof(RobberSpawnController))]
+[RequireComponent(typeof(RobberFactory))]
 public class GrandHeistManager : MonoBehaviour
 {
     // Array of GrandHeists, in the order to go through them as the level progresses. For a 10 day level we would have 10 heists defined in the list.
     // --- how do we cator for "grace periods" in the game(currently in GameTime), or is there none?
     [SerializeField] GrandHeist[] _heists;
     int _currentHeistIndex;
-    RobberSpawner _robberSpawner;
-
+    RobberSpawnController _spawnController;
+    RobberFactory _factory;
 
     void Awake()
     {
-        _robberSpawner = GetComponent<RobberSpawner>();
+        _spawnController = GetComponent<RobberSpawnController>();
+        _factory = GetComponent<RobberFactory>();
     }
 
     public void SpawnNext()
     {
-        // increment heist index
-        // if heist.addedDifficulty > 0
-          // newHeist = RobberFactory.GenerateByDifficulty(heist.addedDifficulty)
-          // newHeist += heist.robbers
+        if (_currentHeistIndex == _heists.Length - 1)
+        {
+            print("Final wave. Pause all income, prevent build mode etc???");
+        }
 
-        // foreach robber in heist, robber.addAbilities(heist.abilities) // Might have to do this in robber spawner since it might need to be applied when grabbed from the pool.
-        // The above line adds specific abilities. Maybe we want to provide an integer of random abilities to add to each robber too?
+        GrandHeist heist = _heists[_currentHeistIndex];
+        var spawnCurrency = heist.AdditionalSpawnCurrency;
+
+        List<Robber> robbersToSpawn = new List<Robber>();
+        foreach (var rd in heist.RobbersInHeist)
+        {
+            var robber = _factory.BuildRobber(rd);
+            ApplyAbilities(heist, robber);
+            robbersToSpawn.Add(robber);
+        }
+
+        while (spawnCurrency > 0)
+        {
+            Robber robber = _factory.BuildRandomRobber(spawnCurrency);
+            if (robber == null) break;
+            spawnCurrency -= robber.SpawnCost;
+            ApplyAbilities(heist, robber);
+            robbersToSpawn.Add(robber);
+        }
 
         // Trigger heist animation
 
         // On heist animation end
-           // RobberSpawner.spawn(newHeist)
+
+        _spawnController.SpawnGroup(robbersToSpawn);
+        
+        _currentHeistIndex++;
     }
 
-    // Function to create a random heist? // mainly for a sandbox type scenario
-    // --- Pick from pre defined heists? Utilise RobberSpawner and just ask for a set of heists?
+    void ApplyAbilities(GrandHeist heist, Robber robber)
+    {
+        foreach (var ability in heist.Abilities)
+        {
+            robber.AddAbility(ability);
+        }
+
+        if (heist.RandomAbilitiesToAddToEachRobber.Max > 0)
+        {
+            var abilities = RefManager.AbilityFactory.GetRobberAbilities(
+                robber.AbilityPrerequisites,
+                heist.RandomAbilitiesToAddToEachRobber.RandomInt);
+
+            foreach (var ability in abilities)
+                robber.AddAbility(ability);
+
+        }
+    }
+
     public void SpawnRandomHeist()
     {
-
+        // Function to create a random heist? // mainly for a sandbox type scenario
+        // --- Pick from pre defined heists? Utilise RobberSpawner and just ask for a set of heists?
     }
-
-}
-
-public class GrandHeist : ScriptableObject
-{
-    // List of robbers that spawn on this heist
-    // Name of the heist
-    // difficulty level of the heist?
-    // Potentially a difficulty weight that can be applied to create some random robbers to spawn AS WELL AS the list of robbers here
-            // To create a completely random heist we can just use this value and least the robber list empty.
-    
-    // Do the below abilities affect boss robbers? Should boss robbers have their own script that prevents random abilities being applied? :S Probably not.
-    // abilities[] // an array of abilities to apply to every robber in the heist?
-    // int numberOfRandomAbilitiesToAddToEachRobber 
 }

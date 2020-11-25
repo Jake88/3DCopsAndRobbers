@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialAbilities:
   - {fileID: 11400000, guid: 6761f8e15027d664cad9dd89ada17acc, type: 2}
-  - {fileID: 11400000, guid: ddd4bb1ec266aaf4bbacd812998fd6de, type: 2}
-  - {fileID: 11400000, guid: 855e9710503b26141a89d36bca284f9c, type: 2}
   _pool: {fileID: 11400000, guid: 4e93c0ded7c09a24f9192153f5330eb4, type: 2}
   _initialStealAmount: 200
   _initialMoveSpeed: 1.5

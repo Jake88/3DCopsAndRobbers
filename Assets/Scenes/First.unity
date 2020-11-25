@@ -586,7 +586,19 @@ MonoBehaviour:
         m_CallState: 2
   MidnightEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 393076198}
+        m_TargetAssemblyTypeName: GrandHeistManager, Assembly-CSharp
+        m_MethodName: SpawnNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &268837298
 GameObject:
   m_ObjectHideFlags: 0
@@ -798,7 +810,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bd1b1125637a4468ca05e08b6cd25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _heists: []
+  _heists:
+  - {fileID: 11400000, guid: bc0738226d9e1cb4bb4cef04ec663d06, type: 2}
 --- !u!114 &393076199
 MonoBehaviour:
   m_ObjectHideFlags: 0

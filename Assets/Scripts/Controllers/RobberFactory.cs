@@ -28,10 +28,16 @@ public class RobberFactory : MonoBehaviour
         }
     }
 
-    public Robber BuildRobber(float spawnPoints)
+    public Robber BuildRandomRobber(float spawnPoints)
     {
         if (spawnPoints < _lowestSpawnCost) return null;
         var robberData = _weightedRobbers.GetRandomWithinDifficultyValue(spawnPoints);
+        return BuildRobber(robberData);
+    }
+
+    public Robber BuildRobber(RobberData robberData)
+    {
+        if (robberData == null) return null;
         var robber = robberData.Pool.GetObjectComponent<Robber>();
         robber.gameObject.SetActive(false); // required because the Pool retrieve loads it in an active state, causing errors (no path assigned)
         ApplyAbilities(robber);

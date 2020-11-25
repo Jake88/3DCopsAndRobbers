@@ -10,4 +10,5 @@
     public const string ABILITY = "Ability/";
     public const string PASSIVE_ABILITY = "Ability/Passive/";
     public const string TRIGGER_ABILITY = "Ability/Trigger/";
+    public const string HEIST = "Grand Heist/";
 }

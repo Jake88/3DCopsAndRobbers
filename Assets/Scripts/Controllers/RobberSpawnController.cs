@@ -1,8 +1,12 @@
 ﻿using My.Movement;
 using My.Utilities;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(RobberSpawner))]
+[RequireComponent(typeof(RobberFactory))]
+[RequireComponent(typeof(RobberSpawnDifficulty))]
 public class RobberSpawnController : MonoBehaviour
 {
     [SerializeField] Range _spawnIntervalRange;
@@ -42,11 +46,19 @@ public class RobberSpawnController : MonoBehaviour
         var remainingSpawnPoints = _difficulty.DetermineSpawnDifficulty();
         while (remainingSpawnPoints > 0)
         {
-            Robber robber = _factory.BuildRobber(remainingSpawnPoints);
+            Robber robber = _factory.BuildRandomRobber(remainingSpawnPoints);
             if (robber == null) break;
             remainingSpawnPoints -= robber.SpawnCost;
             _spawner.AddToQueue(new SpawnData(robber, DeterminePath()));
             yield return null;
+        }
+    }
+
+    public void SpawnGroup(List<Robber> robbers)
+    {
+        foreach (var robber in robbers)
+        {
+            _spawner.AddToQueue(new SpawnData(robber, DeterminePath()));
         }
     }
 
