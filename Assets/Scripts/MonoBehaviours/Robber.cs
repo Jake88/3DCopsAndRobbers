@@ -4,6 +4,7 @@ using My.Movement;
 using My.ScriptableAnimation;
 using My.Singletons;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Robber : MonoBehaviour
@@ -19,7 +20,7 @@ public class Robber : MonoBehaviour
 
     ModifiableStat _difficultyWeight;
 
-    Ability[] _abilities;
+    List<Ability> _abilities = new List<Ability>();
 
 
     // Sibling components
@@ -33,6 +34,7 @@ public class Robber : MonoBehaviour
     // Purely a proxy fn to make less GetComponent calls from cop attacks.
     public bool ChangeHealth(int amount) => _health.TakeDamage(amount);
     public int CurrentHealth => _health.CurrentHealth;
+    public float SpawnCost => _data.InitialDifficultyWeight; // TODO: this can be extended to factor in any abilities on the robber.
     #endregion
 
     void Awake()
@@ -51,28 +53,28 @@ public class Robber : MonoBehaviour
         _stealer = GetComponent<Stealer>();
         _stealer.Initilise(_data.InitialStealAmount);
 
-        _abilities = _data.InitialAbilities;
-
         _difficultyWeight = new ModifiableStat(_data.InitialDifficultyWeight);
     }
 
     public void Spawn(Path path)
     {
+        _abilities.AddRange(_data.InitialAbilities);
         _movement.Reset(path);
         _difficultyWeight.Reset();
         _stealer.Reset();
         _health.Reset();
 
-
         // Hack. Currently don't overwrite initial abilities. This will want to change when I determine how to combine and handle abilities on different robbers.
         if (_data.InitialAbilities.Length == 0)
         {
             var numberOfMods = UnityEngine.Random.Range(0, 3);
-            _abilities = RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods);
+            _abilities.AddRange(RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods));
         }
 
         foreach (var ability in _abilities)
             ability.OnLoad(gameObject);
+
+        gameObject.SetActive(true);
     }
 
     void Steal()
@@ -103,6 +105,7 @@ public class Robber : MonoBehaviour
         CleanUp();
     }
 
+    public void AddAbility(Ability ability) =>  _abilities.Add(ability);
 
     void Escape()
     {
@@ -122,6 +125,9 @@ public class Robber : MonoBehaviour
     {
         foreach (var ability in _abilities)
             ability.OnUnload(gameObject);
+
+        _abilities.Clear();
+        gameObject.SetActive(false);
 
         _data.Pool.Release(gameObject);
     }

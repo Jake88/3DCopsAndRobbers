@@ -1,4 +1,5 @@
-﻿using System;
+﻿using My.Singletons;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,9 +46,6 @@ public class PlayerMoney : MonoBehaviour
     [SerializeField] GameEvent<int> _moneyChangedEvent;
     [SerializeField] GameEvent _insufficientFundsEvent;
 
-    [Header("Required game managers")]
-    [SerializeField] GameTime _gameTime;
-
     [Header("Analysis helpers")]
     [SerializeField] int _daysToUseForDataAnalysis = 3;
 
@@ -62,7 +60,7 @@ public class PlayerMoney : MonoBehaviour
     int Money => _playerMoney;
     float TotalAverageIncomePerSecond => _totalEarnings.moneyEarned / _timeStarted;
     float ShortenedAverageIncomePerSecond => CalculateEarnings(_daysToUseForDataAnalysis).moneyEarned / _daysToUseForDataAnalysis;// / _gameTime.SecondsToGameSeconds;
-    int ForecastAtPayday => _playerMoney + Mathf.RoundToInt(ShortenedAverageIncomePerSecond * _gameTime.TimeUntilPayday);
+    int ForecastAtPayday => _playerMoney + Mathf.RoundToInt(ShortenedAverageIncomePerSecond * RefManager.GameTime.TimeUntilPayday);
 
     void Start()
     {
@@ -123,7 +121,6 @@ public class PlayerMoney : MonoBehaviour
 
     public void OnNewDayEvent()
     {
-         // TODO: Set up event
         _dailyEarnings.Add(new EarningsRecord());
     }
 

@@ -9,18 +9,23 @@ public class TextMeshProController : MonoBehaviour
     float _remainingFlashColorReturnTime;
     Coroutine _colorFadeCoroutine;
 
-    TextMeshProUGUI _tmp;
+    TMP_Text _tmp;
     Color _originalColor;
 
     void Awake()
     {
-        _tmp = GetComponent<TextMeshProUGUI>();
+        _tmp = GetComponent<TMP_Text>();
         _originalColor = _tmp.color;
     }
 
-    public void UpdateText(int numberToConvert)
+    public void UpdateText(int numberToDisplay)
     {
-        _tmp.text = numberToConvert.ToString();
+        _tmp.SetText(numberToDisplay.ToString());
+    }
+
+    public void UpdateText(string textToDisplay)
+    {
+        _tmp.SetText(textToDisplay);
     }
 
     // Pass flash color in here via event.

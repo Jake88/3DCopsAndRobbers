@@ -552,10 +552,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8400282953d8dd4a8ebe62bf9109457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameSpeed: 1
+  _gameSpeed: 4
   _levelGracePeriod: 1
-  _newDayEvent: {fileID: 11400000, guid: 97a74d44bbc42e5488ffb9d8f3fa77aa, type: 2}
-  _timeChangedEvent: {fileID: 11400000, guid: 01f62cd04c9809a47828cc402812fa01, type: 2}
+  TimeChangedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1863901702}
+        m_TargetAssemblyTypeName: TextMeshProController, Assembly-CSharp
+        m_MethodName: UpdateText
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  NewDayEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1820735945}
+        m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
+        m_MethodName: OnNewDayEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  MidnightEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &268837298
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,7 +745,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 393076196}
+  - component: {fileID: 393076201}
   - component: {fileID: 393076197}
+  - component: {fileID: 393076200}
+  - component: {fileID: 393076199}
+  - component: {fileID: 393076198}
   m_Layer: 0
   m_Name: RobberSpawner
   m_TagString: Untagged
@@ -748,22 +783,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fe8a1257c5e39d4d9fbca7c1e47819d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelPaths:
-  - {fileID: 213132314}
-  _robbers:
-  - {fileID: 11400000, guid: d87fe599562434844a8a77a6d107cf6a, type: 2}
-  - {fileID: 11400000, guid: 72a8c23f413c5ea44a7d5722f8479920, type: 2}
-  - {fileID: 11400000, guid: 5a91cf3e735ae144e93efc71299485eb, type: 2}
-  _spawnDifficultyRange:
-    Min: 0.8
-    Max: 1.2
-  _levelStartSpawnDelay: 1
-  _initialSpawnIntervalRange:
-    Min: 4
-    Max: 8
   _groupSpawnInterval:
     Min: 0.1
     Max: 0.4
+--- !u!114 &393076198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393076195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bd1b1125637a4468ca05e08b6cd25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _heists: []
+--- !u!114 &393076199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393076195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0d84300595d13429f28ee9d612f43f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialDifficulty: 4
+  _spawnDifficultyRange:
+    Min: 0.5
+    Max: 1.5
+--- !u!114 &393076200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393076195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e3719d2673c384aa7d515ed865d8d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnAbilities: []
+  _availableRobbers:
+  - {fileID: 11400000, guid: 5a91cf3e735ae144e93efc71299485eb, type: 2}
+  - {fileID: 11400000, guid: 72a8c23f413c5ea44a7d5722f8479920, type: 2}
+  - {fileID: 11400000, guid: d87fe599562434844a8a77a6d107cf6a, type: 2}
+--- !u!114 &393076201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393076195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe195ad4e501b6f4198b67a925837877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnIntervalRange:
+    Min: 5
+    Max: 10
+  _levelPaths:
+  - {fileID: 213132314}
 --- !u!1 &532755310
 GameObject:
   m_ObjectHideFlags: 0
@@ -912,7 +997,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 644404446}
-  - {fileID: 1938164257}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2349,7 +2433,6 @@ MonoBehaviour:
   _moneyChangedEvent: {fileID: 11400000, guid: 107b58be3e0a7e447902e30f676470b7, type: 2}
   _insufficientFundsEvent: {fileID: 11400000, guid: 00e9f048305387743bf45382e22c69d5,
     type: 2}
-  _gameTime: {fileID: 262046425}
   _daysToUseForDataAnalysis: 3
 --- !u!1 &1854789841
 GameObject:
@@ -2407,9 +2490,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1863901701}
+  - component: {fileID: 1863901702}
   - component: {fileID: 1863901704}
   - component: {fileID: 1863901703}
-  - component: {fileID: 1863901702}
   m_Layer: 5
   m_Name: TMP_GameTime
   m_TagString: Untagged
@@ -2547,94 +2630,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1863901700}
   m_CullTransparentMesh: 0
---- !u!1 &1938164256
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1938164257}
-  - component: {fileID: 1938164259}
-  - component: {fileID: 1938164258}
-  m_Layer: 0
-  m_Name: GameTime
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1938164257
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938164256}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 650316607}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1938164258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938164256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2cfbc094caf48941a49a40a53b81371, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 97a74d44bbc42e5488ffb9d8f3fa77aa, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1820735945}
-        m_TargetAssemblyTypeName: PlayerMoney, Assembly-CSharp
-        m_MethodName: OnNewDayEvent
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1938164259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1938164256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 035444247cbf225478deb20dd87885a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Event: {fileID: 11400000, guid: 01f62cd04c9809a47828cc402812fa01, type: 2}
-  Response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1863901703}
-        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
-        m_MethodName: set_text
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1942401015
 GameObject:
   m_ObjectHideFlags: 0

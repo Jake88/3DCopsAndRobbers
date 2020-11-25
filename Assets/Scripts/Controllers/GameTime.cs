@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameTime : MonoBehaviour
 {
@@ -14,8 +16,9 @@ public class GameTime : MonoBehaviour
     [SerializeField] float _gameSpeed = 1;
     [SerializeField] int _levelGracePeriod = 1;
 
-    [SerializeField] GameEvent _newDayEvent;
-    [SerializeField] GameEvent<string> _timeChangedEvent;
+    public UnityEvent<string> TimeChangedEvent;
+    public UnityEvent NewDayEvent;
+    public UnityEvent MidnightEvent;
 
     int _daysPast;
     float _currentTime;
@@ -35,7 +38,7 @@ public class GameTime : MonoBehaviour
 
     void Start()
     {
-        _newDayEvent.Raise();
+        NewDayEvent.Invoke();
         StartCoroutine(TriggerNewMinute());
     }
 
@@ -53,7 +56,7 @@ public class GameTime : MonoBehaviour
     {
         _daysPast++;
         _currentTime %= TimeInAGameDay;
-        _newDayEvent.Raise();
+        NewDayEvent.Invoke();
     }
 
     int Minute => Mathf.FloorToInt(_currentTime) % 60;
@@ -69,8 +72,8 @@ public class GameTime : MonoBehaviour
         while (true)
         {
             var time = $"{FirstHour}{SecondHour}:{FirstMinute}{SecondMinute}";
-            _timeChangedEvent.Raise(time);
-            yield return new WaitForSeconds(1f);
+            TimeChangedEvent?.Invoke(time);
+            yield return new WaitForSeconds(1f / _gameSpeed);
         }
     }
 
@@ -80,7 +83,7 @@ public class GameTime : MonoBehaviour
         if (_timeUntilMidnight < 0)
         {
             _timeUntilMidnight += TimeInAGameDay;
-            // fire midnight event
+            MidnightEvent.Invoke();
         }
     }
 
