@@ -780,6 +780,7 @@ GameObject:
   - component: {fileID: 844143767479141154}
   - component: {fileID: 759857192079518198}
   - component: {fileID: 1055463930109785896}
+  - component: {fileID: 5367318570570398616}
   m_Layer: 5
   m_Name: BTN_CopTemplate
   m_TagString: Untagged
@@ -894,6 +895,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5367318570570398616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463409994073343095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a37a1514228642d4bbe4fc3842772588, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onSelectCop: {fileID: 11400000, guid: 7b2092fe6ff6afc438a53216abdea584, type: 2}
+  _name: {fileID: 5674816704450299226}
+  _cost: {fileID: 3025526109669814554}
+  _attackSpeed: {fileID: 8052197227028017972}
+  _damage: {fileID: 1849548997182365151}
+  _range: {fileID: 8995462037757498373}
+  _background: {fileID: 759857192079518198}
 --- !u!1 &3829409743809365087
 GameObject:
   m_ObjectHideFlags: 0

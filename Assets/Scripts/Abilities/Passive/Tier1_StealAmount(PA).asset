@@ -15,8 +15,7 @@ MonoBehaviour:
   _name: Veteran thief
   _description: Increase amount stolen by 10%
   _probabilityWeight: 0
-  _requirements:
-    _prerequisite: 04000000
+  _abilityRequirements: 288
   _statModifer:
     _type: 400
     _value: 0.1

@@ -24,6 +24,6 @@ MonoBehaviour:
   _initialMovementSpeed: 2
   _initialAttackSpeed: 1
   _initialDamage: 80
-  _baseSalary:
-    Min: 50
-    Max: 100
+  _baseSalary: 100
+  _abilityFlags: 580
+  _randomAbilityCount: 0

@@ -9,14 +9,10 @@ using UnityEngine;
 
 public class Robber : MonoBehaviour
 {
-    const float SecondsSpentCollectingMoney = 3f;
-
-    // Ability flags. Probably not required???
-    public bool RepeatOffender; // Move to a unique ability soon
+    const float SecondsSpentCollectingMoney = 2f;
 
     [Header("Unique robber fields")]
     [SerializeField] RobberData _data;
-    [SerializeField] AbilityPrerequisite[] _abilityPrerequisites;
 
     ModifiableStat _difficultyWeight;
 
@@ -37,7 +33,7 @@ public class Robber : MonoBehaviour
     #endregion
 
     public float SpawnCost => _data.InitialDifficultyWeight; // TODO: this can be extended to factor in any abilities on the robber.
-    public AbilityPrerequisite[] AbilityPrerequisites => _abilityPrerequisites;
+    public AbilityFlags AbilityPrerequisites => _data.AbilityFlags;
 
     void Awake()
     {
@@ -70,7 +66,7 @@ public class Robber : MonoBehaviour
         if (_data.InitialAbilities.Length == 0)
         {
             var numberOfMods = UnityEngine.Random.Range(0, 3);
-            _abilities.AddRange(RefManager.AbilityFactory.GetRobberAbilities(_abilityPrerequisites, numberOfMods));
+            _abilities.AddRange(RefManager.AbilityFactory.GetRobberAbilities(_data.AbilityFlags, numberOfMods));
         }
 
         foreach (var ability in _abilities)

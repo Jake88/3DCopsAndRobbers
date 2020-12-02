@@ -1,1 +1,0 @@
-﻿public class GameEventListener_CopData : GameEventListener<CopData> { }

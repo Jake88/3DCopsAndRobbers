@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class Cop : MonoBehaviour, IBuildable
 {
-    [SerializeField] CopData _initialData;
-    [SerializeField] AbilityPrerequisite[] _abilityPrerequisites;
+    [SerializeField] CopData _copData;
     Ability[] _abilities;
 
     CopAttack _copAttack;
@@ -26,7 +25,7 @@ public class Cop : MonoBehaviour, IBuildable
         _firstDayProRata = 1;
     }
 
-    public float Salary => _initialData.InitialCost / 4;
+    public float Salary => _copData.InitialCost / 4;
     public void Sell()
     {
         // EITHER
@@ -40,14 +39,14 @@ public class Cop : MonoBehaviour, IBuildable
     void Start()
     {
         _copAttack.Initialise(
-            _initialData.InitialDamage,
-            _initialData.InitialAttackSpeed,
-            _initialData.InitialMovementSpeed);
+            _copData.InitialDamage,
+            _copData.InitialAttackSpeed,
+            _copData.InitialMovementSpeed);
 
 
         // Move to Build
         var numberOfMods = 1;
-        _abilities = RefManager.AbilityFactory.GetCopAbilities(_abilityPrerequisites, numberOfMods);
+        _abilities = RefManager.AbilityFactory.GetCopAbilities(_copData.AbilityFlags, numberOfMods);
         foreach (var ability in _abilities)
             ability.OnLoad(gameObject);
     }

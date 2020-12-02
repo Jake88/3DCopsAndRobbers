@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c18275ca91a9d4594dcaeab027c8a7, type: 3}
   m_Name: Robber_MallRat
   m_EditorClassIdentifier: 
+  _initialAbilities: []
   _pool: {fileID: 11400000, guid: 1a1e20d4c3751b240a4118fb7b7bd9e0, type: 2}
   _initialStealAmount: 100
   _initialMoveSpeed: 1.2
@@ -19,3 +20,4 @@ MonoBehaviour:
   _initialSpawnWeight: 2
   _initialDifficultyWeight: 2
   _ratingUnlockedAt: 0
+  _abilityFlags: 312

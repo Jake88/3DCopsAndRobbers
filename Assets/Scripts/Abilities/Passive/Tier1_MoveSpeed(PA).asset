@@ -15,8 +15,7 @@ MonoBehaviour:
   _name: Power walker
   _description: Increases movement speed by 10%
   _probabilityWeight: 1
-  _requirements:
-    _prerequisite: 03000000
+  _abilityRequirements: 16
   _statModifer:
     _type: 400
     _value: 0.1

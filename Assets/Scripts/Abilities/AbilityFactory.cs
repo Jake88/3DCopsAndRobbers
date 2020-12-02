@@ -13,14 +13,14 @@ namespace My.Abilities
         [SerializeField] Ability[] availableRobberAbilities;
         [SerializeField] Ability[] availableCopAbilities;
 
-        Ability[] GetAbilities(AbilityPrerequisite[] restrictions, int numberOfAbilities, Ability[][] lists)
+        Ability[] GetAbilities(AbilityFlags metAbilityFlags, int numberOfAbilities, Ability[][] lists)
         {
             var set = new List<Ability>();
 
             foreach (var abilityList in lists)
             {
                 foreach (var ability in abilityList)
-                    if (ability.IsUsable(restrictions)) set.Add(ability);
+                    if (ability.IsUsable(metAbilityFlags)) set.Add(ability);
             }
 
 
@@ -45,7 +45,7 @@ namespace My.Abilities
             return chosenAbilities;
         }
 
-        public Ability[] GetRobberAbilities(AbilityPrerequisite[] restrictions, int numberOfAbilities = 1)
+        public Ability[] GetRobberAbilities(AbilityFlags restrictions, int numberOfAbilities = 1)
         {
             return GetAbilities(
                 restrictions, 
@@ -53,7 +53,7 @@ namespace My.Abilities
                 new Ability[][] { availableSharedAbilities, availableRobberAbilities });
         }
 
-        public Ability[] GetCopAbilities(AbilityPrerequisite[] restrictions, int numberOfAbilities = 1)
+        public Ability[] GetCopAbilities(AbilityFlags restrictions, int numberOfAbilities = 1)
         {
             return GetAbilities(
                 restrictions,

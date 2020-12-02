@@ -21,3 +21,4 @@ MonoBehaviour:
   _initialSpawnWeight: 10
   _initialDifficultyWeight: 4
   _ratingUnlockedAt: 0
+  _abilityFlags: 440

@@ -6,4 +6,9 @@ public class UI_CopSelectPanel : MonoBehaviour
 {
     [SerializeField] GameObject _copCategoryPrefab;
     [SerializeField] GameObject _categoriesPanel;
+
+    public void UpdateResumeGUI()
+    {
+
+    }
 }

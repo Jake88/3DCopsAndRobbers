@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c18275ca91a9d4594dcaeab027c8a7, type: 3}
   m_Name: Robber_SchoolBully
   m_EditorClassIdentifier: 
+  _initialAbilities: []
   _pool: {fileID: 11400000, guid: 08f1974a0481ec147ad3959160cd9e16, type: 2}
   _initialStealAmount: 50
   _initialMoveSpeed: 1
@@ -19,3 +20,4 @@ MonoBehaviour:
   _initialSpawnWeight: 1
   _initialDifficultyWeight: 1
   _ratingUnlockedAt: 0
+  _abilityFlags: 312

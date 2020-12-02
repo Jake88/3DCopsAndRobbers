@@ -17,6 +17,7 @@ public class RobberData : ScriptableObject
     [SerializeField] float _initialSpawnWeight;
     [SerializeField] float _initialDifficultyWeight;
     [SerializeField] float _ratingUnlockedAt;
+    [SerializeField] AbilityFlags _abilityFlags;
 
     public Ability[] InitialAbilities => _initialAbilities;
     public ObjectPool Pool => _pool;
@@ -26,4 +27,5 @@ public class RobberData : ScriptableObject
     public float InitialSpawnWeight => _initialSpawnWeight;
     public float InitialDifficultyWeight => _initialDifficultyWeight;
     public float RatingUnlockedAt => _ratingUnlockedAt;
+    public AbilityFlags AbilityFlags => _abilityFlags;
 }

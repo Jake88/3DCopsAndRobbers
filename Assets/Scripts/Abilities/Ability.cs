@@ -6,9 +6,13 @@ namespace My.Abilities
         [SerializeField] protected string _name;
         [SerializeField] protected string _description;
         [SerializeField] protected float _probabilityWeight;
-        [SerializeField] protected AbilityRequirements _requirements;
+        [SerializeField] AbilityFlags _abilityRequirements;
 
-        public virtual bool IsUsable(AbilityPrerequisite[] requirements) => _requirements.HasRequirements(requirements);
+        public virtual bool IsUsable(AbilityFlags requirements)
+        {
+            if (_abilityRequirements == AbilityFlags.None) return true;
+            return requirements.HasFlag(_abilityRequirements);
+        }
 
         public virtual void OnLoad(GameObject go) { }
         public virtual void OnUnload(GameObject go) { }

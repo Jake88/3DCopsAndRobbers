@@ -15,7 +15,6 @@ MonoBehaviour:
   _name: Small Bounty
   _description: This guy is wanted!
   _probabilityWeight: 2
-  _requirements:
-    _prerequisite: 
+  _abilityRequirements: 256
   _cashDropManager: {fileID: 11400000, guid: 07c5c645c3feceb4492f46a010c1ea3f, type: 2}
   _bounty: 500
