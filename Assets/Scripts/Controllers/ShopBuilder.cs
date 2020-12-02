@@ -8,52 +8,27 @@ namespace My.Buildables
     {
         [SerializeField] GridState _gridState;
 
-        [SerializeField] Shape[] _baseShapes;
-        int _currentBaseShapeIndex;
-
         ConstructionShop _constructionShop;
         BuildingData _currentShop;
         bool _isEnabled; // Probably not a thing
-        Vector3 _currentMousePosition;
 
         // DUMMY STUFF TO TEST
         public BuildingData[] testBuildingData;
         public BuildingData cop;
 
-        Shape CurrentShape => _currentShop && _currentShop.Shape ? _currentShop.Shape : _baseShapes[_currentBaseShapeIndex];
-
-        void Awake()
-        {
-            _constructionShop = GetComponentInChildren<ConstructionShop>();
-        }
+        void Awake() => _constructionShop = GetComponentInChildren<ConstructionShop>();
 
         void Start()
         {
-            RandomiseShape();
             _constructionShop.gameObject.SetActive(false);
             ToggleActive(false);
         }
 
         void Update()
         {
-            if (_isEnabled)
+            if (_isEnabled && Input.GetButtonDown("Fire1"))
             {
-                if (Input.GetButtonDown("Fire1"))
-                {
                     Build();
-                }
-                if (Input.GetKeyDown(KeyCode.Period))
-                {
-                    ToggleActive(false);
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Period))
-            {
-                Activate(testBuildingData[0]);
-            }
-            else if (Input.GetKeyDown(KeyCode.M))
-            {
-                Activate(testBuildingData[1]);
             }
             else if (Input.GetKeyDown(KeyCode.Comma))
             {
@@ -73,35 +48,21 @@ namespace My.Buildables
         {
             _currentShop = shopData;
 
-            _constructionShop.SetShape(CurrentShape);
+            _constructionShop.SetShape(RefManager.BlueprintManager.CurrentShape);
 
             ToggleActive(true);
+        }
+
+        public void Deactivate()
+        {
+            _currentShop = null;
+            ToggleActive(false);
         }
 
         void ToggleActive(bool enable)
         {
             _isEnabled = enable;
             _constructionShop.gameObject.SetActive(enable);
-        }
-
-        public void BuyNewBlueprint()
-        {
-            // if we only have 1 baseShape / blueprint to switch between, return;
-
-            // spend the money on buying the new blueprint
-            // RandomiseShape();
-        }
-
-        public void RandomiseShape()
-        {
-            if (_currentShop && _currentShop.Shape || _baseShapes.Length == 1) return;
-
-            var oldShapeIndex = _currentBaseShapeIndex;
-
-            while (oldShapeIndex == _currentBaseShapeIndex)
-                _currentBaseShapeIndex = UnityEngine.Random.Range(0, _baseShapes.Length);
-
-            _constructionShop.SetShape(CurrentShape);
         }
 
         public void Build()
@@ -113,7 +74,7 @@ namespace My.Buildables
 
                 if (!_currentShop.Shape)
                 {
-                    RandomiseShape();
+                    RefManager.BlueprintManager.RandomiseShape();
                 }
 
                 _currentShop = null;

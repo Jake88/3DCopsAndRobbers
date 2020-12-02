@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,10 +6,10 @@ public class GameTime : MonoBehaviour
 {
     // ---------------- STANDARD TIME -----------------
     // 1 second (1f deltaTime) represents 1 game minute 
-    public const float GameSecondsInOneRealSecond = 60;
-    const float TimeInAGameDay = 24 * GameSecondsInOneRealSecond;
-    const float Midnight = 24 * GameSecondsInOneRealSecond; // TODO Allow the flexibility to have multiple midnights?
-    const float Payday = 12 * GameSecondsInOneRealSecond; // TODO
+    public static float GameSecondsInOneRealSecond = 60;
+    public static float TimeInAGameDay = 24 * GameSecondsInOneRealSecond;
+    static float Midnight = 24 * GameSecondsInOneRealSecond; // TODO Allow the flexibility to have multiple midnights?
+    static float Payday = 12 * GameSecondsInOneRealSecond; // TODO
     // ------------------------------------------------
     
     [SerializeField] float _gameSpeed = 1;
@@ -19,6 +18,7 @@ public class GameTime : MonoBehaviour
     public UnityEvent<string> TimeChangedEvent;
     public UnityEvent NewDayEvent;
     public UnityEvent MidnightEvent;
+    public UnityEvent PaydayEvent;
 
     int _daysPast;
     float _currentTime;
@@ -26,6 +26,7 @@ public class GameTime : MonoBehaviour
     float _timeUntilMidnight;
     float _gameDeltaTime; // This is specific to the level, and to the game time. This variable is not for use for speeding up other stuff in the game.
 
+    public float CurrentTime => _currentTime % TimeInAGameDay;
     public float CurrentDay => _daysPast;
     public float TimeUntilPayday => _timeUntilPayday;
     public float TimeUntilMidnight => _timeUntilMidnight;
@@ -72,7 +73,7 @@ public class GameTime : MonoBehaviour
         while (true)
         {
             var time = $"{FirstHour}{SecondHour}:{FirstMinute}{SecondMinute}";
-            TimeChangedEvent?.Invoke(time);
+            TimeChangedEvent.Invoke(time);
             yield return new WaitForSeconds(1f / _gameSpeed);
         }
     }
@@ -93,7 +94,7 @@ public class GameTime : MonoBehaviour
         if (_timeUntilPayday < 0)
         {
             _timeUntilPayday += TimeInAGameDay;
-            // fire PaydaY event
+            PaydayEvent.Invoke();
         }
     }
 }

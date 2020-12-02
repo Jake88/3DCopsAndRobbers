@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 abstract public class PurchasableData : ScriptableObject
 {
@@ -12,7 +10,15 @@ abstract public class PurchasableData : ScriptableObject
     [SerializeField] string _flavourText;
     [SerializeField] Sprite _uiSprite;
 
+    string _initialCostString;
+
+    protected virtual void OnEnable()
+    {
+        _initialCostString = _initialCost.ToString();
+    }
+
     public int InitialCost { get => _initialCost; }
+    public string InitialCostString { get => _initialCostString; }
     public bool Unlocked { get => _unlocked; }
     public GameObject[] RenderModels { get => _renderModels; }
     public float InitialRating { get => _initialRating; }

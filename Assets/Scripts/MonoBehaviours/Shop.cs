@@ -19,8 +19,8 @@ public class Shop : MonoBehaviour, IBuildable
     [SerializeField] CashDropManager _cashDropManager;
     [SerializeField] GridState _gridState;
 
-    Range _income;
-    Range _incomeRate;
+    int _income;
+    float _incomeRate;
     float _timeUntilNextDrop;
 
     int _cost;
@@ -82,15 +82,12 @@ public class Shop : MonoBehaviour, IBuildable
         SetNewCashDropTimer();
         _cashDropManager.DropCash(
             _renderModels[_cashDropPositionIndex].transform.position,
-            _income.RandomInt,
+            _income,
             CashSource.Shop);
         _cashDropPositionIndex = ++_cashDropPositionIndex % _renderModels.Length;
     }
 
-    void SetNewCashDropTimer()
-    {
-        _timeUntilNextDrop = _incomeRate.Random;
-    }
+    void SetNewCashDropTimer() => _timeUntilNextDrop = _incomeRate;
 
     void PositionShopTiles(ConstructionShop constructionShop)
     {

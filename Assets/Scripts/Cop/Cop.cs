@@ -11,10 +11,30 @@ public class Cop : MonoBehaviour, IBuildable
     Ability[] _abilities;
 
     CopAttack _copAttack;
+    float _firstDayProRata;
 
     void Awake()
     {
         _copAttack = GetComponent<CopAttack>();
+        RefManager.GameTime.PaydayEvent.AddListener(Payday);
+    }
+
+    public void Payday()
+    {
+        var amountToPay = Salary * _firstDayProRata;
+        RefManager.PlayerMoney.SpendMoney(Mathf.RoundToInt(amountToPay));
+        _firstDayProRata = 1;
+    }
+
+    public float Salary => _initialData.InitialCost / 4;
+    public void Sell()
+    {
+        // EITHER
+        // Use GameTime current time to figure out how much it will cost to "pay out" the cop his last day, based off the percentage of the day passed.
+        // OR
+        // Just make it cost Salary no matter what time the player sells it
+
+        RefManager.GameTime.PaydayEvent.RemoveListener(Payday);
     }
 
     void Start()
@@ -36,6 +56,8 @@ public class Cop : MonoBehaviour, IBuildable
     {
         transform.position = constructionShop.transform.position;
         transform.Rotate(Vector3.up, constructionShop.CurrentRotation);
+
+        _firstDayProRata = RefManager.GameTime.TimeUntilPayday / GameTime.TimeInAGameDay;
 
         gameObject.SetActive(true);
         // Use the bounds of the shape to only update that area of our grid, for performance;

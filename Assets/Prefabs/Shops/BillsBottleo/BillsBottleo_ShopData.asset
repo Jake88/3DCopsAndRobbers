@@ -25,9 +25,5 @@ MonoBehaviour:
   _uiSprite: {fileID: 0}
   _shape: {fileID: 11400000, guid: d0485e3c8d0b6694e9847e2471763e9e, type: 2}
   _pool: {fileID: 11400000, guid: fa81bcc19dee5914e9ea50a2bdbcce77, type: 2}
-  _initialIncome:
-    Min: 5
-    Max: 10
-  _initialIncomeDropSpeed:
-    Min: 5
-    Max: 10
+  _initialIncome: 40
+  _initialIncomeDropSpeed: 60

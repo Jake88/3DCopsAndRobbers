@@ -1,0 +1,1 @@
+﻿public class GameEventListener_ShopData : GameEventListener<ShopData> { }

@@ -1,4 +1,5 @@
 ﻿using My.Abilities;
+using My.Buildables;
 using UnityEngine;
 
 namespace My.Singletons
@@ -11,10 +12,14 @@ namespace My.Singletons
         [SerializeField] PlayerMoney _playerMoney;
         [SerializeField] GameTime _gameTime;
         [SerializeField] AbilityFactory _abilityFactory;
+        [SerializeField] BlueprintManager _blueprintManager;
+        [SerializeField] ShopBuilder _shopBuilder;
 
         //use this in prefab script
         public static PlayerMoney PlayerMoney { get { return instance._playerMoney; } }
         public static GameTime GameTime { get { return instance._gameTime; } }
         public static AbilityFactory AbilityFactory { get { return instance._abilityFactory; } }
+        public static BlueprintManager BlueprintManager { get { return instance._blueprintManager; } }
+        public static ShopBuilder ShopBuilder { get { return instance._shopBuilder; } }
     }
 }

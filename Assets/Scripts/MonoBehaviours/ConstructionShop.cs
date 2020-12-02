@@ -1,4 +1,5 @@
-﻿using Pathfinding;
+﻿using My.Singletons;
+using Pathfinding;
 using QFSW.MOP2;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,6 +59,7 @@ namespace My.Buildables
         void Start()
         {
             // Make sure all Construction Fragments sit under this.
+            RefManager.BlueprintManager.OnShapeChanged += SetShape;
             _constructionTilePool.ObjectParent.transform.parent = transform;
             _collider.enabled = true;
         }
@@ -67,7 +69,7 @@ namespace My.Buildables
             if (Input.GetButtonDown("Fire2")) DetermineRotatation();
         }
 
-        void DetermineRotatation()
+        public void DetermineRotatation()
         {
             if (_currentShape.Rotation == Rotation.None) return;
 
@@ -158,6 +160,12 @@ namespace My.Buildables
 
             _collider.center = center;
             _collider.size = size;
+        }
+
+        void OnDestroy()
+        {
+            RefManager.BlueprintManager.OnShapeChanged -= SetShape;
+
         }
     }
 }

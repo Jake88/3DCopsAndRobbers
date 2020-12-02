@@ -11,6 +11,11 @@ namespace My.Buildables
         [SerializeField] Shape _shape;
         [SerializeField] ObjectPool _pool;
 
+        override protected void OnEnable()
+        {
+            base.OnEnable();
+        }
+
         public Shape Shape { get => _shape; }
         public ObjectPool Pool { get => _pool; }
     }
